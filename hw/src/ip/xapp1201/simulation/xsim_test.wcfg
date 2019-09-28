@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="xsim_test.wdb" id="1">
+         <top_modules>
+            <top_module name="pcie_2_axilite_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="5303865247fs"></ZoomStartTime>
+      <ZoomEndTime time="5457573113fs"></ZoomEndTime>
+      <Cursor1Time time="5320000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="257"></NameColumnWidth>
+      <ValueColumnWidth column_width="102"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="106" />
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/cq_axis_stimulus_i/user_clk">
+      <obj_property name="ElementShortName">user_clk</obj_property>
+      <obj_property name="ObjectShortName">user_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/cq_axis_stimulus_i/reset_n">
+      <obj_property name="ElementShortName">reset_n</obj_property>
+      <obj_property name="ObjectShortName">reset_n</obj_property>
+   </wvobject>
+   <wvobject type="group" fp_name="group29">
+      <obj_property name="label">AXIS CQ</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="logic" fp_name="/pcie_2_axilite_tb/cq_axis_stimulus_i/m_axis_cq_tvalid">
+         <obj_property name="ElementShortName">m_axis_cq_tvalid</obj_property>
+         <obj_property name="ObjectShortName">m_axis_cq_tvalid</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/pcie_2_axilite_tb/cq_axis_stimulus_i/m_axis_cq_tready">
+         <obj_property name="ElementShortName">m_axis_cq_tready[21:0]</obj_property>
+         <obj_property name="ObjectShortName">m_axis_cq_tready[21:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/pcie_2_axilite_tb/cq_axis_stimulus_i/m_axis_cq_tkeep">
+         <obj_property name="ElementShortName">m_axis_cq_tkeep[7:0]</obj_property>
+         <obj_property name="ObjectShortName">m_axis_cq_tkeep[7:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/pcie_2_axilite_tb/cq_axis_stimulus_i/m_axis_cq_tlast">
+         <obj_property name="ElementShortName">m_axis_cq_tlast</obj_property>
+         <obj_property name="ObjectShortName">m_axis_cq_tlast</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/pcie_2_axilite_tb/cq_axis_stimulus_i/m_axis_cq_tdata">
+         <obj_property name="ElementShortName">m_axis_cq_tdata[255:0]</obj_property>
+         <obj_property name="ObjectShortName">m_axis_cq_tdata[255:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/pcie_2_axilite_tb/cq_axis_stimulus_i/m_axis_cq_tuser">
+         <obj_property name="ElementShortName">m_axis_cq_tuser[84:0]</obj_property>
+         <obj_property name="ObjectShortName">m_axis_cq_tuser[84:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="group" fp_name="group36">
+      <obj_property name="label">AXIS CC</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="logic" fp_name="/pcie_2_axilite_tb/s_axis_cc_tvalid">
+         <obj_property name="ElementShortName">s_axis_cc_tvalid</obj_property>
+         <obj_property name="ObjectShortName">s_axis_cc_tvalid</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/pcie_2_axilite_tb/s_axis_cc_tready">
+         <obj_property name="ElementShortName">s_axis_cc_tready[3:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axis_cc_tready[3:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/pcie_2_axilite_tb/s_axis_cc_tkeep">
+         <obj_property name="ElementShortName">s_axis_cc_tkeep[7:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axis_cc_tkeep[7:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject type="logic" fp_name="/pcie_2_axilite_tb/s_axis_cc_tlast">
+         <obj_property name="ElementShortName">s_axis_cc_tlast</obj_property>
+         <obj_property name="ObjectShortName">s_axis_cc_tlast</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/pcie_2_axilite_tb/s_axis_cc_tdata">
+         <obj_property name="ElementShortName">s_axis_cc_tdata[255:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axis_cc_tdata[255:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/pcie_2_axilite_tb/s_axis_cc_tuser">
+         <obj_property name="ElementShortName">s_axis_cc_tuser[32:0]</obj_property>
+         <obj_property name="ObjectShortName">s_axis_cc_tuser[32:0]</obj_property>
+         <obj_property name="Radix">HEXRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/cq_axis_stimulus_i/user_clk">
+      <obj_property name="ElementShortName">user_clk</obj_property>
+      <obj_property name="ObjectShortName">user_clk</obj_property>
+   </wvobject>
+   <wvobject type="group" fp_name="group28">
+      <obj_property name="label">Master AXI-Lite</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="group" fp_name="group37">
+         <obj_property name="label">Write Address</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_awvalid">
+            <obj_property name="ElementShortName">m_axi_awvalid</obj_property>
+            <obj_property name="ObjectShortName">m_axi_awvalid</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_awready">
+            <obj_property name="ElementShortName">m_axi_awready</obj_property>
+            <obj_property name="ObjectShortName">m_axi_awready</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_awaddr">
+            <obj_property name="ElementShortName">m_axi_awaddr[31:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_awaddr[31:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_awprot">
+            <obj_property name="ElementShortName">m_axi_awprot[2:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_awprot[2:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject type="group" fp_name="group38">
+         <obj_property name="label">Write Data</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_wvalid">
+            <obj_property name="ElementShortName">m_axi_wvalid</obj_property>
+            <obj_property name="ObjectShortName">m_axi_wvalid</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_wready">
+            <obj_property name="ElementShortName">m_axi_wready</obj_property>
+            <obj_property name="ObjectShortName">m_axi_wready</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_wdata">
+            <obj_property name="ElementShortName">m_axi_wdata[31:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_wdata[31:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_wstrb">
+            <obj_property name="ElementShortName">m_axi_wstrb[3:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_wstrb[3:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject type="group" fp_name="group41">
+         <obj_property name="label">Write Response</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_bvalid">
+            <obj_property name="ElementShortName">m_axi_bvalid</obj_property>
+            <obj_property name="ObjectShortName">m_axi_bvalid</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_bready">
+            <obj_property name="ElementShortName">m_axi_bready</obj_property>
+            <obj_property name="ObjectShortName">m_axi_bready</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_bresp">
+            <obj_property name="ElementShortName">m_axi_bresp[1:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_bresp[1:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject type="group" fp_name="group39">
+         <obj_property name="label">Read Address</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_arvalid">
+            <obj_property name="ElementShortName">m_axi_arvalid</obj_property>
+            <obj_property name="ObjectShortName">m_axi_arvalid</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_arready">
+            <obj_property name="ElementShortName">m_axi_arready</obj_property>
+            <obj_property name="ObjectShortName">m_axi_arready</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_arprot">
+            <obj_property name="ElementShortName">m_axi_arprot[2:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_arprot[2:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_araddr">
+            <obj_property name="ElementShortName">m_axi_araddr[31:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_araddr[31:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject type="group" fp_name="group40">
+         <obj_property name="label">Read Data</obj_property>
+         <obj_property name="DisplayName">label</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+         <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_rvalid">
+            <obj_property name="ElementShortName">m_axi_rvalid</obj_property>
+            <obj_property name="ObjectShortName">m_axi_rvalid</obj_property>
+         </wvobject>
+         <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_rready">
+            <obj_property name="ElementShortName">m_axi_rready</obj_property>
+            <obj_property name="ObjectShortName">m_axi_rready</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_rdata">
+            <obj_property name="ElementShortName">m_axi_rdata[31:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_rdata[31:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+         <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/m_axi_rresp">
+            <obj_property name="ElementShortName">m_axi_rresp[1:0]</obj_property>
+            <obj_property name="ObjectShortName">m_axi_rresp[1:0]</obj_property>
+            <obj_property name="Radix">HEXRADIX</obj_property>
+         </wvobject>
+      </wvobject>
+      <wvobject fp_name="divider76" type="divider">
+      </wvobject>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/cq_axis_stimulus_i/user_clk">
+      <obj_property name="ElementShortName">user_clk</obj_property>
+      <obj_property name="ObjectShortName">user_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/axis_clk">
+      <obj_property name="ElementShortName">axis_clk</obj_property>
+      <obj_property name="ObjectShortName">axis_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/axis_aresetn">
+      <obj_property name="ElementShortName">axis_aresetn</obj_property>
+      <obj_property name="ObjectShortName">axis_aresetn</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/m_axis_cc_tdata">
+      <obj_property name="ElementShortName">m_axis_cc_tdata[255:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axis_cc_tdata[255:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/m_axis_cc_tuser">
+      <obj_property name="ElementShortName">m_axis_cc_tuser[32:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axis_cc_tuser[32:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/m_axis_cc_tlast">
+      <obj_property name="ElementShortName">m_axis_cc_tlast</obj_property>
+      <obj_property name="ObjectShortName">m_axis_cc_tlast</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/m_axis_cc_tkeep">
+      <obj_property name="ElementShortName">m_axis_cc_tkeep[7:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axis_cc_tkeep[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/m_axis_cc_tvalid">
+      <obj_property name="ElementShortName">m_axis_cc_tvalid</obj_property>
+      <obj_property name="ObjectShortName">m_axis_cc_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/m_axis_cc_tready">
+      <obj_property name="ElementShortName">m_axis_cc_tready[3:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axis_cc_tready[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/maxis_sm">
+      <obj_property name="ElementShortName">maxis_sm[4:0]</obj_property>
+      <obj_property name="ObjectShortName">maxis_sm[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/axi_cpld_valid">
+      <obj_property name="ElementShortName">axi_cpld_valid</obj_property>
+      <obj_property name="ObjectShortName">axi_cpld_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/axi_cpld_ready">
+      <obj_property name="ElementShortName">axi_cpld_ready</obj_property>
+      <obj_property name="ObjectShortName">axi_cpld_ready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/axi_cpld_data">
+      <obj_property name="ElementShortName">axi_cpld_data[63:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_cpld_data[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/axi_cpld_dword_num">
+      <obj_property name="ElementShortName">axi_cpld_dword_num[1:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_cpld_dword_num[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_read_en">
+      <obj_property name="ElementShortName">tag_mang_read_en</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_read_en</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_tc_rd">
+      <obj_property name="ElementShortName">tag_mang_tc_rd[2:0]</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_tc_rd[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_attr_rd">
+      <obj_property name="ElementShortName">tag_mang_attr_rd[2:0]</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_attr_rd[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_requester_id_rd">
+      <obj_property name="ElementShortName">tag_mang_requester_id_rd[15:0]</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_requester_id_rd[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_lower_addr_rd">
+      <obj_property name="ElementShortName">tag_mang_lower_addr_rd[6:0]</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_lower_addr_rd[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_completer_func_rd">
+      <obj_property name="ElementShortName">tag_mang_completer_func_rd</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_completer_func_rd</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_tag_rd">
+      <obj_property name="ElementShortName">tag_mang_tag_rd[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_tag_rd[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_first_be_rd">
+      <obj_property name="ElementShortName">tag_mang_first_be_rd[3:0]</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_first_be_rd[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/completion_ur_req">
+      <obj_property name="ElementShortName">completion_ur_req</obj_property>
+      <obj_property name="ObjectShortName">completion_ur_req</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/completion_ur_tag">
+      <obj_property name="ElementShortName">completion_ur_tag[7:0]</obj_property>
+      <obj_property name="ObjectShortName">completion_ur_tag[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/completion_ur_lower_addr">
+      <obj_property name="ElementShortName">completion_ur_lower_addr[6:0]</obj_property>
+      <obj_property name="ObjectShortName">completion_ur_lower_addr[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/completion_ur_first_be">
+      <obj_property name="ElementShortName">completion_ur_first_be[3:0]</obj_property>
+      <obj_property name="ObjectShortName">completion_ur_first_be[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/completion_ur_requester_id">
+      <obj_property name="ElementShortName">completion_ur_requester_id[15:0]</obj_property>
+      <obj_property name="ObjectShortName">completion_ur_requester_id[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/completion_ur_tc">
+      <obj_property name="ElementShortName">completion_ur_tc[2:0]</obj_property>
+      <obj_property name="ObjectShortName">completion_ur_tc[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/completion_ur_attr">
+      <obj_property name="ElementShortName">completion_ur_attr[2:0]</obj_property>
+      <obj_property name="ObjectShortName">completion_ur_attr[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/completion_ur_done">
+      <obj_property name="ElementShortName">completion_ur_done</obj_property>
+      <obj_property name="ObjectShortName">completion_ur_done</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/dw1_header_32">
+      <obj_property name="ElementShortName">dw1_header_32[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dw1_header_32[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/dw2_header_32">
+      <obj_property name="ElementShortName">dw2_header_32[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dw2_header_32[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/dw3_header_32">
+      <obj_property name="ElementShortName">dw3_header_32[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dw3_header_32[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/dw1_header_32_ur">
+      <obj_property name="ElementShortName">dw1_header_32_ur[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dw1_header_32_ur[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/dw2_header_32_ur">
+      <obj_property name="ElementShortName">dw2_header_32_ur[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dw2_header_32_ur[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/dw3_header_32_ur">
+      <obj_property name="ElementShortName">dw3_header_32_ur[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dw3_header_32_ur[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_read_id">
+      <obj_property name="ElementShortName">tag_mang_read_id</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_read_id</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_byte_count">
+      <obj_property name="ElementShortName">tag_mang_byte_count[3:0]</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_byte_count[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/completion_ur_byte_count">
+      <obj_property name="ElementShortName">completion_ur_byte_count[2:0]</obj_property>
+      <obj_property name="ObjectShortName">completion_ur_byte_count[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_read_id_r">
+      <obj_property name="ElementShortName">tag_mang_read_id_r[4:0]</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_read_id_r[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/axi_cpld_ready_r">
+      <obj_property name="ElementShortName">axi_cpld_ready_r</obj_property>
+      <obj_property name="ObjectShortName">axi_cpld_ready_r</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_read_en_r">
+      <obj_property name="ElementShortName">tag_mang_read_en_r</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_read_en_r</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/axi_cpld_data_r">
+      <obj_property name="ElementShortName">axi_cpld_data_r[63:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_cpld_data_r[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/m_axis_cc_tvalid_r">
+      <obj_property name="ElementShortName">m_axis_cc_tvalid_r</obj_property>
+      <obj_property name="ObjectShortName">m_axis_cc_tvalid_r</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/m_axis_cc_tlast_r">
+      <obj_property name="ElementShortName">m_axis_cc_tlast_r</obj_property>
+      <obj_property name="ObjectShortName">m_axis_cc_tlast_r</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/m_axis_cc_tdata_r">
+      <obj_property name="ElementShortName">m_axis_cc_tdata_r[255:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axis_cc_tdata_r[255:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/m_axis_cc_tkeep_r">
+      <obj_property name="ElementShortName">m_axis_cc_tkeep_r[7:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axis_cc_tkeep_r[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider88" type="divider">
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_aclk">
+      <obj_property name="ElementShortName">m_axi_aclk</obj_property>
+      <obj_property name="ObjectShortName">m_axi_aclk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_aresetn">
+      <obj_property name="ElementShortName">m_axi_aresetn</obj_property>
+      <obj_property name="ObjectShortName">m_axi_aresetn</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_araddr">
+      <obj_property name="ElementShortName">m_axi_araddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axi_araddr[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_arprot">
+      <obj_property name="ElementShortName">m_axi_arprot[2:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axi_arprot[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_arvalid">
+      <obj_property name="ElementShortName">m_axi_arvalid</obj_property>
+      <obj_property name="ObjectShortName">m_axi_arvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_arready">
+      <obj_property name="ElementShortName">m_axi_arready</obj_property>
+      <obj_property name="ObjectShortName">m_axi_arready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_rdata">
+      <obj_property name="ElementShortName">m_axi_rdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axi_rdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_rresp">
+      <obj_property name="ElementShortName">m_axi_rresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axi_rresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_rvalid">
+      <obj_property name="ElementShortName">m_axi_rvalid</obj_property>
+      <obj_property name="ObjectShortName">m_axi_rvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_rready">
+      <obj_property name="ElementShortName">m_axi_rready</obj_property>
+      <obj_property name="ObjectShortName">m_axi_rready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/mem_req_valid">
+      <obj_property name="ElementShortName">mem_req_valid</obj_property>
+      <obj_property name="ObjectShortName">mem_req_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/mem_req_ready">
+      <obj_property name="ElementShortName">mem_req_ready</obj_property>
+      <obj_property name="ObjectShortName">mem_req_ready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/mem_req_bar_hit">
+      <obj_property name="ElementShortName">mem_req_bar_hit[2:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_bar_hit[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/mem_req_pcie_address">
+      <obj_property name="ElementShortName">mem_req_pcie_address[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_pcie_address[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/mem_req_byte_enable">
+      <obj_property name="ElementShortName">mem_req_byte_enable[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_byte_enable[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/mem_req_write_readn">
+      <obj_property name="ElementShortName">mem_req_write_readn</obj_property>
+      <obj_property name="ObjectShortName">mem_req_write_readn</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/mem_req_phys_func">
+      <obj_property name="ElementShortName">mem_req_phys_func</obj_property>
+      <obj_property name="ObjectShortName">mem_req_phys_func</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/mem_req_write_data">
+      <obj_property name="ElementShortName">mem_req_write_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_write_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/mem_req_dword_num">
+      <obj_property name="ElementShortName">mem_req_dword_num[1:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_dword_num[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/axi_cpld_valid">
+      <obj_property name="ElementShortName">axi_cpld_valid</obj_property>
+      <obj_property name="ObjectShortName">axi_cpld_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/axi_cpld_ready">
+      <obj_property name="ElementShortName">axi_cpld_ready</obj_property>
+      <obj_property name="ObjectShortName">axi_cpld_ready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/axi_cpld_data">
+      <obj_property name="ElementShortName">axi_cpld_data[63:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_cpld_data[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_addr_c">
+      <obj_property name="ElementShortName">m_axi_addr_c[31:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axi_addr_c[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_araddr_r">
+      <obj_property name="ElementShortName">m_axi_araddr_r[31:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axi_araddr_r[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/m_axi_arvalid_r">
+      <obj_property name="ElementShortName">m_axi_arvalid_r</obj_property>
+      <obj_property name="ObjectShortName">m_axi_arvalid_r</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/mem_req_ready_r">
+      <obj_property name="ElementShortName">mem_req_ready_r</obj_property>
+      <obj_property name="ObjectShortName">mem_req_ready_r</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/aximm_ar_sm">
+      <obj_property name="ElementShortName">aximm_ar_sm[3:0]</obj_property>
+      <obj_property name="ObjectShortName">aximm_ar_sm[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/aximm_rd_sm">
+      <obj_property name="ElementShortName">aximm_rd_sm[3:0]</obj_property>
+      <obj_property name="ObjectShortName">aximm_rd_sm[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/mem_req_dword_num_r">
+      <obj_property name="ElementShortName">mem_req_dword_num_r[1:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_dword_num_r[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_read_controller/axi_cpld_data_r">
+      <obj_property name="ElementShortName">axi_cpld_data_r[31:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_cpld_data_r[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider120" type="divider">
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/saxis_controller/first_be_r">
+      <obj_property name="ElementShortName">first_be_r[3:0]</obj_property>
+      <obj_property name="ObjectShortName">first_be_r[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_byte_count">
+      <obj_property name="ElementShortName">tag_mang_byte_count[3:0]</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_byte_count[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/tag_mang_first_be_rd">
+      <obj_property name="ElementShortName">tag_mang_first_be_rd[3:0]</obj_property>
+      <obj_property name="ObjectShortName">tag_mang_first_be_rd[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/axi_cpld_dword_num">
+      <obj_property name="ElementShortName">axi_cpld_dword_num[1:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_cpld_dword_num[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxis_controller/axi_cpld_dword_num_r">
+      <obj_property name="ElementShortName">axi_cpld_dword_num_r[1:0]</obj_property>
+      <obj_property name="ObjectShortName">axi_cpld_dword_num_r[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider128" type="divider">
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/cq_axis_stimulus_i/user_clk">
+      <obj_property name="ElementShortName">user_clk</obj_property>
+      <obj_property name="ObjectShortName">user_clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/mem_req_valid">
+      <obj_property name="ElementShortName">mem_req_valid</obj_property>
+      <obj_property name="ObjectShortName">mem_req_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/mem_req_ready">
+      <obj_property name="ElementShortName">mem_req_ready</obj_property>
+      <obj_property name="ObjectShortName">mem_req_ready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/mem_req_bar_hit">
+      <obj_property name="ElementShortName">mem_req_bar_hit[2:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_bar_hit[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/mem_req_pcie_address">
+      <obj_property name="ElementShortName">mem_req_pcie_address[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_pcie_address[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/mem_req_byte_enable">
+      <obj_property name="ElementShortName">mem_req_byte_enable[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_byte_enable[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/mem_req_write_readn">
+      <obj_property name="ElementShortName">mem_req_write_readn</obj_property>
+      <obj_property name="ObjectShortName">mem_req_write_readn</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/mem_req_phys_func">
+      <obj_property name="ElementShortName">mem_req_phys_func</obj_property>
+      <obj_property name="ObjectShortName">mem_req_phys_func</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/mem_req_write_data">
+      <obj_property name="ElementShortName">mem_req_write_data[63:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_write_data[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/mem_req_dword_num">
+      <obj_property name="ElementShortName">mem_req_dword_num[1:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_dword_num[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/aximm_wr_sm">
+      <obj_property name="ElementShortName">aximm_wr_sm[3:0]</obj_property>
+      <obj_property name="ObjectShortName">aximm_wr_sm[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/mem_req_dword_num_r">
+      <obj_property name="ElementShortName">mem_req_dword_num_r[1:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_dword_num_r[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/mem_req_write_data_r">
+      <obj_property name="ElementShortName">mem_req_write_data_r[63:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_req_write_data_r[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/m_axi_addr_c">
+      <obj_property name="ElementShortName">m_axi_addr_c[31:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axi_addr_c[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/pcie_2_axilite_tb/pcie_2_axilite/maxi_controller/axi_write_controller/m_axi_addr_r">
+      <obj_property name="ElementShortName">m_axi_addr_r[31:0]</obj_property>
+      <obj_property name="ObjectShortName">m_axi_addr_r[31:0]</obj_property>
+   </wvobject>
+</wave_config>

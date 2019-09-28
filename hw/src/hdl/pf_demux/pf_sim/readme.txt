@@ -1,0 +1,1 @@
+The files in this folder are used to simulate 'pf_demux.v'.When need to verity the funciton of it, just run 'pf_demux_sim.tcl'£»

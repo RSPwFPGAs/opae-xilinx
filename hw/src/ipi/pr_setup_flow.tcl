@@ -20,10 +20,6 @@ set_property name M_BSCAN_PORT0 [get_bd_intf_pins FIM/m1_bscan_0]
 make_bd_intf_pins_external  [get_bd_intf_pins FIM/FME/debug_bridge_0/m2_bscan]
 delete_bd_objs [get_bd_intf_nets FIM_m2_bscan_0] [get_bd_intf_ports m2_bscan_0]
 set_property name M_BSCAN_PORT1 [get_bd_intf_pins FIM/m2_bscan_0]
-#set_property CONFIG.FREQ_HZ 250000000 [get_bd_intf_pins /shell/shell_core/pf_demux_0/S_AXI_LITE]
-#set_property CONFIG.FREQ_HZ 250000000 [get_bd_intf_pins /shell/shell_core/pf_demux_0/M_AXI_LITE_ROLE0PF]
-#set_property CONFIG.FREQ_HZ 250000000 [get_bd_intf_pins /shell/shell_core/pf_demux_0/M_AXI_LITE_ROLE1PF]
-#set_property CONFIG.FREQ_HZ 250000000 [get_bd_intf_pins /shell/shell_core/pf_demux_0/M_AXI_LITE_SHELLPF]
 validate_bd_design
 # generate shell wrapper file
 make_wrapper -files [get_files ./proj_opae_bbs/proj_opae_bbs.srcs/sources_1/bd/shell_region/shell_region.bd] -top

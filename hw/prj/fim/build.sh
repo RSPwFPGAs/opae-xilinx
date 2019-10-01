@@ -1,7 +1,4 @@
 
-rm ./export -rf
-mkdir export
-
 rm ./output -rf
 mkdir output
 

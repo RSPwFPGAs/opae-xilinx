@@ -39,7 +39,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# pf_demux, pf_csr_v1_0
+# pf_csr_v1_0
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -173,7 +173,6 @@ xilinx.com:ip:xlslice:*\
 set bCheckModules 1
 if { $bCheckModules == 1 } {
    set list_check_mods "\ 
-pf_demux\
 pf_csr_v1_0\
 "
 
@@ -890,11 +889,14 @@ proc create_hier_cell_FIU { parentCell nameHier } {
 
   # Create instance: axi_bram_ctrl_0, and set properties
   set axi_bram_ctrl_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl axi_bram_ctrl_0 ]
+  set_property -dict [ list \
+   CONFIG.SINGLE_PORT_BRAM {0} \
+ ] $axi_bram_ctrl_0
 
   # Create instance: axi_interconnect_0, and set properties
   set axi_interconnect_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect axi_interconnect_0 ]
   set_property -dict [ list \
-   CONFIG.NUM_MI {2} \
+   CONFIG.NUM_MI {4} \
    CONFIG.NUM_SI {2} \
    CONFIG.STRATEGY {1} \
  ] $axi_interconnect_0
@@ -992,17 +994,6 @@ proc create_hier_cell_FIU { parentCell nameHier } {
    CONFIG.BAR2AXI0_TRANSLATION {0x0000000000000000} \
  ] $pcie_2_axilite_0
 
-  # Create instance: pf_demux_0, and set properties
-  set block_name pf_demux
-  set block_cell_name pf_demux_0
-  if { [catch {set pf_demux_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_msg_id "BD_TCL-105" "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $pf_demux_0 eq "" } {
-     catch {common::send_msg_id "BD_TCL-106" "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
   # Create instance: system_ila_0, and set properties
   set system_ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:system_ila system_ila_0 ]
   set_property -dict [ list \
@@ -1027,12 +1018,12 @@ proc create_hier_cell_FIU { parentCell nameHier } {
  ] $util_vector_logic_0
 
   # Create interface connections
-  connect_bd_intf_net -intf_net Conn3 [get_bd_intf_pins M_AXI_LITE_PORT0_CTRL] [get_bd_intf_pins pf_demux_0/M_AXI_LITE_ROLE0PF]
-  connect_bd_intf_net -intf_net Conn4 [get_bd_intf_pins M_AXI_LITE_PORT1_CTRL] [get_bd_intf_pins pf_demux_0/M_AXI_LITE_ROLE1PF]
   connect_bd_intf_net -intf_net S_AXI_BRIDGE_1 [get_bd_intf_pins S_AXI_BRIDGE] [get_bd_intf_pins axi_bram_ctrl_0/S_AXI]
   connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTA] [get_bd_intf_pins blk_mem_gen_0/BRAM_PORTA]
   connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTB [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTB] [get_bd_intf_pins blk_mem_gen_0/BRAM_PORTB]
   connect_bd_intf_net -intf_net axi_interconnect_0_M01_AXI [get_bd_intf_pins axi_interconnect_0/M01_AXI] [get_bd_intf_pins feature_ram/S_AXI]
+  connect_bd_intf_net -intf_net axi_interconnect_0_M02_AXI [get_bd_intf_pins M_AXI_LITE_PORT0_CTRL] [get_bd_intf_pins axi_interconnect_0/M02_AXI]
+  connect_bd_intf_net -intf_net axi_interconnect_0_M03_AXI [get_bd_intf_pins M_AXI_LITE_PORT1_CTRL] [get_bd_intf_pins axi_interconnect_0/M03_AXI]
   connect_bd_intf_net -intf_net jtag_axi_0_M_AXI [get_bd_intf_pins axi_interconnect_0/S01_AXI] [get_bd_intf_pins jtag_axi_0/M_AXI]
   connect_bd_intf_net -intf_net pcie3_ultrascale_0_m_axis_cq [get_bd_intf_pins pcie3_ultrascale_0/m_axis_cq] [get_bd_intf_pins pcie_2_axilite_0/s_axis_cq]
   connect_bd_intf_net -intf_net [get_bd_intf_nets pcie3_ultrascale_0_m_axis_cq] [get_bd_intf_pins ila_0/SLOT_0_AXIS] [get_bd_intf_pins pcie3_ultrascale_0/m_axis_cq]
@@ -1048,8 +1039,8 @@ set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets pcie_2_axilite_0_m_axi
 
   # Create port connections
   connect_bd_net -net pcie3_ultrascale_0_user_reset [get_bd_pins pcie3_ultrascale_0/user_reset] [get_bd_pins util_vector_logic_0/Op1]
-  connect_bd_net -net qdma_0_axi_aclk [get_bd_pins axi_aclk_port_data] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins axi_interconnect_0/S01_ACLK] [get_bd_pins feature_ram/axi_aclk_role_ctrl] [get_bd_pins ila_0/clk] [get_bd_pins ila_1/clk] [get_bd_pins jtag_axi_0/aclk] [get_bd_pins pcie3_ultrascale_0/user_clk] [get_bd_pins pcie_2_axilite_0/axi_clk] [get_bd_pins pf_demux_0/M_AXI_LITE_ROLE0PF_clk] [get_bd_pins pf_demux_0/M_AXI_LITE_ROLE1PF_clk] [get_bd_pins pf_demux_0/M_AXI_LITE_SHELLPF_clk] [get_bd_pins pf_demux_0/S_AXI_LITE_clk] [get_bd_pins system_ila_0/clk]
-  connect_bd_net -net qdma_0_axi_aresetn [get_bd_pins axi_aresetn_port_data] [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/M01_ARESETN] [get_bd_pins axi_interconnect_0/S00_ARESETN] [get_bd_pins axi_interconnect_0/S01_ARESETN] [get_bd_pins feature_ram/axi_aresetn_role_ctrl] [get_bd_pins jtag_axi_0/aresetn] [get_bd_pins pcie_2_axilite_0/axi_aresetn] [get_bd_pins pf_demux_0/M_AXI_LITE_ROLE0PF_aresetn] [get_bd_pins pf_demux_0/M_AXI_LITE_ROLE1PF_aresetn] [get_bd_pins pf_demux_0/M_AXI_LITE_SHELLPF_aresetn] [get_bd_pins pf_demux_0/S_AXI_LITE_aresetn] [get_bd_pins system_ila_0/resetn] [get_bd_pins util_vector_logic_0/Res]
+  connect_bd_net -net qdma_0_axi_aclk [get_bd_pins axi_aclk_port_data] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins axi_interconnect_0/M02_ACLK] [get_bd_pins axi_interconnect_0/M03_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins axi_interconnect_0/S01_ACLK] [get_bd_pins feature_ram/axi_aclk_role_ctrl] [get_bd_pins ila_0/clk] [get_bd_pins ila_1/clk] [get_bd_pins jtag_axi_0/aclk] [get_bd_pins pcie3_ultrascale_0/user_clk] [get_bd_pins pcie_2_axilite_0/axi_clk] [get_bd_pins system_ila_0/clk]
+  connect_bd_net -net qdma_0_axi_aresetn [get_bd_pins axi_aresetn_port_data] [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/M01_ARESETN] [get_bd_pins axi_interconnect_0/M02_ARESETN] [get_bd_pins axi_interconnect_0/M03_ARESETN] [get_bd_pins axi_interconnect_0/S00_ARESETN] [get_bd_pins axi_interconnect_0/S01_ARESETN] [get_bd_pins feature_ram/axi_aresetn_role_ctrl] [get_bd_pins jtag_axi_0/aresetn] [get_bd_pins pcie_2_axilite_0/axi_aresetn] [get_bd_pins system_ila_0/resetn] [get_bd_pins util_vector_logic_0/Res]
   connect_bd_net -net sys_reset_0_1 [get_bd_pins pcie_perstn] [get_bd_pins pcie3_ultrascale_0/sys_reset]
   connect_bd_net -net util_ds_buf_IBUF_DS_ODIV2 [get_bd_pins pcie3_ultrascale_0/sys_clk] [get_bd_pins util_ds_buf/IBUF_DS_ODIV2]
   connect_bd_net -net util_ds_buf_IBUF_OUT [get_bd_pins pcie3_ultrascale_0/sys_clk_gt] [get_bd_pins util_ds_buf/IBUF_OUT]
@@ -1093,22 +1084,22 @@ proc create_hier_cell_FIM { parentCell nameHier } {
   current_bd_instance $hier_obj
 
   # Create interface pins
-  create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:aximm_rtl:1.0 M_AXI_LITE_PORT0_CTRL
-  create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:aximm_rtl:1.0 M_AXI_LITE_PORT1_CTRL
-  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S_AXI_FULL_PORT0_DATA
-  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S_AXI_FULL_PORT1_DATA
+  create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:aximm_rtl:1.0 M_AXI_LITE_CTRL_PORT0
+  create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:aximm_rtl:1.0 M_AXI_LITE_CTRL_PORT1
+  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S_AXI_FULL_DATA_PORT0
+  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S_AXI_FULL_DATA_PORT1
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:display_qdma:usr_irq_rtl:1.0 S_USR_IRQ_PORT0
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:display_qdma:usr_irq_rtl:1.0 S_USR_IRQ_PORT1
   create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:pcie_7x_mgt_rtl:1.0 pci_express
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:diff_clock_rtl:1.0 pcie_refclk
 
   # Create pins
-  create_bd_pin -dir O -from 0 -to 0 O_PORT0_RSTN
-  create_bd_pin -dir O -from 0 -to 0 O_PORT1_RSTN
-  create_bd_pin -dir O -type clk axi_aclk_port_ctrl
-  create_bd_pin -dir O -type clk axi_aclk_port_data
-  create_bd_pin -dir O -from 0 -to 0 -type rst axi_aresetn_port_ctrl
-  create_bd_pin -dir O -from 0 -to 0 -type rst axi_aresetn_port_data
+  create_bd_pin -dir O -from 0 -to 0 O_RSTN_PORT0
+  create_bd_pin -dir O -from 0 -to 0 O_RSTN_PORT1
+  create_bd_pin -dir O -type clk axi_aclk_ctrl_port
+  create_bd_pin -dir O -type clk axi_aclk_data_port
+  create_bd_pin -dir O -from 0 -to 0 -type rst axi_aresetn_ctrl_port
+  create_bd_pin -dir O -from 0 -to 0 -type rst axi_aresetn_data_port
   create_bd_pin -dir I -type rst pcie_perstn
 
   # Create instance: FIU
@@ -1121,8 +1112,8 @@ proc create_hier_cell_FIM { parentCell nameHier } {
   create_hier_cell_PORT01 $hier_obj PORT01
 
   # Create interface connections
-  connect_bd_intf_net -intf_net Conn1 [get_bd_intf_pins S_AXI_FULL_PORT0_DATA] [get_bd_intf_pins PORT01/S_AXI_FULL_PORT0_DATA]
-  connect_bd_intf_net -intf_net Conn2 [get_bd_intf_pins S_AXI_FULL_PORT1_DATA] [get_bd_intf_pins PORT01/S_AXI_FULL_PORT1_DATA]
+  connect_bd_intf_net -intf_net Conn1 [get_bd_intf_pins S_AXI_FULL_DATA_PORT0] [get_bd_intf_pins PORT01/S_AXI_FULL_PORT0_DATA]
+  connect_bd_intf_net -intf_net Conn2 [get_bd_intf_pins S_AXI_FULL_DATA_PORT1] [get_bd_intf_pins PORT01/S_AXI_FULL_PORT1_DATA]
   connect_bd_intf_net -intf_net S00_AXI1_1 [get_bd_intf_pins FME/M_AXI_LITE_PORT01_OCTRL] [get_bd_intf_pins PORT01/S_AXI_LITE_PORT01_OCTRL]
   connect_bd_intf_net -intf_net S00_AXI_1 [get_bd_intf_pins FME/M_AXI_LITE_PORT01_ICTRL] [get_bd_intf_pins PORT01/S_AXI_LITE_PORT01_ICTRL]
   connect_bd_intf_net -intf_net S_USR_IRQ_ROLE0_1 [get_bd_intf_pins S_USR_IRQ_PORT0] [get_bd_intf_pins PORT01/S_USR_IRQ_ROLE0]
@@ -1133,14 +1124,14 @@ proc create_hier_cell_FIM { parentCell nameHier } {
   connect_bd_intf_net -intf_net qdma_0_pcie_mgt [get_bd_intf_pins pci_express] [get_bd_intf_pins FIU/pci_express]
   connect_bd_intf_net -intf_net shell_core_S_AXI_ROLE0PF_0 [get_bd_intf_pins FIU/M_AXI_LITE_PORT0_CTRL] [get_bd_intf_pins PORT01/S_AXI_LITE_PORT0_CTRL]
   connect_bd_intf_net -intf_net shell_core_S_AXI_ROLE1PF_0 [get_bd_intf_pins FIU/M_AXI_LITE_PORT1_CTRL] [get_bd_intf_pins PORT01/S_AXI_LITE_PORT1_CTRL]
-  connect_bd_intf_net -intf_net shell_mux_out_M_AXI_LITE_ROLE0_CTRL [get_bd_intf_pins M_AXI_LITE_PORT0_CTRL] [get_bd_intf_pins PORT01/M_AXI_LITE_PORT0_CTRL]
-  connect_bd_intf_net -intf_net shell_mux_out_M_AXI_LITE_ROLE1_CTRL [get_bd_intf_pins M_AXI_LITE_PORT1_CTRL] [get_bd_intf_pins PORT01/M_AXI_LITE_PORT1_CTRL]
+  connect_bd_intf_net -intf_net shell_mux_out_M_AXI_LITE_ROLE0_CTRL [get_bd_intf_pins M_AXI_LITE_CTRL_PORT0] [get_bd_intf_pins PORT01/M_AXI_LITE_PORT0_CTRL]
+  connect_bd_intf_net -intf_net shell_mux_out_M_AXI_LITE_ROLE1_CTRL [get_bd_intf_pins M_AXI_LITE_CTRL_PORT1] [get_bd_intf_pins PORT01/M_AXI_LITE_PORT1_CTRL]
 
   # Create port connections
-  connect_bd_net -net shell_core_axi_aclk [get_bd_pins axi_aclk_port_ctrl] [get_bd_pins axi_aclk_port_data] [get_bd_pins FIU/axi_aclk_port_data] [get_bd_pins FME/axi_aclk_role_data] [get_bd_pins PORT01/axi_aclk_port_ctrl]
-  connect_bd_net -net shell_core_axi_aresetn [get_bd_pins axi_aresetn_port_ctrl] [get_bd_pins axi_aresetn_port_data] [get_bd_pins FIU/axi_aresetn_port_data] [get_bd_pins FME/axi_aresetn_role_data] [get_bd_pins PORT01/axi_aresetn_port_ctrl]
-  connect_bd_net -net shell_mux_out_O_ROLE_RSTN_0_0 [get_bd_pins O_PORT0_RSTN] [get_bd_pins PORT01/O_PORT0_RSTN]
-  connect_bd_net -net shell_mux_out_O_ROLE_RSTN_1_0 [get_bd_pins O_PORT1_RSTN] [get_bd_pins PORT01/O_PORT1_RSTN]
+  connect_bd_net -net shell_core_axi_aclk [get_bd_pins axi_aclk_ctrl_port] [get_bd_pins axi_aclk_data_port] [get_bd_pins FIU/axi_aclk_port_data] [get_bd_pins FME/axi_aclk_role_data] [get_bd_pins PORT01/axi_aclk_port_ctrl]
+  connect_bd_net -net shell_core_axi_aresetn [get_bd_pins axi_aresetn_ctrl_port] [get_bd_pins axi_aresetn_data_port] [get_bd_pins FIU/axi_aresetn_port_data] [get_bd_pins FME/axi_aresetn_role_data] [get_bd_pins PORT01/axi_aresetn_port_ctrl]
+  connect_bd_net -net shell_mux_out_O_ROLE_RSTN_0_0 [get_bd_pins O_RSTN_PORT0] [get_bd_pins PORT01/O_PORT0_RSTN]
+  connect_bd_net -net shell_mux_out_O_ROLE_RSTN_1_0 [get_bd_pins O_RSTN_PORT1] [get_bd_pins PORT01/O_PORT1_RSTN]
   connect_bd_net -net sys_reset_0_1 [get_bd_pins pcie_perstn] [get_bd_pins FIU/pcie_perstn]
 
   # Restore current instance

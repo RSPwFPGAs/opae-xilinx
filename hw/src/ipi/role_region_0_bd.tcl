@@ -431,6 +431,7 @@ proc create_hier_cell_AFU { parentCell nameHier } {
   create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:aximm_rtl:1.0 M_AXI_FULL_DATA_PORT
   create_bd_intf_pin -mode Master -vlnv xilinx.com:display_qdma:usr_irq_rtl:1.0 M_USR_IRQ_PORT
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S_AXI_LITE_CTRL_PORT
+  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:bscan_rtl:1.0 S_BSCAN_PORT
 
   # Create pins
   create_bd_pin -dir I -from 0 -to 0 I_RSTN_PORT
@@ -486,6 +487,7 @@ proc create_hier_cell_AFU { parentCell nameHier } {
   set system_ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:system_ila system_ila_0 ]
 
   # Create interface connections
+  connect_bd_intf_net -intf_net Conn1 [get_bd_intf_pins S_BSCAN_PORT] [get_bd_intf_pins debug_bridge_0/S_BSCAN]
   connect_bd_intf_net -intf_net S_AXI_LITE_ROLE_CTRL_1 [get_bd_intf_pins S_AXI_LITE_CTRL_PORT] [get_bd_intf_pins axi_interconnect_1/S00_AXI]
   connect_bd_intf_net -intf_net [get_bd_intf_nets S_AXI_LITE_ROLE_CTRL_1] [get_bd_intf_pins S_AXI_LITE_CTRL_PORT] [get_bd_intf_pins system_ila_0/SLOT_0_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_1_M00_AXI [get_bd_intf_pins M_AXI_FULL_DATA_PORT] [get_bd_intf_pins AFU_core/M_AXI_FULL_DATA_PORT]
@@ -579,6 +581,7 @@ proc create_root_design { parentCell } {
    CONFIG.WUSER_BITS_PER_BYTE {0} \
    CONFIG.WUSER_WIDTH {0} \
    ] $S_AXI_LITE_CTRL_PORT
+  set S_BSCAN_PORT [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:bscan_rtl:1.0 S_BSCAN_PORT ]
 
   # Create ports
   set I_RSTN_PORT [ create_bd_port -dir I -from 0 -to 0 I_RSTN_PORT ]
@@ -602,6 +605,7 @@ proc create_root_design { parentCell } {
 
   # Create interface connections
   connect_bd_intf_net -intf_net S_AXI_LITE_ROLE_CTRL_1 [get_bd_intf_ports S_AXI_LITE_CTRL_PORT] [get_bd_intf_pins AFU/S_AXI_LITE_CTRL_PORT]
+  connect_bd_intf_net -intf_net S_BSCAN_0_1 [get_bd_intf_ports S_BSCAN_PORT] [get_bd_intf_pins AFU/S_BSCAN_PORT]
   connect_bd_intf_net -intf_net axi_interconnect_1_M00_AXI [get_bd_intf_ports M_AXI_FULL_DATA_PORT] [get_bd_intf_pins AFU/M_AXI_FULL_DATA_PORT]
   connect_bd_intf_net -intf_net role_top_M_USR_IRQ [get_bd_intf_ports M_USR_IRQ_PORT] [get_bd_intf_pins AFU/M_USR_IRQ_PORT]
 

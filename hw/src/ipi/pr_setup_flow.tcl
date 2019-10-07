@@ -31,10 +31,6 @@ update_compile_order -fileset sources_1
 # create role bd
 source ../../src/ipi/role_region_0_bd.tcl
 current_bd_design [get_bd_designs role_region_0]
-# add external debug_bridge port
-make_bd_intf_pins_external  [get_bd_intf_pins AFU/debug_bridge_0/S_BSCAN]
-delete_bd_objs [get_bd_intf_nets S_BSCAN_0_1] [get_bd_intf_ports S_BSCAN_0]
-set_property name S_BSCAN_PORT [get_bd_intf_pins AFU/S_BSCAN_0]
 validate_bd_design
 # export role wrapper file
 make_wrapper -files [get_files ./proj_opae_bbs/proj_opae_bbs.srcs/sources_1/bd/role_region_0/role_region_0.bd] -top

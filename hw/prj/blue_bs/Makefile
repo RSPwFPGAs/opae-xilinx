@@ -14,7 +14,7 @@ build-vld:
 	rm ./export -rf
 	mkdir export
 
-	vivado -mode tcl -source create_proj.tcl -source ../../src/ipi/pr_setup_flow.tcl
+	vivado -mode tcl -source create_proj.tcl -source ../../src/ipi/pr_setup_flow.tcl -tclargs ../../src/ipi/afu_default.bd.tcl
 
 build-syn:
 

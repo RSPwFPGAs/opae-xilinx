@@ -1,6 +1,7 @@
 
 source create_proj.tcl
 
+set argv ../../src/ipi/afu_default.bd.tcl
 source ../../src/ipi/pr_setup_flow.tcl
 
 

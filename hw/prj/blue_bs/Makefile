@@ -10,6 +10,12 @@ build-bin:
 
 	vivado -mode batch -source run_proj.tcl
 
+build-vld:
+	rm ./export -rf
+	mkdir export
+
+	vivado -mode tcl -source create_proj.tcl -source ../../src/ipi/pr_setup_flow.tcl
+
 build-syn:
 
 build-edt: 

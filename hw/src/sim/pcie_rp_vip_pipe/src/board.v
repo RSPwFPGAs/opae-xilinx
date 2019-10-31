@@ -83,8 +83,8 @@ module board;
   //   5: 500.00 MHz
   //
 localparam EXT_PIPE_SIM = "TRUE";
-  defparam board.EP.shell_region_i.FIM.FIU.pcie3_ultrascale_0.inst.EXT_PIPE_SIM = EXT_PIPE_SIM;
-  defparam board.EP.shell_region_i.FIM.FIU.pcie3_ultrascale_0.inst.PL_EQ_BYPASS_PHASE23 = "TRUE";
+  defparam board.EP.shell_region_i.FIM.FIU.pcie_axi_bridge.pcie3_ultrascale_0.inst.EXT_PIPE_SIM = EXT_PIPE_SIM;
+  defparam board.EP.shell_region_i.FIM.FIU.pcie_axi_bridge.pcie3_ultrascale_0.inst.PL_EQ_BYPASS_PHASE23 = "TRUE";
 
 
   // System-level clock and reset

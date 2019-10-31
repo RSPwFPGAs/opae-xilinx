@@ -11,7 +11,7 @@ set_param project.enableprflowIPI true
 
 
 # create shell bd
-source ../../src/ipi/shell_region_bd.tcl
+source ../../src/ipi/fim_debug.bd.tcl
 current_bd_design [get_bd_designs shell_region]
 # add external debug_bridge port
 make_bd_intf_pins_external  [get_bd_intf_pins FIM/FME/debug_bridge_0/m1_bscan]
@@ -64,7 +64,7 @@ connect_bd_net [get_bd_pins AFU/axi_aresetn_data_port] [get_bd_pins FIM/axi_ares
 connect_bd_net [get_bd_pins AFU/I_RSTN_PORT] [get_bd_pins FIM/O_RSTN_PORT0]
 connect_bd_net [get_bd_pins AFU/axi_aclk_ctrl_port] [get_bd_pins FIM/axi_aclk_ctrl_port]
 connect_bd_net [get_bd_pins AFU/axi_aresetn_ctrl_port] [get_bd_pins FIM/axi_aresetn_ctrl_port]
-connect_bd_intf_net [get_bd_intf_pins AFU/M_USR_IRQ_PORT] -boundary_type upper [get_bd_intf_pins FIM/S_USR_IRQ_PORT0]
+connect_bd_net [get_bd_pins AFU/M_USR_IRQ_PORT] [get_bd_pins FIM/S_USR_IRQ_PORT0]
 
 assign_bd_address
 set_property offset 0x0000000000000000 [get_bd_addr_segs {AFU/M_AXI_FULL_DATA_PORT/SEG_axi_bram_ctrl_0_Mem0}] -quiet

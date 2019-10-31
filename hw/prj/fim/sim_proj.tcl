@@ -4,7 +4,7 @@ source create_proj.tcl
 source ../../src/ipi/fim_setup_flow.tcl
 
 
-make_bd_intf_pins_external  [get_bd_intf_pins FIM/FIU/pcie3_ultrascale_0/pcie3_ext_pipe_ep]
+make_bd_intf_pins_external  [get_bd_intf_pins FIM/FIU/pcie_axi_bridge/pcie3_ultrascale_0/pcie3_ext_pipe_ep]
 
 make_wrapper -files [get_files ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/shell_region/shell_region.bd] -top
 add_files -norecurse           ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/shell_region/hdl/shell_region_wrapper.v

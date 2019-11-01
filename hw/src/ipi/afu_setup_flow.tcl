@@ -1,5 +1,5 @@
 # create role bd
-source ../../src/ipi/role_region_0_bd.tcl
+source ../../src/ipi/afu_customer_1.bd.tcl
 
 current_bd_design [get_bd_designs role_region_0]
 

@@ -124,7 +124,6 @@ set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
 xilinx.com:ip:axi_cdma:*\
-xilinx.com:ip:smartconnect:*\
 xilinx.com:ip:debug_bridge:*\
 xilinx.com:ip:jtag_axi:*\
 xilinx.com:ip:system_ila:*\
@@ -517,34 +516,37 @@ proc create_hier_cell_AFU_core { parentCell nameHier } {
    CONFIG.STRATEGY {1} \
  ] $axi_interconnect_0
 
+  # Create instance: axi_interconnect_1, and set properties
+  set axi_interconnect_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect axi_interconnect_1 ]
+  set_property -dict [ list \
+   CONFIG.NUM_MI {2} \
+   CONFIG.NUM_SI {2} \
+   CONFIG.S00_HAS_DATA_FIFO {2} \
+   CONFIG.S01_HAS_DATA_FIFO {2} \
+   CONFIG.STRATEGY {2} \
+ ] $axi_interconnect_1
+
   # Create instance: data_ram
   create_hier_cell_data_ram $hier_obj data_ram
 
   # Create instance: feature_ram
   create_hier_cell_feature_ram $hier_obj feature_ram
 
-  # Create instance: smartconnect_0, and set properties
-  set smartconnect_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect smartconnect_0 ]
-  set_property -dict [ list \
-   CONFIG.NUM_CLKS {1} \
-   CONFIG.NUM_MI {2} \
- ] $smartconnect_0
-
   # Create interface connections
-  connect_bd_intf_net -intf_net axi_cdma_0_M_AXI [get_bd_intf_pins axi_cdma_0/M_AXI] [get_bd_intf_pins smartconnect_0/S00_AXI]
-  connect_bd_intf_net -intf_net axi_cdma_1_M_AXI [get_bd_intf_pins axi_cdma_1/M_AXI] [get_bd_intf_pins smartconnect_0/S01_AXI]
+  connect_bd_intf_net -intf_net S_AXI_1 [get_bd_intf_pins axi_interconnect_1/M01_AXI] [get_bd_intf_pins data_ram/S_AXI]
+  connect_bd_intf_net -intf_net axi_cdma_0_M_AXI [get_bd_intf_pins axi_cdma_0/M_AXI] [get_bd_intf_pins axi_interconnect_1/S00_AXI]
+  connect_bd_intf_net -intf_net axi_cdma_1_M_AXI [get_bd_intf_pins axi_cdma_1/M_AXI] [get_bd_intf_pins axi_interconnect_1/S01_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI [get_bd_intf_pins axi_interconnect_0/M00_AXI] [get_bd_intf_pins feature_ram/S_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_0_M01_AXI [get_bd_intf_pins axi_cdma_0/S_AXI_LITE] [get_bd_intf_pins axi_interconnect_0/M01_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_0_M02_AXI [get_bd_intf_pins axi_cdma_1/S_AXI_LITE] [get_bd_intf_pins axi_interconnect_0/M02_AXI]
+  connect_bd_intf_net -intf_net axi_interconnect_1_M00_AXI [get_bd_intf_pins M_AXI_FULL_DATA_PORT] [get_bd_intf_pins axi_interconnect_1/M00_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_2_M01_AXI [get_bd_intf_pins S_AXI_LITE_CTRL_PORT] [get_bd_intf_pins axi_interconnect_0/S00_AXI]
-  connect_bd_intf_net -intf_net smartconnect_0_M00_AXI [get_bd_intf_pins data_ram/S_AXI] [get_bd_intf_pins smartconnect_0/M00_AXI]
-  connect_bd_intf_net -intf_net smartconnect_0_M01_AXI [get_bd_intf_pins M_AXI_FULL_DATA_PORT] [get_bd_intf_pins smartconnect_0/M01_AXI]
 
   # Create port connections
   connect_bd_net -net axi_aclk_role_ctrl_1 [get_bd_pins axi_aclk_ctrl_port] [get_bd_pins axi_cdma_0/s_axi_lite_aclk] [get_bd_pins axi_cdma_1/s_axi_lite_aclk] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins axi_interconnect_0/M02_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins feature_ram/axi_aclk_role_ctrl]
-  connect_bd_net -net axi_aclk_role_data_1 [get_bd_pins axi_aclk_data_port] [get_bd_pins axi_cdma_0/m_axi_aclk] [get_bd_pins axi_cdma_1/m_axi_aclk] [get_bd_pins data_ram/axi_aclk_role_data] [get_bd_pins smartconnect_0/aclk]
+  connect_bd_net -net axi_aclk_role_data_1 [get_bd_pins axi_aclk_data_port] [get_bd_pins axi_cdma_0/m_axi_aclk] [get_bd_pins axi_cdma_1/m_axi_aclk] [get_bd_pins axi_interconnect_1/ACLK] [get_bd_pins axi_interconnect_1/M00_ACLK] [get_bd_pins axi_interconnect_1/M01_ACLK] [get_bd_pins axi_interconnect_1/S00_ACLK] [get_bd_pins axi_interconnect_1/S01_ACLK] [get_bd_pins data_ram/axi_aclk_role_data]
   connect_bd_net -net axi_aresetn_role_ctrl_1 [get_bd_pins axi_aresetn_ctrl_port] [get_bd_pins axi_cdma_0/s_axi_lite_aresetn] [get_bd_pins axi_cdma_1/s_axi_lite_aresetn] [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/M01_ARESETN] [get_bd_pins axi_interconnect_0/M02_ARESETN] [get_bd_pins axi_interconnect_0/S00_ARESETN] [get_bd_pins feature_ram/axi_aresetn_role_ctrl]
-  connect_bd_net -net axi_aresetn_role_data_1 [get_bd_pins axi_aresetn_data_port] [get_bd_pins data_ram/axi_aresetn_role_data] [get_bd_pins smartconnect_0/aresetn]
+  connect_bd_net -net axi_aresetn_role_data_1 [get_bd_pins axi_aresetn_data_port] [get_bd_pins axi_interconnect_1/ARESETN] [get_bd_pins axi_interconnect_1/M00_ARESETN] [get_bd_pins axi_interconnect_1/M01_ARESETN] [get_bd_pins axi_interconnect_1/S00_ARESETN] [get_bd_pins axi_interconnect_1/S01_ARESETN] [get_bd_pins data_ram/axi_aresetn_role_data]
 
   # Restore current instance
   current_bd_instance $oldCurInst
@@ -663,6 +665,7 @@ proc create_root_design { parentCell } {
    CONFIG.ADDR_WIDTH {64} \
    CONFIG.DATA_WIDTH {512} \
    CONFIG.FREQ_HZ {250000000} \
+   CONFIG.HAS_REGION {1} \
    CONFIG.NUM_READ_OUTSTANDING {2} \
    CONFIG.NUM_WRITE_OUTSTANDING {2} \
    CONFIG.PROTOCOL {AXI4} \

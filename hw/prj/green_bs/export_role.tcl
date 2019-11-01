@@ -1,7 +1,7 @@
 
 
 add_files {./dcp/role_region_0_wrapper.v}
-source ../../src/ipi/role_region_0_bd.tcl
+source ../../src/ipi/afu_customer_1.bd.tcl
 
 set_property top role_rm_0_bb [current_fileset]
 update_compile_order -fileset sources_1

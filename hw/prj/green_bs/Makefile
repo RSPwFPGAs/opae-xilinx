@@ -1,7 +1,7 @@
 .PHONY: all build-bin build-syn build-edt build-sim
 
 AFU_SRC_FILE = ../../src/ipi/afu_customer_1.bd.tcl
-AFU_CUS_FILE = ../../src/afu_cusomize/ipi_flow/afu_customize_flow.tcl
+AFU_CUS_FILE = ../../src/afu_customize/ipi_flow/afu_customize_flow.tcl
 
 all: build-bin
 

@@ -123,13 +123,12 @@ set bCheckIPsPassed 1
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
-xilinx.com:ip:axi_cdma:*\
 xilinx.com:ip:debug_bridge:*\
 xilinx.com:ip:jtag_axi:*\
 xilinx.com:ip:system_ila:*\
 xilinx.com:ip:c_shift_ram:*\
-xilinx.com:ip:blk_mem_gen:*\
 xilinx.com:ip:axi_bram_ctrl:*\
+xilinx.com:ip:blk_mem_gen:*\
 "
 
    set list_ips_missing ""
@@ -197,93 +196,35 @@ proc create_hier_cell_feature_ram { parentCell nameHier } {
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S_AXI
 
   # Create pins
-  create_bd_pin -dir I -type clk axi_aclk_role_ctrl
-  create_bd_pin -dir I -type rst axi_aresetn_role_ctrl
+  create_bd_pin -dir I -type clk axi_aclk_ctrl_port
+  create_bd_pin -dir I -type rst axi_aresetn_ctrl_port
 
-  # Create instance: axi_bram_ctrl_0_bram1, and set properties
-  set axi_bram_ctrl_0_bram1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen axi_bram_ctrl_0_bram1 ]
+  # Create instance: axi_bram_ctrl_0, and set properties
+  set axi_bram_ctrl_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl axi_bram_ctrl_0 ]
   set_property -dict [ list \
-   CONFIG.Memory_Type {True_Dual_Port_RAM} \
- ] $axi_bram_ctrl_0_bram1
-
-  # Create instance: axi_bram_ctrl_1, and set properties
-  set axi_bram_ctrl_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl axi_bram_ctrl_1 ]
-
-  # Create interface connections
-  connect_bd_intf_net -intf_net axi_bram_ctrl_1_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_0_bram1/BRAM_PORTA] [get_bd_intf_pins axi_bram_ctrl_1/BRAM_PORTA]
-  connect_bd_intf_net -intf_net axi_bram_ctrl_1_BRAM_PORTB [get_bd_intf_pins axi_bram_ctrl_0_bram1/BRAM_PORTB] [get_bd_intf_pins axi_bram_ctrl_1/BRAM_PORTB]
-  connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI [get_bd_intf_pins S_AXI] [get_bd_intf_pins axi_bram_ctrl_1/S_AXI]
-
-  # Create port connections
-  connect_bd_net -net axi_aclk_role_ctrl_1 [get_bd_pins axi_aclk_role_ctrl] [get_bd_pins axi_bram_ctrl_1/s_axi_aclk]
-  connect_bd_net -net axi_aresetn_role_ctrl_1 [get_bd_pins axi_aresetn_role_ctrl] [get_bd_pins axi_bram_ctrl_1/s_axi_aresetn]
-
-  # Restore current instance
-  current_bd_instance $oldCurInst
-}
-
-# Hierarchical cell: data_ram
-proc create_hier_cell_data_ram { parentCell nameHier } {
-
-  variable script_folder
-
-  if { $parentCell eq "" || $nameHier eq "" } {
-     catch {common::send_msg_id "BD_TCL-102" "ERROR" "create_hier_cell_data_ram() - Empty argument(s)!"}
-     return
-  }
-
-  # Get object for parentCell
-  set parentObj [get_bd_cells $parentCell]
-  if { $parentObj == "" } {
-     catch {common::send_msg_id "BD_TCL-100" "ERROR" "Unable to find parent cell <$parentCell>!"}
-     return
-  }
-
-  # Make sure parentObj is hier blk
-  set parentType [get_property TYPE $parentObj]
-  if { $parentType ne "hier" } {
-     catch {common::send_msg_id "BD_TCL-101" "ERROR" "Parent <$parentObj> has TYPE = <$parentType>. Expected to be <hier>."}
-     return
-  }
-
-  # Save current instance; Restore later
-  set oldCurInst [current_bd_instance .]
-
-  # Set parent object as current
-  current_bd_instance $parentObj
-
-  # Create cell and set as current instance
-  set hier_obj [create_bd_cell -type hier $nameHier]
-  current_bd_instance $hier_obj
-
-  # Create interface pins
-  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S_AXI
-
-  # Create pins
-  create_bd_pin -dir I -type clk axi_aclk_role_data
-  create_bd_pin -dir I -type rst axi_aresetn_role_data
-
-  # Create instance: axi_bram_ctrl_0_bram2, and set properties
-  set axi_bram_ctrl_0_bram2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen axi_bram_ctrl_0_bram2 ]
-  set_property -dict [ list \
-   CONFIG.Memory_Type {True_Dual_Port_RAM} \
- ] $axi_bram_ctrl_0_bram2
-
-  # Create instance: axi_bram_ctrl_2, and set properties
-  set axi_bram_ctrl_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl axi_bram_ctrl_2 ]
-  set_property -dict [ list \
-   CONFIG.DATA_WIDTH {512} \
    CONFIG.ECC_TYPE {0} \
- ] $axi_bram_ctrl_2
+   CONFIG.PROTOCOL {AXI4LITE} \
+ ] $axi_bram_ctrl_0
+
+  # Create instance: blk_mem_gen_0, and set properties
+  set blk_mem_gen_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen blk_mem_gen_0 ]
+  set_property -dict [ list \
+   CONFIG.Enable_B {Use_ENB_Pin} \
+   CONFIG.Memory_Type {True_Dual_Port_RAM} \
+   CONFIG.Port_B_Clock {100} \
+   CONFIG.Port_B_Enable_Rate {100} \
+   CONFIG.Port_B_Write_Rate {50} \
+   CONFIG.Use_RSTB_Pin {true} \
+ ] $blk_mem_gen_0
 
   # Create interface connections
-  connect_bd_intf_net -intf_net axi_bram_ctrl_1_BRAM_PORTA1 [get_bd_intf_pins axi_bram_ctrl_0_bram2/BRAM_PORTA] [get_bd_intf_pins axi_bram_ctrl_2/BRAM_PORTA]
-  connect_bd_intf_net -intf_net axi_bram_ctrl_1_BRAM_PORTB1 [get_bd_intf_pins axi_bram_ctrl_0_bram2/BRAM_PORTB] [get_bd_intf_pins axi_bram_ctrl_2/BRAM_PORTB]
-  connect_bd_intf_net -intf_net smartconnect_0_M00_AXI [get_bd_intf_pins S_AXI] [get_bd_intf_pins axi_bram_ctrl_2/S_AXI]
+  connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTA] [get_bd_intf_pins blk_mem_gen_0/BRAM_PORTA]
+  connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTB [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTB] [get_bd_intf_pins blk_mem_gen_0/BRAM_PORTB]
+  connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI [get_bd_intf_pins S_AXI] [get_bd_intf_pins axi_bram_ctrl_0/S_AXI]
 
   # Create port connections
-  connect_bd_net -net axi_aclk_role_data_1 [get_bd_pins axi_aclk_role_data] [get_bd_pins axi_bram_ctrl_2/s_axi_aclk]
-  connect_bd_net -net axi_aresetn_role_data_1 [get_bd_pins axi_aresetn_role_data] [get_bd_pins axi_bram_ctrl_2/s_axi_aresetn]
+  connect_bd_net -net axi_aclk_ctrl_port_1 [get_bd_pins axi_aclk_ctrl_port] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk]
+  connect_bd_net -net axi_aresetn_ctrl_port_1 [get_bd_pins axi_aresetn_ctrl_port] [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn]
 
   # Restore current instance
   current_bd_instance $oldCurInst
@@ -365,13 +306,13 @@ proc create_hier_cell_reset_buffer { parentCell nameHier } {
   current_bd_instance $oldCurInst
 }
 
-# Hierarchical cell: axi_lite_buffer
-proc create_hier_cell_axi_lite_buffer { parentCell nameHier } {
+# Hierarchical cell: axilite_buffer
+proc create_hier_cell_axilite_buffer { parentCell nameHier } {
 
   variable script_folder
 
   if { $parentCell eq "" || $nameHier eq "" } {
-     catch {common::send_msg_id "BD_TCL-102" "ERROR" "create_hier_cell_axi_lite_buffer() - Empty argument(s)!"}
+     catch {common::send_msg_id "BD_TCL-102" "ERROR" "create_hier_cell_axilite_buffer() - Empty argument(s)!"}
      return
   }
 
@@ -490,63 +431,27 @@ proc create_hier_cell_AFU_core { parentCell nameHier } {
   create_bd_pin -dir I -type rst axi_aresetn_ctrl_port
   create_bd_pin -dir I -type rst axi_aresetn_data_port
 
-  # Create instance: axi_cdma_0, and set properties
-  set axi_cdma_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_cdma axi_cdma_0 ]
-  set_property -dict [ list \
-   CONFIG.C_ADDR_WIDTH {64} \
-   CONFIG.C_INCLUDE_SG {0} \
-   CONFIG.C_M_AXI_DATA_WIDTH {512} \
-   CONFIG.C_M_AXI_MAX_BURST_LEN {2} \
- ] $axi_cdma_0
-
-  # Create instance: axi_cdma_1, and set properties
-  set axi_cdma_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_cdma axi_cdma_1 ]
-  set_property -dict [ list \
-   CONFIG.C_ADDR_WIDTH {64} \
-   CONFIG.C_INCLUDE_SG {0} \
-   CONFIG.C_M_AXI_DATA_WIDTH {512} \
-   CONFIG.C_M_AXI_MAX_BURST_LEN {2} \
- ] $axi_cdma_1
-
   # Create instance: axi_interconnect_0, and set properties
   set axi_interconnect_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect axi_interconnect_0 ]
   set_property -dict [ list \
-   CONFIG.NUM_MI {3} \
-   CONFIG.NUM_SI {1} \
-   CONFIG.STRATEGY {1} \
- ] $axi_interconnect_0
-
-  # Create instance: axi_interconnect_1, and set properties
-  set axi_interconnect_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_interconnect axi_interconnect_1 ]
-  set_property -dict [ list \
    CONFIG.NUM_MI {2} \
-   CONFIG.NUM_SI {2} \
    CONFIG.S00_HAS_DATA_FIFO {2} \
-   CONFIG.S01_HAS_DATA_FIFO {2} \
    CONFIG.STRATEGY {2} \
- ] $axi_interconnect_1
-
-  # Create instance: data_ram
-  create_hier_cell_data_ram $hier_obj data_ram
+ ] $axi_interconnect_0
 
   # Create instance: feature_ram
   create_hier_cell_feature_ram $hier_obj feature_ram
 
   # Create interface connections
-  connect_bd_intf_net -intf_net S_AXI_1 [get_bd_intf_pins axi_interconnect_1/M01_AXI] [get_bd_intf_pins data_ram/S_AXI]
-  connect_bd_intf_net -intf_net axi_cdma_0_M_AXI [get_bd_intf_pins axi_cdma_0/M_AXI] [get_bd_intf_pins axi_interconnect_1/S00_AXI]
-  connect_bd_intf_net -intf_net axi_cdma_1_M_AXI [get_bd_intf_pins axi_cdma_1/M_AXI] [get_bd_intf_pins axi_interconnect_1/S01_AXI]
+  connect_bd_intf_net -intf_net S_AXI_LITE_CTRL_PORT_1 [get_bd_intf_pins S_AXI_LITE_CTRL_PORT] [get_bd_intf_pins axi_interconnect_0/S00_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI [get_bd_intf_pins axi_interconnect_0/M00_AXI] [get_bd_intf_pins feature_ram/S_AXI]
-  connect_bd_intf_net -intf_net axi_interconnect_0_M01_AXI [get_bd_intf_pins axi_cdma_0/S_AXI_LITE] [get_bd_intf_pins axi_interconnect_0/M01_AXI]
-  connect_bd_intf_net -intf_net axi_interconnect_0_M02_AXI [get_bd_intf_pins axi_cdma_1/S_AXI_LITE] [get_bd_intf_pins axi_interconnect_0/M02_AXI]
-  connect_bd_intf_net -intf_net axi_interconnect_1_M00_AXI [get_bd_intf_pins M_AXI_FULL_DATA_PORT] [get_bd_intf_pins axi_interconnect_1/M00_AXI]
-  connect_bd_intf_net -intf_net axi_interconnect_2_M01_AXI [get_bd_intf_pins S_AXI_LITE_CTRL_PORT] [get_bd_intf_pins axi_interconnect_0/S00_AXI]
+  connect_bd_intf_net -intf_net axi_interconnect_0_M01_AXI [get_bd_intf_pins M_AXI_FULL_DATA_PORT] [get_bd_intf_pins axi_interconnect_0/M01_AXI]
 
   # Create port connections
-  connect_bd_net -net axi_aclk_role_ctrl_1 [get_bd_pins axi_aclk_ctrl_port] [get_bd_pins axi_cdma_0/s_axi_lite_aclk] [get_bd_pins axi_cdma_1/s_axi_lite_aclk] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins axi_interconnect_0/M02_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins feature_ram/axi_aclk_role_ctrl]
-  connect_bd_net -net axi_aclk_role_data_1 [get_bd_pins axi_aclk_data_port] [get_bd_pins axi_cdma_0/m_axi_aclk] [get_bd_pins axi_cdma_1/m_axi_aclk] [get_bd_pins axi_interconnect_1/ACLK] [get_bd_pins axi_interconnect_1/M00_ACLK] [get_bd_pins axi_interconnect_1/M01_ACLK] [get_bd_pins axi_interconnect_1/S00_ACLK] [get_bd_pins axi_interconnect_1/S01_ACLK] [get_bd_pins data_ram/axi_aclk_role_data]
-  connect_bd_net -net axi_aresetn_role_ctrl_1 [get_bd_pins axi_aresetn_ctrl_port] [get_bd_pins axi_cdma_0/s_axi_lite_aresetn] [get_bd_pins axi_cdma_1/s_axi_lite_aresetn] [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/M01_ARESETN] [get_bd_pins axi_interconnect_0/M02_ARESETN] [get_bd_pins axi_interconnect_0/S00_ARESETN] [get_bd_pins feature_ram/axi_aresetn_role_ctrl]
-  connect_bd_net -net axi_aresetn_role_data_1 [get_bd_pins axi_aresetn_data_port] [get_bd_pins axi_interconnect_1/ARESETN] [get_bd_pins axi_interconnect_1/M00_ARESETN] [get_bd_pins axi_interconnect_1/M01_ARESETN] [get_bd_pins axi_interconnect_1/S00_ARESETN] [get_bd_pins axi_interconnect_1/S01_ARESETN] [get_bd_pins data_ram/axi_aresetn_role_data]
+  connect_bd_net -net axi_aclk_ctrl_port_1 [get_bd_pins axi_aclk_ctrl_port] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins feature_ram/axi_aclk_ctrl_port]
+  connect_bd_net -net axi_aclk_data_port_1 [get_bd_pins axi_aclk_data_port] [get_bd_pins axi_interconnect_0/M01_ACLK]
+  connect_bd_net -net axi_aresetn_ctrl_port_1 [get_bd_pins axi_aresetn_ctrl_port] [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/S00_ARESETN] [get_bd_pins feature_ram/axi_aresetn_ctrl_port]
+  connect_bd_net -net axi_aresetn_data_port_1 [get_bd_pins axi_aresetn_data_port] [get_bd_pins axi_interconnect_0/M01_ARESETN]
 
   # Restore current instance
   current_bd_instance $oldCurInst
@@ -588,12 +493,12 @@ proc create_hier_cell_AFU { parentCell nameHier } {
 
   # Create interface pins
   create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:aximm_rtl:1.0 M_AXI_FULL_DATA_PORT
-  create_bd_intf_pin -mode Master -vlnv xilinx.com:display_qdma:usr_irq_rtl:1.0 M_USR_IRQ_PORT
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S_AXI_LITE_CTRL_PORT
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:bscan_rtl:1.0 S_BSCAN_PORT
 
   # Create pins
   create_bd_pin -dir I -from 0 -to 0 I_RSTN_PORT
+  create_bd_pin -dir O -from 0 -to 0 M_USR_IRQ_PORT
   create_bd_pin -dir I -type clk axi_aclk_ctrl_port
   create_bd_pin -dir I -type clk axi_aclk_data_port
   create_bd_pin -dir I axi_aresetn_ctrl_port
@@ -602,22 +507,22 @@ proc create_hier_cell_AFU { parentCell nameHier } {
   # Create instance: AFU_core
   create_hier_cell_AFU_core $hier_obj AFU_core
 
-  # Create instance: axi_lite_buffer
-  create_hier_cell_axi_lite_buffer $hier_obj axi_lite_buffer
+  # Create instance: axilite_buffer
+  create_hier_cell_axilite_buffer $hier_obj axilite_buffer
 
   # Create instance: reset_buffer
   create_hier_cell_reset_buffer $hier_obj reset_buffer
 
   # Create interface connections
-  connect_bd_intf_net -intf_net Conn1 [get_bd_intf_pins S_BSCAN_PORT] [get_bd_intf_pins axi_lite_buffer/S_BSCAN_PORT]
-  connect_bd_intf_net -intf_net S_AXI_LITE_ROLE_CTRL_1 [get_bd_intf_pins S_AXI_LITE_CTRL_PORT] [get_bd_intf_pins axi_lite_buffer/S_AXI_LITE_CTRL_PORT]
+  connect_bd_intf_net -intf_net Conn1 [get_bd_intf_pins S_BSCAN_PORT] [get_bd_intf_pins axilite_buffer/S_BSCAN_PORT]
+  connect_bd_intf_net -intf_net S_AXI_LITE_ROLE_CTRL_1 [get_bd_intf_pins S_AXI_LITE_CTRL_PORT] [get_bd_intf_pins axilite_buffer/S_AXI_LITE_CTRL_PORT]
   connect_bd_intf_net -intf_net axi_interconnect_1_M00_AXI [get_bd_intf_pins M_AXI_FULL_DATA_PORT] [get_bd_intf_pins AFU_core/M_AXI_FULL_DATA_PORT]
-  connect_bd_intf_net -intf_net axi_interconnect_2_M00_AXI [get_bd_intf_pins AFU_core/S_AXI_LITE_CTRL_PORT] [get_bd_intf_pins axi_lite_buffer/M_AXI_LITE_CTRL_PORT]
+  connect_bd_intf_net -intf_net axi_interconnect_2_M00_AXI [get_bd_intf_pins AFU_core/S_AXI_LITE_CTRL_PORT] [get_bd_intf_pins axilite_buffer/M_AXI_LITE_CTRL_PORT]
 
   # Create port connections
-  connect_bd_net -net axi_aclk_role_ctrl_1 [get_bd_pins axi_aclk_ctrl_port] [get_bd_pins AFU_core/axi_aclk_ctrl_port] [get_bd_pins axi_lite_buffer/axi_aclk_ctrl_port] [get_bd_pins reset_buffer/axi_aclk_ctrl_port]
+  connect_bd_net -net axi_aclk_role_ctrl_1 [get_bd_pins axi_aclk_ctrl_port] [get_bd_pins AFU_core/axi_aclk_ctrl_port] [get_bd_pins axilite_buffer/axi_aclk_ctrl_port] [get_bd_pins reset_buffer/axi_aclk_ctrl_port]
   connect_bd_net -net axi_aclk_role_data_1 [get_bd_pins axi_aclk_data_port] [get_bd_pins AFU_core/axi_aclk_data_port] [get_bd_pins reset_buffer/axi_aclk_data_port]
-  connect_bd_net -net axi_aresetn_role_ctrl_1 [get_bd_pins AFU_core/axi_aresetn_ctrl_port] [get_bd_pins axi_lite_buffer/axi_aresetn_ctrl_port] [get_bd_pins reset_buffer/axi_aresetn_ctrl_port_buffer]
+  connect_bd_net -net axi_aresetn_role_ctrl_1 [get_bd_pins AFU_core/axi_aresetn_ctrl_port] [get_bd_pins axilite_buffer/axi_aresetn_ctrl_port] [get_bd_pins reset_buffer/axi_aresetn_ctrl_port_buffer]
   connect_bd_net -net axi_aresetn_role_ctrl_2 [get_bd_pins axi_aresetn_ctrl_port] [get_bd_pins reset_buffer/axi_aresetn_ctrl_port]
   connect_bd_net -net axi_aresetn_role_data_1 [get_bd_pins axi_aresetn_data_port] [get_bd_pins reset_buffer/axi_aresetn_data_port]
   connect_bd_net -net reset_buffer_ctrl1_Q [get_bd_pins AFU_core/axi_aresetn_data_port] [get_bd_pins reset_buffer/axi_aresetn_data_port_buffer]
@@ -665,12 +570,10 @@ proc create_root_design { parentCell } {
    CONFIG.ADDR_WIDTH {64} \
    CONFIG.DATA_WIDTH {512} \
    CONFIG.FREQ_HZ {250000000} \
-   CONFIG.HAS_REGION {1} \
    CONFIG.NUM_READ_OUTSTANDING {2} \
    CONFIG.NUM_WRITE_OUTSTANDING {2} \
    CONFIG.PROTOCOL {AXI4} \
    ] $M_AXI_FULL_DATA_PORT
-  set M_USR_IRQ_PORT [ create_bd_intf_port -mode Master -vlnv xilinx.com:display_qdma:usr_irq_rtl:1.0 M_USR_IRQ_PORT ]
   set S_AXI_LITE_CTRL_PORT [ create_bd_intf_port -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S_AXI_LITE_CTRL_PORT ]
   set_property -dict [ list \
    CONFIG.ADDR_WIDTH {32} \
@@ -706,6 +609,7 @@ proc create_root_design { parentCell } {
 
   # Create ports
   set I_RSTN_PORT [ create_bd_port -dir I -from 0 -to 0 I_RSTN_PORT ]
+  set M_USR_IRQ_PORT [ create_bd_port -dir O -from 0 -to 0 -type intr M_USR_IRQ_PORT ]
   set axi_aclk_ctrl_port [ create_bd_port -dir I -type clk axi_aclk_ctrl_port ]
   set_property -dict [ list \
    CONFIG.ASSOCIATED_BUSIF {S_AXI_LITE_SHRL_CTRL:S_AXI_LITE_CTRL_PORT} \
@@ -728,9 +632,9 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net S_AXI_LITE_ROLE_CTRL_1 [get_bd_intf_ports S_AXI_LITE_CTRL_PORT] [get_bd_intf_pins AFU/S_AXI_LITE_CTRL_PORT]
   connect_bd_intf_net -intf_net S_BSCAN_0_1 [get_bd_intf_ports S_BSCAN_PORT] [get_bd_intf_pins AFU/S_BSCAN_PORT]
   connect_bd_intf_net -intf_net axi_interconnect_1_M00_AXI [get_bd_intf_ports M_AXI_FULL_DATA_PORT] [get_bd_intf_pins AFU/M_AXI_FULL_DATA_PORT]
-  connect_bd_intf_net -intf_net role_top_M_USR_IRQ [get_bd_intf_ports M_USR_IRQ_PORT] [get_bd_intf_pins AFU/M_USR_IRQ_PORT]
 
   # Create port connections
+  connect_bd_net -net AFU_Res_0 [get_bd_ports M_USR_IRQ_PORT] [get_bd_pins AFU/M_USR_IRQ_PORT]
   connect_bd_net -net I_ROLE_RSTN_1 [get_bd_ports I_RSTN_PORT] [get_bd_pins AFU/I_RSTN_PORT]
   connect_bd_net -net axi_aclk_role_ctrl_1 [get_bd_ports axi_aclk_ctrl_port] [get_bd_pins AFU/axi_aclk_ctrl_port]
   connect_bd_net -net axi_aclk_role_data_1 [get_bd_ports axi_aclk_data_port] [get_bd_pins AFU/axi_aclk_data_port]
@@ -738,16 +642,10 @@ proc create_root_design { parentCell } {
   connect_bd_net -net axi_aresetn_role_data_0_1 [get_bd_ports axi_aresetn_data_port] [get_bd_pins AFU/axi_aresetn_data_port]
 
   # Create address segments
-  create_bd_addr_seg -range 0x000100000000 -offset 0x00000000 [get_bd_addr_spaces AFU/AFU_core/axi_cdma_0/Data] [get_bd_addr_segs M_AXI_FULL_DATA_PORT/Reg] SEG_M_AXI_FULL_ROLE_DATA_CDMA_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x000100000000 [get_bd_addr_spaces AFU/AFU_core/axi_cdma_0/Data] [get_bd_addr_segs AFU/AFU_core/data_ram/axi_bram_ctrl_2/S_AXI/Mem0] SEG_axi_bram_ctrl_2_Mem0
-  create_bd_addr_seg -range 0x000100000000 -offset 0x00000000 [get_bd_addr_spaces AFU/AFU_core/axi_cdma_1/Data] [get_bd_addr_segs M_AXI_FULL_DATA_PORT/Reg] SEG_M_AXI_FULL_ROLE_DATA_CDMA_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x000100000000 [get_bd_addr_spaces AFU/AFU_core/axi_cdma_1/Data] [get_bd_addr_segs AFU/AFU_core/data_ram/axi_bram_ctrl_2/S_AXI/Mem0] SEG_axi_bram_ctrl_2_Mem0
-  create_bd_addr_seg -range 0x00001000 -offset 0x00020000 [get_bd_addr_spaces AFU/axi_lite_buffer/jtag_axi_0/Data] [get_bd_addr_segs AFU/AFU_core/feature_ram/axi_bram_ctrl_1/S_AXI/Mem0] SEG_axi_bram_ctrl_1_Mem0
-  create_bd_addr_seg -range 0x00001000 -offset 0x00030000 [get_bd_addr_spaces AFU/axi_lite_buffer/jtag_axi_0/Data] [get_bd_addr_segs AFU/AFU_core/axi_cdma_0/S_AXI_LITE/Reg] SEG_axi_cdma_0_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00031000 [get_bd_addr_spaces AFU/axi_lite_buffer/jtag_axi_0/Data] [get_bd_addr_segs AFU/AFU_core/axi_cdma_1/S_AXI_LITE/Reg] SEG_axi_cdma_1_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00020000 [get_bd_addr_spaces S_AXI_LITE_CTRL_PORT] [get_bd_addr_segs AFU/AFU_core/feature_ram/axi_bram_ctrl_1/S_AXI/Mem0] SEG_axi_bram_ctrl_1_Mem0
-  create_bd_addr_seg -range 0x00001000 -offset 0x00030000 [get_bd_addr_spaces S_AXI_LITE_CTRL_PORT] [get_bd_addr_segs AFU/AFU_core/axi_cdma_0/S_AXI_LITE/Reg] SEG_axi_cdma_0_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00031000 [get_bd_addr_spaces S_AXI_LITE_CTRL_PORT] [get_bd_addr_segs AFU/AFU_core/axi_cdma_1/S_AXI_LITE/Reg] SEG_axi_cdma_1_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00021000 [get_bd_addr_spaces AFU/axilite_buffer/jtag_axi_0/Data] [get_bd_addr_segs M_AXI_FULL_DATA_PORT/Reg] SEG_M_AXI_FULL_DATA_PORT_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00020000 [get_bd_addr_spaces AFU/axilite_buffer/jtag_axi_0/Data] [get_bd_addr_segs AFU/AFU_core/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
+  create_bd_addr_seg -range 0x00001000 -offset 0x00021000 [get_bd_addr_spaces S_AXI_LITE_CTRL_PORT] [get_bd_addr_segs M_AXI_FULL_DATA_PORT/Reg] SEG_M_AXI_FULL_DATA_PORT_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00020000 [get_bd_addr_spaces S_AXI_LITE_CTRL_PORT] [get_bd_addr_segs AFU/AFU_core/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
 
 
   # Restore current instance

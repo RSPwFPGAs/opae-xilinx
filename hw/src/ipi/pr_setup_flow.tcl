@@ -29,7 +29,7 @@ update_compile_order -fileset sources_1
 
 
 # create role bd
-source $argv
+source [lindex $argv 0]
 current_bd_design [get_bd_designs role_region_0]
 validate_bd_design
 # export role wrapper file

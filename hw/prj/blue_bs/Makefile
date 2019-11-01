@@ -1,5 +1,7 @@
 .PHONY: all build-bin build-syn build-edt build-sim
 
+AFU_SRC_FILE = ../../src/ipi/afu_customer_1.bd.tcl
+
 all: build-bin
 
 build-bin: 
@@ -8,13 +10,13 @@ build-bin:
 	mkdir export
 	mkdir output
 
-	vivado -mode batch -source run_proj.tcl
+	vivado -mode batch -source run_proj.tcl -tclargs $(AFU_SRC_FILE)
 
 build-vld:
 	rm ./export -rf
 	mkdir export
 
-	vivado -mode tcl -source create_proj.tcl -source ../../src/ipi/pr_setup_flow.tcl -tclargs ../../src/ipi/afu_default.bd.tcl
+	vivado -mode tcl -source create_proj.tcl -source ../../src/ipi/pr_setup_flow.tcl -tclargs $(AFU_SRC_FILE)
 
 build-syn:
 

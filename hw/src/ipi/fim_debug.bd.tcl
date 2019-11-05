@@ -130,6 +130,7 @@ set bCheckIPsPassed 1
 set bCheckIPs 1
 if { $bCheckIPs == 1 } {
    set list_check_ips "\ 
+xilinx.com:ip:jtag_axi:*\
 xilinx.com:ip:axi_hwicap:*\
 xilinx.com:ip:clk_wiz:*\
 xilinx.com:ip:debug_bridge:*\
@@ -138,16 +139,12 @@ xilinx.com:ip:system_management_wiz:*\
 xilinx.com:ip:util_vector_logic:*\
 xilinx.com:ip:axi_bram_ctrl:*\
 xilinx.com:ip:blk_mem_gen:*\
-xilinx.com:ip:pcie3_ultrascale:*\
+xilinx.com:ip:axi_pcie3:*\
 xilinx.com:ip:util_ds_buf:*\
 xilinx.com:ip:xlconstant:*\
 xilinx.com:ip:xlslice:*\
 xilinx.com:ip:pr_axi_shutdown_manager:*\
 xilinx.com:ip:axi_firewall:*\
-xilinx.com:ip:ila:*\
-xilinx.com:ip:jtag_axi:*\
-xilinx.com:ip:pcie_2_axilite:*\
-xilinx.com:ip:system_ila:*\
 "
 
    set list_ips_missing ""
@@ -201,174 +198,6 @@ if { $bCheckIPsPassed != 1 } {
 # DESIGN PROCs
 ##################################################################
 
-
-# Hierarchical cell: pcie_2_axilite
-proc create_hier_cell_pcie_2_axilite { parentCell nameHier } {
-
-  variable script_folder
-
-  if { $parentCell eq "" || $nameHier eq "" } {
-     catch {common::send_msg_id "BD_TCL-102" "ERROR" "create_hier_cell_pcie_2_axilite() - Empty argument(s)!"}
-     return
-  }
-
-  # Get object for parentCell
-  set parentObj [get_bd_cells $parentCell]
-  if { $parentObj == "" } {
-     catch {common::send_msg_id "BD_TCL-100" "ERROR" "Unable to find parent cell <$parentCell>!"}
-     return
-  }
-
-  # Make sure parentObj is hier blk
-  set parentType [get_property TYPE $parentObj]
-  if { $parentType ne "hier" } {
-     catch {common::send_msg_id "BD_TCL-101" "ERROR" "Parent <$parentObj> has TYPE = <$parentType>. Expected to be <hier>."}
-     return
-  }
-
-  # Save current instance; Restore later
-  set oldCurInst [current_bd_instance .]
-
-  # Set parent object as current
-  current_bd_instance $parentObj
-
-  # Create cell and set as current instance
-  set hier_obj [create_bd_cell -type hier $nameHier]
-  current_bd_instance $hier_obj
-
-  # Create interface pins
-  create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:aximm_rtl:1.0 M_AXI
-  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:axis_rtl:1.0 SLOT_0_AXIS
-  create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:aximm_rtl:1.0 m_axi1
-  create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:axis_rtl:1.0 m_axis_cc
-
-  # Create pins
-  create_bd_pin -dir I -type clk axi_aclk_port_data
-  create_bd_pin -dir I -type rst axi_aresetn_port_data
-
-  # Create instance: ila_0, and set properties
-  set ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:ila ila_0 ]
-  set_property -dict [ list \
-   CONFIG.C_INPUT_PIPE_STAGES {1} \
-   CONFIG.C_NUM_OF_PROBES {9} \
-   CONFIG.C_SLOT_0_AXI_PROTOCOL {AXI4S} \
- ] $ila_0
-
-  # Create instance: ila_1, and set properties
-  set ila_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:ila ila_1 ]
-  set_property -dict [ list \
-   CONFIG.C_INPUT_PIPE_STAGES {1} \
-   CONFIG.C_NUM_OF_PROBES {9} \
-   CONFIG.C_SLOT_0_AXI_PROTOCOL {AXI4S} \
- ] $ila_1
-
-  # Create instance: jtag_axi_0, and set properties
-  set jtag_axi_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:jtag_axi jtag_axi_0 ]
-  set_property -dict [ list \
-   CONFIG.PROTOCOL {2} \
- ] $jtag_axi_0
-
-  # Create instance: pcie_2_axilite_0, and set properties
-  set pcie_2_axilite_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:pcie_2_axilite pcie_2_axilite_0 ]
-  set_property -dict [ list \
-   CONFIG.BAR0SIZE {0xFFFFFFFFFFF80000} \
-   CONFIG.BAR2AXI0_TRANSLATION {0x0000000000000000} \
- ] $pcie_2_axilite_0
-
-  # Create instance: system_ila_0, and set properties
-  set system_ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:system_ila system_ila_0 ]
-  set_property -dict [ list \
-   CONFIG.C_BRAM_CNT {93.5} \
-   CONFIG.C_DATA_DEPTH {16384} \
- ] $system_ila_0
-
-  # Create interface connections
-  connect_bd_intf_net -intf_net jtag_axi_0_M_AXI [get_bd_intf_pins M_AXI] [get_bd_intf_pins jtag_axi_0/M_AXI]
-  connect_bd_intf_net -intf_net pcie3_ultrascale_0_m_axis_cq [get_bd_intf_pins SLOT_0_AXIS] [get_bd_intf_pins pcie_2_axilite_0/s_axis_cq]
-  connect_bd_intf_net -intf_net [get_bd_intf_nets pcie3_ultrascale_0_m_axis_cq] [get_bd_intf_pins SLOT_0_AXIS] [get_bd_intf_pins ila_0/SLOT_0_AXIS]
-  connect_bd_intf_net -intf_net pcie_2_axilite_0_m_axi_1 [get_bd_intf_pins m_axi1] [get_bd_intf_pins pcie_2_axilite_0/m_axi]
-  connect_bd_intf_net -intf_net [get_bd_intf_nets pcie_2_axilite_0_m_axi_1] [get_bd_intf_pins m_axi1] [get_bd_intf_pins system_ila_0/SLOT_0_AXI]
-  connect_bd_intf_net -intf_net pcie_2_axilite_0_m_axis_cc [get_bd_intf_pins m_axis_cc] [get_bd_intf_pins pcie_2_axilite_0/m_axis_cc]
-  connect_bd_intf_net -intf_net [get_bd_intf_nets pcie_2_axilite_0_m_axis_cc] [get_bd_intf_pins m_axis_cc] [get_bd_intf_pins ila_1/SLOT_0_AXIS]
-
-  # Create port connections
-  connect_bd_net -net qdma_0_axi_aclk [get_bd_pins axi_aclk_port_data] [get_bd_pins ila_0/clk] [get_bd_pins ila_1/clk] [get_bd_pins jtag_axi_0/aclk] [get_bd_pins pcie_2_axilite_0/axi_clk] [get_bd_pins system_ila_0/clk]
-  connect_bd_net -net qdma_0_axi_aresetn [get_bd_pins axi_aresetn_port_data] [get_bd_pins jtag_axi_0/aresetn] [get_bd_pins pcie_2_axilite_0/axi_aresetn] [get_bd_pins system_ila_0/resetn]
-
-  # Restore current instance
-  current_bd_instance $oldCurInst
-}
-
-# Hierarchical cell: axifull_2_pcie
-proc create_hier_cell_axifull_2_pcie { parentCell nameHier } {
-
-  variable script_folder
-
-  if { $parentCell eq "" || $nameHier eq "" } {
-     catch {common::send_msg_id "BD_TCL-102" "ERROR" "create_hier_cell_axifull_2_pcie() - Empty argument(s)!"}
-     return
-  }
-
-  # Get object for parentCell
-  set parentObj [get_bd_cells $parentCell]
-  if { $parentObj == "" } {
-     catch {common::send_msg_id "BD_TCL-100" "ERROR" "Unable to find parent cell <$parentCell>!"}
-     return
-  }
-
-  # Make sure parentObj is hier blk
-  set parentType [get_property TYPE $parentObj]
-  if { $parentType ne "hier" } {
-     catch {common::send_msg_id "BD_TCL-101" "ERROR" "Parent <$parentObj> has TYPE = <$parentType>. Expected to be <hier>."}
-     return
-  }
-
-  # Save current instance; Restore later
-  set oldCurInst [current_bd_instance .]
-
-  # Set parent object as current
-  current_bd_instance $parentObj
-
-  # Create cell and set as current instance
-  set hier_obj [create_bd_cell -type hier $nameHier]
-  current_bd_instance $hier_obj
-
-  # Create interface pins
-  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S_AXI
-
-  # Create pins
-  create_bd_pin -dir I -type clk axi_aclk_port_data
-  create_bd_pin -dir I -type rst axi_aresetn_port_data
-
-  # Create instance: axi_bram_ctrl_0, and set properties
-  set axi_bram_ctrl_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_bram_ctrl axi_bram_ctrl_0 ]
-  set_property -dict [ list \
-   CONFIG.SINGLE_PORT_BRAM {0} \
- ] $axi_bram_ctrl_0
-
-  # Create instance: blk_mem_gen_0, and set properties
-  set blk_mem_gen_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen blk_mem_gen_0 ]
-  set_property -dict [ list \
-   CONFIG.Enable_B {Use_ENB_Pin} \
-   CONFIG.Memory_Type {True_Dual_Port_RAM} \
-   CONFIG.Port_B_Clock {100} \
-   CONFIG.Port_B_Enable_Rate {100} \
-   CONFIG.Port_B_Write_Rate {50} \
-   CONFIG.Use_RSTB_Pin {true} \
- ] $blk_mem_gen_0
-
-  # Create interface connections
-  connect_bd_intf_net -intf_net S_AXI_BRIDGE_1 [get_bd_intf_pins S_AXI] [get_bd_intf_pins axi_bram_ctrl_0/S_AXI]
-  connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTA] [get_bd_intf_pins blk_mem_gen_0/BRAM_PORTA]
-  connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTB [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTB] [get_bd_intf_pins blk_mem_gen_0/BRAM_PORTB]
-
-  # Create port connections
-  connect_bd_net -net qdma_0_axi_aclk [get_bd_pins axi_aclk_port_data] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk]
-  connect_bd_net -net qdma_0_axi_aresetn [get_bd_pins axi_aresetn_port_data] [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn]
-
-  # Restore current instance
-  current_bd_instance $oldCurInst
-}
 
 # Hierarchical cell: port01_mux_out
 proc create_hier_cell_port01_mux_out { parentCell nameHier } {
@@ -758,7 +587,6 @@ proc create_hier_cell_pcie_axi_bridge { parentCell nameHier } {
   # Create interface pins
   create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:aximm_rtl:1.0 M_AXI
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:aximm_rtl:1.0 S_AXI
-  create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:aximm_rtl:1.0 m_axi1
   create_bd_intf_pin -mode Master -vlnv xilinx.com:interface:pcie_7x_mgt_rtl:1.0 pci_express
   create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:diff_clock_rtl:1.0 pcie_refclk
 
@@ -767,61 +595,42 @@ proc create_hier_cell_pcie_axi_bridge { parentCell nameHier } {
   create_bd_pin -dir O -from 0 -to 0 -type rst axi_aresetn_port_data
   create_bd_pin -dir I -type rst pcie_perstn
 
-  # Create instance: axifull_2_pcie
-  create_hier_cell_axifull_2_pcie $hier_obj axifull_2_pcie
-
-  # Create instance: pcie3_ultrascale_0, and set properties
-  set pcie3_ultrascale_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:pcie3_ultrascale pcie3_ultrascale_0 ]
+  # Create instance: axi_pcie3_0, and set properties
+  set axi_pcie3_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_pcie3 axi_pcie3_0 ]
   set_property -dict [ list \
-   CONFIG.AXISTEN_IF_RC_STRADDLE {true} \
-   CONFIG.PF0_CLASS_CODE {120000} \
-   CONFIG.PF0_DEVICE_ID {09c4} \
-   CONFIG.PF0_MSIX_CAP_PBA_BIR {BAR_1:0} \
-   CONFIG.PF0_MSIX_CAP_TABLE_BIR {BAR_1:0} \
-   CONFIG.PF0_SRIOV_CAP_INITIAL_VF {0} \
-   CONFIG.PF0_SUBSYSTEM_ID {0000} \
-   CONFIG.PF0_SUBSYSTEM_VENDOR_ID {8086} \
-   CONFIG.PF1_CLASS_CODE {120000} \
-   CONFIG.PF1_DEVICE_ID {8011} \
-   CONFIG.PF1_MSIX_CAP_PBA_BIR {BAR_0} \
-   CONFIG.PF1_MSIX_CAP_TABLE_BIR {BAR_0} \
-   CONFIG.PF1_SRIOV_CAP_INITIAL_VF {0} \
-   CONFIG.PF1_SUBSYSTEM_ID {0007} \
-   CONFIG.PL_LINK_CAP_MAX_LINK_SPEED {8.0_GT/s} \
-   CONFIG.PL_LINK_CAP_MAX_LINK_WIDTH {X8} \
-   CONFIG.TL_PF_ENABLE_REG {false} \
-   CONFIG.aspm_support {No_ASPM} \
+   CONFIG.AXIBAR_NUM {1} \
+   CONFIG.PCIE_BOARD_INTERFACE {pci_express_x8} \
+   CONFIG.SYS_RST_N_BOARD_INTERFACE {pcie_perstn} \
+   CONFIG.axi_data_width {256_bit} \
    CONFIG.axisten_freq {250} \
-   CONFIG.axisten_if_width {256_bit} \
    CONFIG.coreclk_freq {500} \
-   CONFIG.ext_pcie_cfg_space_enabled {true} \
-   CONFIG.mode_selection {Advanced} \
    CONFIG.pf0_bar0_64bit {true} \
    CONFIG.pf0_bar0_prefetchable {true} \
-   CONFIG.pf0_bar0_scale {Kilobytes} \
    CONFIG.pf0_bar0_size {512} \
    CONFIG.pf0_bar2_64bit {true} \
    CONFIG.pf0_bar2_enabled {true} \
    CONFIG.pf0_bar2_prefetchable {true} \
    CONFIG.pf0_bar2_scale {Megabytes} \
    CONFIG.pf0_bar2_size {1} \
-   CONFIG.pf0_bar2_type {Memory} \
+   CONFIG.pf0_class_code {120000} \
    CONFIG.pf0_class_code_base {12} \
    CONFIG.pf0_class_code_sub {00} \
-   CONFIG.pf1_bar0_enabled {false} \
-   CONFIG.pf1_bar0_size {2} \
-   CONFIG.pf1_bar0_type {N/A} \
-   CONFIG.pf1_class_code_base {12} \
-   CONFIG.pf1_class_code_sub {00} \
+   CONFIG.pf0_device_id {09c4} \
+   CONFIG.pf0_msi_enabled {false} \
+   CONFIG.pf0_msix_cap_pba_bir {BAR_1:0} \
+   CONFIG.pf0_msix_cap_pba_offset {00000000} \
+   CONFIG.pf0_msix_cap_table_bir {BAR_1:0} \
+   CONFIG.pf0_msix_cap_table_offset {00000000} \
+   CONFIG.pf0_msix_cap_table_size {000} \
+   CONFIG.pf0_msix_enabled {false} \
+   CONFIG.pf0_subsystem_id {0000} \
+   CONFIG.pf0_subsystem_vendor_id {8086} \
    CONFIG.pipe_sim {true} \
+   CONFIG.pl_link_cap_max_link_speed {8.0_GT/s} \
+   CONFIG.pl_link_cap_max_link_width {X8} \
    CONFIG.plltype {QPLL1} \
-   CONFIG.sys_reset_polarity {ACTIVE_LOW} \
    CONFIG.vendor_id {8086} \
-   CONFIG.xlnx_ref_board {KCU105} \
- ] $pcie3_ultrascale_0
-
-  # Create instance: pcie_2_axilite
-  create_hier_cell_pcie_2_axilite $hier_obj pcie_2_axilite
+ ] $axi_pcie3_0
 
   # Create instance: util_ds_buf, and set properties
   set util_ds_buf [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf util_ds_buf ]
@@ -831,32 +640,18 @@ proc create_hier_cell_pcie_axi_bridge { parentCell nameHier } {
    CONFIG.USE_BOARD_FLOW {true} \
  ] $util_ds_buf
 
-  # Create instance: util_vector_logic_0, and set properties
-  set util_vector_logic_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_vector_logic util_vector_logic_0 ]
-  set_property -dict [ list \
-   CONFIG.C_OPERATION {not} \
-   CONFIG.C_SIZE {1} \
-   CONFIG.LOGO_FILE {data/sym_notgate.png} \
- ] $util_vector_logic_0
-
   # Create interface connections
-  connect_bd_intf_net -intf_net S_AXI_BRIDGE_1 [get_bd_intf_pins S_AXI] [get_bd_intf_pins axifull_2_pcie/S_AXI]
-  connect_bd_intf_net -intf_net jtag_axi_0_M_AXI [get_bd_intf_pins M_AXI] [get_bd_intf_pins pcie_2_axilite/M_AXI]
-  connect_bd_intf_net -intf_net pcie3_ultrascale_0_m_axis_cq [get_bd_intf_pins pcie3_ultrascale_0/m_axis_cq] [get_bd_intf_pins pcie_2_axilite/SLOT_0_AXIS]
-set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets pcie3_ultrascale_0_m_axis_cq]
-  connect_bd_intf_net -intf_net pcie3_ultrascale_0_pcie_7x_mgt [get_bd_intf_pins pci_express] [get_bd_intf_pins pcie3_ultrascale_0/pcie_7x_mgt]
-  connect_bd_intf_net -intf_net pcie_2_axilite_0_m_axi_1 [get_bd_intf_pins m_axi1] [get_bd_intf_pins pcie_2_axilite/m_axi1]
-  connect_bd_intf_net -intf_net pcie_2_axilite_0_m_axis_cc [get_bd_intf_pins pcie3_ultrascale_0/s_axis_cc] [get_bd_intf_pins pcie_2_axilite/m_axis_cc]
-set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets pcie_2_axilite_0_m_axis_cc]
+  connect_bd_intf_net -intf_net S_AXI_1 [get_bd_intf_pins S_AXI] [get_bd_intf_pins axi_pcie3_0/S_AXI]
+  connect_bd_intf_net -intf_net axi_pcie3_0_M_AXI [get_bd_intf_pins M_AXI] [get_bd_intf_pins axi_pcie3_0/M_AXI]
+  connect_bd_intf_net -intf_net axi_pcie3_0_pcie_7x_mgt [get_bd_intf_pins pci_express] [get_bd_intf_pins axi_pcie3_0/pcie_7x_mgt]
   connect_bd_intf_net -intf_net pcie_refclk_1 [get_bd_intf_pins pcie_refclk] [get_bd_intf_pins util_ds_buf/CLK_IN_D]
 
   # Create port connections
-  connect_bd_net -net pcie3_ultrascale_0_user_reset [get_bd_pins pcie3_ultrascale_0/user_reset] [get_bd_pins util_vector_logic_0/Op1]
-  connect_bd_net -net qdma_0_axi_aclk [get_bd_pins axi_aclk_port_data] [get_bd_pins axifull_2_pcie/axi_aclk_port_data] [get_bd_pins pcie3_ultrascale_0/user_clk] [get_bd_pins pcie_2_axilite/axi_aclk_port_data]
-  connect_bd_net -net qdma_0_axi_aresetn [get_bd_pins axi_aresetn_port_data] [get_bd_pins axifull_2_pcie/axi_aresetn_port_data] [get_bd_pins pcie_2_axilite/axi_aresetn_port_data] [get_bd_pins util_vector_logic_0/Res]
-  connect_bd_net -net sys_reset_0_1 [get_bd_pins pcie_perstn] [get_bd_pins pcie3_ultrascale_0/sys_reset]
-  connect_bd_net -net util_ds_buf_IBUF_DS_ODIV2 [get_bd_pins pcie3_ultrascale_0/sys_clk] [get_bd_pins util_ds_buf/IBUF_DS_ODIV2]
-  connect_bd_net -net util_ds_buf_IBUF_OUT [get_bd_pins pcie3_ultrascale_0/sys_clk_gt] [get_bd_pins util_ds_buf/IBUF_OUT]
+  connect_bd_net -net axi_pcie3_0_axi_aclk [get_bd_pins axi_aclk_port_data] [get_bd_pins axi_pcie3_0/axi_aclk]
+  connect_bd_net -net axi_pcie3_0_axi_aresetn [get_bd_pins axi_aresetn_port_data] [get_bd_pins axi_pcie3_0/axi_aresetn]
+  connect_bd_net -net pcie_perstn_1 [get_bd_pins pcie_perstn] [get_bd_pins axi_pcie3_0/sys_rst_n]
+  connect_bd_net -net util_ds_buf_IBUF_DS_ODIV2 [get_bd_pins axi_pcie3_0/refclk] [get_bd_pins util_ds_buf/IBUF_DS_ODIV2]
+  connect_bd_net -net util_ds_buf_IBUF_OUT [get_bd_pins axi_pcie3_0/sys_clk_gt] [get_bd_pins util_ds_buf/IBUF_OUT]
 
   # Restore current instance
   current_bd_instance $oldCurInst
@@ -1210,23 +1005,26 @@ proc create_hier_cell_FIU { parentCell nameHier } {
   # Create instance: feature_ram
   create_hier_cell_feature_ram $hier_obj feature_ram
 
+  # Create instance: jtag_axi_0, and set properties
+  set jtag_axi_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:jtag_axi jtag_axi_0 ]
+
   # Create instance: pcie_axi_bridge
   create_hier_cell_pcie_axi_bridge $hier_obj pcie_axi_bridge
 
   # Create interface connections
+  connect_bd_intf_net -intf_net S01_AXI_1 [get_bd_intf_pins axi_interconnect_0/S01_AXI] [get_bd_intf_pins jtag_axi_0/M_AXI]
   connect_bd_intf_net -intf_net S_AXI_BRIDGE_1 [get_bd_intf_pins S_AXI_BRIDGE] [get_bd_intf_pins pcie_axi_bridge/S_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_0_M01_AXI [get_bd_intf_pins axi_interconnect_0/M01_AXI] [get_bd_intf_pins feature_ram/S_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_0_M02_AXI [get_bd_intf_pins M_AXI_LITE_PORT0_CTRL] [get_bd_intf_pins axi_interconnect_0/M02_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_0_M03_AXI [get_bd_intf_pins M_AXI_LITE_PORT1_CTRL] [get_bd_intf_pins axi_interconnect_0/M03_AXI]
-  connect_bd_intf_net -intf_net jtag_axi_0_M_AXI [get_bd_intf_pins axi_interconnect_0/S01_AXI] [get_bd_intf_pins pcie_axi_bridge/M_AXI]
   connect_bd_intf_net -intf_net pcie3_ultrascale_0_pcie_7x_mgt [get_bd_intf_pins pci_express] [get_bd_intf_pins pcie_axi_bridge/pci_express]
   connect_bd_intf_net -intf_net pcie_2_axilite_0_m_axi [get_bd_intf_pins M_AXI_LITE_FME_CTRL] [get_bd_intf_pins axi_interconnect_0/M00_AXI]
-  connect_bd_intf_net -intf_net pcie_2_axilite_0_m_axi_1 [get_bd_intf_pins axi_interconnect_0/S00_AXI] [get_bd_intf_pins pcie_axi_bridge/m_axi1]
+  connect_bd_intf_net -intf_net pcie_2_axilite_0_m_axi_1 [get_bd_intf_pins axi_interconnect_0/S00_AXI] [get_bd_intf_pins pcie_axi_bridge/M_AXI]
   connect_bd_intf_net -intf_net pcie_refclk_1 [get_bd_intf_pins pcie_refclk] [get_bd_intf_pins pcie_axi_bridge/pcie_refclk]
 
   # Create port connections
-  connect_bd_net -net qdma_0_axi_aclk [get_bd_pins axi_aclk_port_data] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins axi_interconnect_0/M02_ACLK] [get_bd_pins axi_interconnect_0/M03_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins axi_interconnect_0/S01_ACLK] [get_bd_pins feature_ram/axi_aclk_role_ctrl] [get_bd_pins pcie_axi_bridge/axi_aclk_port_data]
-  connect_bd_net -net qdma_0_axi_aresetn [get_bd_pins axi_aresetn_port_data] [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/M01_ARESETN] [get_bd_pins axi_interconnect_0/M02_ARESETN] [get_bd_pins axi_interconnect_0/M03_ARESETN] [get_bd_pins axi_interconnect_0/S00_ARESETN] [get_bd_pins axi_interconnect_0/S01_ARESETN] [get_bd_pins feature_ram/axi_aresetn_role_ctrl] [get_bd_pins pcie_axi_bridge/axi_aresetn_port_data]
+  connect_bd_net -net qdma_0_axi_aclk [get_bd_pins axi_aclk_port_data] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/M01_ACLK] [get_bd_pins axi_interconnect_0/M02_ACLK] [get_bd_pins axi_interconnect_0/M03_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK] [get_bd_pins axi_interconnect_0/S01_ACLK] [get_bd_pins feature_ram/axi_aclk_role_ctrl] [get_bd_pins jtag_axi_0/aclk] [get_bd_pins pcie_axi_bridge/axi_aclk_port_data]
+  connect_bd_net -net qdma_0_axi_aresetn [get_bd_pins axi_aresetn_port_data] [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/M01_ARESETN] [get_bd_pins axi_interconnect_0/M02_ARESETN] [get_bd_pins axi_interconnect_0/M03_ARESETN] [get_bd_pins axi_interconnect_0/S00_ARESETN] [get_bd_pins axi_interconnect_0/S01_ARESETN] [get_bd_pins feature_ram/axi_aresetn_role_ctrl] [get_bd_pins jtag_axi_0/aresetn] [get_bd_pins pcie_axi_bridge/axi_aresetn_port_data]
   connect_bd_net -net sys_reset_0_1 [get_bd_pins pcie_perstn] [get_bd_pins pcie_axi_bridge/pcie_perstn]
 
   # Restore current instance
@@ -1376,28 +1174,28 @@ proc create_root_design { parentCell } {
   connect_bd_net -net sys_reset_0_1 [get_bd_ports pcie_perstn] [get_bd_pins FIM/pcie_perstn]
 
   # Create address segments
-  create_bd_addr_seg -range 0x00010000 -offset 0x00000000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/jtag_axi_0/Data] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
-  create_bd_addr_seg -range 0x00001000 -offset 0x00014000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_0/S_AXI_CTL/Control] SEG_axi_firewall_0_Control
-  create_bd_addr_seg -range 0x00001000 -offset 0x00015000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_1/S_AXI_CTL/Control] SEG_axi_firewall_1_Control
-  create_bd_addr_seg -range 0x00001000 -offset 0x00012000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/axi_hwicap/S_AXI_LITE/Reg] SEG_axi_hwicap_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00013000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/flash_programmer/AXI_LITE/Reg] SEG_flash_programmer_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00011000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/pf_csr/pf_csr_v1_0_0/s00_axi/reg0] SEG_pf_csr_v1_0_0_reg0
-  create_bd_addr_seg -range 0x00001000 -offset 0x00018000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00019000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg1
-  create_bd_addr_seg -range 0x00001000 -offset 0x0001A000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x0001B000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg1
-  create_bd_addr_seg -range 0x00001000 -offset 0x0001E000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/system_management_wiz_0/S_AXI_LITE/Reg] SEG_system_management_wiz_0_Reg
-  create_bd_addr_seg -range 0x00010000 -offset 0x00000000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/pcie_2_axilite_0/m_axi] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
-  create_bd_addr_seg -range 0x00001000 -offset 0x00014000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/pcie_2_axilite_0/m_axi] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_0/S_AXI_CTL/Control] SEG_axi_firewall_0_Control
-  create_bd_addr_seg -range 0x00001000 -offset 0x00015000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/pcie_2_axilite_0/m_axi] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_1/S_AXI_CTL/Control] SEG_axi_firewall_1_Control
-  create_bd_addr_seg -range 0x00001000 -offset 0x00012000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/pcie_2_axilite_0/m_axi] [get_bd_addr_segs FIM/FME/axi_hwicap/S_AXI_LITE/Reg] SEG_axi_hwicap_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00013000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/pcie_2_axilite_0/m_axi] [get_bd_addr_segs FIM/FME/flash_programmer/AXI_LITE/Reg] SEG_flash_programmer_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00011000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/pcie_2_axilite_0/m_axi] [get_bd_addr_segs FIM/FME/pf_csr/pf_csr_v1_0_0/s00_axi/reg0] SEG_pf_csr_v1_0_0_reg0
-  create_bd_addr_seg -range 0x00001000 -offset 0x00019000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/pcie_2_axilite_0/m_axi] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00018000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/pcie_2_axilite_0/m_axi] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg1
-  create_bd_addr_seg -range 0x00001000 -offset 0x0001A000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/pcie_2_axilite_0/m_axi] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x0001B000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/pcie_2_axilite_0/m_axi] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg1
-  create_bd_addr_seg -range 0x00001000 -offset 0x0001E000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/pcie_2_axilite/pcie_2_axilite_0/m_axi] [get_bd_addr_segs FIM/FME/system_management_wiz_0/S_AXI_LITE/Reg] SEG_system_management_wiz_0_Reg
+  create_bd_addr_seg -range 0x00010000 -offset 0x00000000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
+  create_bd_addr_seg -range 0x00001000 -offset 0x00014000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_0/S_AXI_CTL/Control] SEG_axi_firewall_0_Control
+  create_bd_addr_seg -range 0x00001000 -offset 0x00015000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_1/S_AXI_CTL/Control] SEG_axi_firewall_1_Control
+  create_bd_addr_seg -range 0x00001000 -offset 0x00012000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/axi_hwicap/S_AXI_LITE/Reg] SEG_axi_hwicap_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00013000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/flash_programmer/AXI_LITE/Reg] SEG_flash_programmer_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00011000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/pf_csr/pf_csr_v1_0_0/s00_axi/reg0] SEG_pf_csr_v1_0_0_reg0
+  create_bd_addr_seg -range 0x00001000 -offset 0x00019000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00018000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg19
+  create_bd_addr_seg -range 0x00001000 -offset 0x0001B000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x0001A000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg23
+  create_bd_addr_seg -range 0x00001000 -offset 0x0001E000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/system_management_wiz_0/S_AXI_LITE/Reg] SEG_system_management_wiz_0_Reg
+  create_bd_addr_seg -range 0x00010000 -offset 0x00000000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/axi_pcie3_0/M_AXI] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
+  create_bd_addr_seg -range 0x00001000 -offset 0x00014000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/axi_pcie3_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_0/S_AXI_CTL/Control] SEG_axi_firewall_0_Control
+  create_bd_addr_seg -range 0x00001000 -offset 0x00015000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/axi_pcie3_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_1/S_AXI_CTL/Control] SEG_axi_firewall_1_Control
+  create_bd_addr_seg -range 0x00001000 -offset 0x00012000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/axi_pcie3_0/M_AXI] [get_bd_addr_segs FIM/FME/axi_hwicap/S_AXI_LITE/Reg] SEG_axi_hwicap_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00013000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/axi_pcie3_0/M_AXI] [get_bd_addr_segs FIM/FME/flash_programmer/AXI_LITE/Reg] SEG_flash_programmer_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00011000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/axi_pcie3_0/M_AXI] [get_bd_addr_segs FIM/FME/pf_csr/pf_csr_v1_0_0/s00_axi/reg0] SEG_pf_csr_v1_0_0_reg0
+  create_bd_addr_seg -range 0x00001000 -offset 0x00019000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/axi_pcie3_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00018000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/axi_pcie3_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg21
+  create_bd_addr_seg -range 0x00001000 -offset 0x0001B000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/axi_pcie3_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x0001A000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/axi_pcie3_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg25
+  create_bd_addr_seg -range 0x00001000 -offset 0x0001E000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/axi_pcie3_0/M_AXI] [get_bd_addr_segs FIM/FME/system_management_wiz_0/S_AXI_LITE/Reg] SEG_system_management_wiz_0_Reg
 
 
   # Restore current instance

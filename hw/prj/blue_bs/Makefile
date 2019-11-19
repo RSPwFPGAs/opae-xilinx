@@ -1,6 +1,6 @@
 .PHONY: all build-bin build-syn build-edt build-sim
 
-AFU_SRC_FILE = ../../src/ipi/afu_customer_1.bd.tcl
+AFU_SRC_FILE = ../../src/ipi/afu_default.bd.tcl
 
 all: build-bin
 

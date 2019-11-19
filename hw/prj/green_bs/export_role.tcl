@@ -3,8 +3,6 @@
 add_files {./dcp/role_region_0_wrapper.v}
 # run AFU base design file: .bd.tcl
 source [lindex $argv 0]
-# run AFU incremental modification: .flow.tcl
-source hls_proj.tcl
 
 set_property top role_rm_0_bb [current_fileset]
 update_compile_order -fileset sources_1

@@ -1,6 +1,7 @@
 .PHONY: all build-bin build-syn build-edt build-sim
 
-AFU_SRC_FILE = ../../src/ipi/afu_default.bd.tcl
+AFU_SRC_FILE=../../src/ipi/afu_default.bd.tcl
+AFU_IP_PATH=
 
 all: build-bin
 
@@ -12,7 +13,7 @@ build-bin:
 	rm ./output -rf
 	mkdir output
 	
-	vivado -mode batch -source run_proj.tcl -tclargs $(AFU_SRC_FILE)
+	vivado -mode batch -source run_proj.tcl -tclargs $(AFU_SRC_FILE) $(AFU_IP_PATH)
 
 build-syn:
 

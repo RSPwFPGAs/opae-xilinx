@@ -1,6 +1,6 @@
 .PHONY: all run-hls run-gui
 
-AFU_HLS_PATH = .
+AFU_HLS_PATH=.
 
 all:
 

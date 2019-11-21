@@ -3,5 +3,5 @@
     To generate a Green Bitstream based on imported Blue Bitstream
 >
 >   ```bash
->    make build-bin AFU_SRC_FILE=../../src/ipi/afu_default.bd.tcl AFU_IP_FILE=./add_afu_ip_path.tcl
+>    make build-bin AFU_SRC_FILE=../../src/afu_customize/hls_ip/adder_axilite/afu_example.bd.tcl AFU_IP_FILE=../../src/afu_customize/hls_ip/adder_axilite/add_afu_ip_path.tcl
 >   ```

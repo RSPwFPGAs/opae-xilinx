@@ -24,3 +24,4 @@ To customize the base AFU design with user desinged IP
 >   ```bash
 >    write_bd_tcl -f -no_ip_version ../../src/afu_customize/hls_ip/adder_axilite/afu_example.bd.tcl
 >   ```
+>This BD file can be used as AFU_SRC_FILE in [../green_bs](../green_bs) project, to generate a Green Bitstream.

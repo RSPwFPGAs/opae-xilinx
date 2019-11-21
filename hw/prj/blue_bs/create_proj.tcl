@@ -7,3 +7,8 @@ update_ip_catalog
 add_files {../../src/hdl/pf_csr/pf_csr_v1_0_S00_AXI.v ../../src/hdl/pf_csr/pf_csr_v1_0.v}
 update_compile_order -fileset sources_1
 
+source [lindex $argv 1]
+set_property  ip_repo_paths $AFU_IP_PATH [current_project]
+update_ip_catalog
+
+

@@ -3,7 +3,7 @@
     To validate a customer AFU design with the FIM design
 >
 >   ```bash
->    make build-vld AFU_SRC_FILE=../../src/ipi/afu_default.bd.tcl
+>    make build-vld AFU_SRC_FILE=../../src/ipi/afu_example.bd.tcl
 >   ```
     or
 >

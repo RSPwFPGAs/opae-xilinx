@@ -58,7 +58,7 @@ Although the OPAE specification mandates the usage of [CCI-P](https://www.intel.
 ## Overview of Development Tools
 The FPGA projects are designed with 2018.3 release of Vivado and Vivado HLS.
 
-The FPGA target currently supported is the KCU105 development board from Xilinx.
+The FPGA target currently supported is the [KCU105 development board](https://www.xilinx.com/products/boards-and-kits/kcu105.html) from Xilinx.
 
 <a name="gettingstarted"></a>
 # Getting Started

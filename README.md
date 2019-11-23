@@ -43,4 +43,4 @@ The FPGA target currently supported is the KCU105 development board from Xilinx.
 
 <a name="gettingstarted"></a>
 # Getting Started
-To get started with the design of FIM and AFU, or the generation of Blue and Green bitstreams, follow the README in corresponding directories in ./hw/prj path.
+To get started with the design of FIM and AFU, or the generation of Blue and Green bitstreams, follow the README in corresponding directories in [./hw/prj](./hw/prj/).

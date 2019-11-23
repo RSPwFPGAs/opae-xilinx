@@ -2,6 +2,10 @@
 
 # Table of Contents
 1. [Overview of opae-xilinx](#overviewopaex)
+    - [Original OPAE](#overviewopaeorig)
+    - [Ported OPAE](#overviewopaeport)
+        - [FIM and AFU design](#overviewopaeportfimandafu)
+        - [AXI instead of CCI-P](#overviewopaeportaxivsccip)
     - [Directory Structure](#overviewdirstr)
     - [Development Tools](#overviewdevtools)
 2. [Getting Started](#gettingstarted)
@@ -10,10 +14,22 @@
 # Overview of opae-xilinx
 The purpose of this project is to port [OPAE](https://01.org/opae) to Xilinx FPGA devices. 
 
+<a name="overviewopaeorig"></a>
+## The original OPAE and FPGA accelerator:
+![Alt text](./doc/pics/OPAE_1.jpg)
+
+<a name="overviewopaeport"></a>
+## The ported OPAE and FPGA accelerator:
+![Alt text](./doc/pics/OPAE_3.jpg)
+
+<a name="overviewopaeportfimandafu"></a>
+### FIM and AFU design
 To be discoverable and managable by the OPAE PCIe driver, the design of FIU(FPGA Interface Unit, the PCIe interface logic) should be compliant with the OPAE specification. So a major design effort is put on the FIM(FPGA Interface Manager) part, which is a static 'Shell' that resides persistantly on the FPGA. 
 
 Based on the 'Shell', a design flow of the AFU(Accelerator Function Unit), which is a dynamic 'Role' that can be swapped in and out of the FPGA, is setup to utilize open-source projects supporting HLS, such as [BISMO](https://github.com/EECS-NTNU/bismo), [VTA](https://github.com/apache/incubator-tvm/tree/master/vta), [HeteroCL](https://github.com/cornell-zhang/heterocl) and [Vitis Library](https://github.com/Xilinx/Vitis_Libraries) L1 modules.
 
+<a name="overviewopaeportaxivsccip"></a>
+### AXI instead of CCI-P
 Although the OPAE specification mandates the usage of [CCI-P](https://www.intel.com/content/www/us/en/programmable/documentation/buf1506187769663.html) interface between FIM and AFU when targeting Intel MCP and DCP platforms, this project uses AXI interface instead. The inclusion of an industry standard interface makes the OPAE ecosystem truly [Vendor Neutral](https://github.com/RSPwFPGAs/opae-xilinx/wiki/The-evolution-to-Vendor-Neutral-OPAE) and makes the many IPs targeting ASIC designs available to FPGA designer, such as [MatchLib](https://github.com/NVlabs/matchlib).
 
 <a name="overviewdirstr"></a>

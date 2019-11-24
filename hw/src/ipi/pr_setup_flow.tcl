@@ -11,7 +11,7 @@ set_param project.enableprflowIPI true
 
 
 # create shell bd
-source ../../src/ipi/fim_debug.bd.tcl
+source [lindex $argv 2]
 current_bd_design [get_bd_designs shell_region]
 # add external debug_bridge port
 make_bd_intf_pins_external  [get_bd_intf_pins FIM/FME/debug_bridge_0/m1_bscan]

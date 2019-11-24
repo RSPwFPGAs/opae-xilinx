@@ -1,5 +1,5 @@
 # create shell bd
-source ../../src/ipi/fim_debug.bd.tcl
+source [lindex $argv 0]
 
 current_bd_design [get_bd_designs shell_region]
 

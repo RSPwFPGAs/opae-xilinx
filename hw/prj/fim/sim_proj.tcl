@@ -27,6 +27,7 @@ add_files -fileset sim_1 -norecurse {\
  ../../src/sim/pcie_rp_vip_pipe/src/board.v}
 set_property top board [get_filesets sim_1]
 set_property top_lib xil_defaultlib [get_filesets sim_1]
+set_property XELAB.MT_LEVEL off [get_filesets sim_1]
 
 
 generate_target Simulation [get_files ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/shell_region/shell_region.bd]

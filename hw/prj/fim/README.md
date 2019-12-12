@@ -12,9 +12,16 @@ To edit the FIM design
 >    write_bd_tcl -f -no_ip_version ../../src/ipi/fim_debug.bd.tcl
 >   ```
 
-
 To simulate the FIM design
 >
 >   ```bash
 >    make build-sim
 >   ```
+
+To simulate the FIM design with QEMU
+>
+>   ```bash
+>    make build-cosim
+>   ```
+
+

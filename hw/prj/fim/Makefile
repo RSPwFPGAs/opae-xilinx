@@ -18,7 +18,13 @@ build-edt:
 build-sim: 
 	vivado -mode batch -source sim_proj.tcl -tclargs $(FIM_SRC_FILE)
 
+build-cosim: 
+	vivado -mode batch -source cosim_proj.tcl -tclargs $(FIM_SRC_FILE)
+	bash cosim_dpi.sh
+
 clean:
-	rm vivado* *webtalk* -f
-	rm .Xil proj_* hd_visual output -rf
+	bash cleanup.sh
+	#rm vivado* *webtalk* -f
+	#rm .Xil proj_* hd_visual output -rf
+
 

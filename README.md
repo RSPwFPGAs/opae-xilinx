@@ -55,7 +55,7 @@ A full system simulation, which involves application/driver software code and FI
 │       ├── hdl
 │       ├── ip
 │       ├── ipi
-|       ├── qemu_hdl_cosim
+│       ├── qemu_hdl_cosim
 │       └── sim
 └── sw
 ```

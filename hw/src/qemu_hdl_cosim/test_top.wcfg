@@ -3,30 +3,31 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="../xsim/test_top.wdb" id="1">
+      <db_ref path="test_top.wdb" id="1">
          <top_modules>
             <top_module name="axi_bram_ctrl_funcs" />
-            <top_module name="axi_dma_pkg" />
+            <top_module name="comp_defs" />
             <top_module name="glbl" />
             <top_module name="ipif_pkg" />
             <top_module name="lib_pkg" />
-            <top_module name="lmb_bram_if_funcs" />
-            <top_module name="mdm_funcs" />
+            <top_module name="shell_region_system_management_wiz_0_0_family_support" />
+            <top_module name="shell_region_system_management_wiz_0_0_ipif_pkg" />
+            <top_module name="shell_region_system_management_wiz_0_0_proc_common_pkg" />
             <top_module name="test_top" />
             <top_module name="vcomponents" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="72687083759fs"></ZoomEndTime>
-      <Cursor1Time time="32925555000fs"></Cursor1Time>
+      <ZoomStartTime time="2875212678000fs"></ZoomStartTime>
+      <ZoomEndTime time="2878144678001fs"></ZoomEndTime>
+      <Cursor1Time time="2876608678000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="230"></NameColumnWidth>
-      <ValueColumnWidth column_width="87"></ValueColumnWidth>
+      <ValueColumnWidth column_width="83"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="136" />
+   <WVObjectSize size="131" />
    <wvobject type="logic" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/i_axi_ctl_aclk">
       <obj_property name="ElementShortName">i_axi_ctl_aclk</obj_property>
       <obj_property name="ObjectShortName">i_axi_ctl_aclk</obj_property>
@@ -56,8 +57,8 @@
       <obj_property name="ObjectShortName">o_m_arid[2:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/o_m_araddr">
-      <obj_property name="ElementShortName">o_m_araddr[63:0]</obj_property>
-      <obj_property name="ObjectShortName">o_m_araddr[63:0]</obj_property>
+      <obj_property name="ElementShortName">o_m_araddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">o_m_araddr[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/o_m_arlen">
       <obj_property name="ElementShortName">o_m_arlen[7:0]</obj_property>
@@ -128,28 +129,8 @@
       <obj_property name="ObjectShortName">o_m_awid[2:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/o_m_awaddr">
-      <obj_property name="ElementShortName">o_m_awaddr[63:0]</obj_property>
-      <obj_property name="ObjectShortName">o_m_awaddr[63:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/inst/o_m_awaddr">
-      <obj_property name="ElementShortName">o_m_awaddr[63:0]</obj_property>
-      <obj_property name="ObjectShortName">o_m_awaddr[63:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/inst/axi4_m_w_inst/o_m_awaddr">
       <obj_property name="ElementShortName">o_m_awaddr[31:0]</obj_property>
       <obj_property name="ObjectShortName">o_m_awaddr[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/inst/axi4_m_w_inst/r_addr">
-      <obj_property name="ElementShortName">r_addr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">r_addr[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/inst/axi4_m_w_inst/n_addr">
-      <obj_property name="ElementShortName">n_addr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">n_addr[31:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/inst/axi4_m_w_inst/req_addr">
-      <obj_property name="ElementShortName">req_addr[31:0]</obj_property>
-      <obj_property name="ObjectShortName">req_addr[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/o_m_awlen">
       <obj_property name="ElementShortName">o_m_awlen[7:0]</obj_property>
@@ -236,8 +217,8 @@
       <obj_property name="ObjectShortName">i_s_arid[2:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/i_s_araddr">
-      <obj_property name="ElementShortName">i_s_araddr[63:0]</obj_property>
-      <obj_property name="ObjectShortName">i_s_araddr[63:0]</obj_property>
+      <obj_property name="ElementShortName">i_s_araddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_s_araddr[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/i_s_arlen">
       <obj_property name="ElementShortName">i_s_arlen[7:0]</obj_property>
@@ -308,8 +289,8 @@
       <obj_property name="ObjectShortName">i_s_awid[2:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/i_s_awaddr">
-      <obj_property name="ElementShortName">i_s_awaddr[63:0]</obj_property>
-      <obj_property name="ObjectShortName">i_s_awaddr[63:0]</obj_property>
+      <obj_property name="ElementShortName">i_s_awaddr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i_s_awaddr[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/i_s_awlen">
       <obj_property name="ElementShortName">i_s_awlen[7:0]</obj_property>

@@ -6,12 +6,12 @@
 #include <zmq.h>
 
 // DEVICE SPECS
-#define ACC_VENDOR_ID (0x1337)
-#define ACC_DEVICE_ID (0x0001)
+#define ACC_VENDOR_ID (0x8086)
+#define ACC_DEVICE_ID (0x09c4)
 
 // BAR REGION OFFSET
-#define BAR_OFFSET_BAR0 (0xE0000000U)
-#define BAR_OFFSET_BAR2 (0xC0000000U)
+#define BAR_OFFSET_BAR0 (0x00000000U)
+#define BAR_OFFSET_BAR2 (0x00000000U)
 // Size of BAR regions
 #define REGION_SIZE_BAR0 (512 * (1 << 20)) // 512mb
 #define REGION_SIZE_BAR2 (1 * (1 << 30))   // 1g

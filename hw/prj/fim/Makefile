@@ -16,7 +16,7 @@ build-edt:
 	vivado -mode gui   -source edt_proj.tcl -tclargs $(FIM_SRC_FILE)
 
 build-sim: 
-	vivado -mode batch -source sim_proj.tcl -tclargs $(FIM_SRC_FILE)
+	vivado -mode gui   -source sim_proj.tcl -tclargs $(FIM_SRC_FILE)
 
 build-cosim: 
 	vivado -mode batch -source cosim_proj.tcl -tclargs $(FIM_SRC_FILE)

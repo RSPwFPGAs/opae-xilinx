@@ -21,13 +21,28 @@ connect_bd_net [get_bd_pins FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/i_axi_ctl_a
 assign_bd_address
 
 
+# add axi_vip
+create_bd_cell -type ip -vlnv xilinx.com:ip:axi_vip:1.1 FIM/FIU/axi_vip_0
+delete_bd_objs [get_bd_intf_nets FIM/FIU/S01_AXI_1]
+connect_bd_intf_net [get_bd_intf_pins FIM/FIU/jtag_axi_0/M_AXI] [get_bd_intf_pins FIM/FIU/axi_vip_0/S_AXI]
+connect_bd_intf_net [get_bd_intf_pins FIM/FIU/axi_vip_0/M_AXI] -boundary_type upper [get_bd_intf_pins FIM/FIU/axi_interconnect_0/S01_AXI]
+connect_bd_net [get_bd_pins FIM/FIU/axi_vip_0/aclk] [get_bd_pins FIM/FIU/pcie_axi_bridge/axi_aclk_port_data]
+connect_bd_net [get_bd_pins FIM/FIU/axi_vip_0/aresetn] [get_bd_pins FIM/FIU/pcie_axi_bridge/axi_aresetn_port_data]
+
+save_bd_design
+validate_bd_design
+
+
 # prepare simulation files
 make_wrapper -files [get_files ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/shell_region/shell_region.bd] -top
 add_files -norecurse           ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/shell_region/hdl/shell_region_wrapper.v
 
 set_property SOURCE_SET sources_1 [get_filesets sim_1]
 add_files -fileset sim_1 -norecurse {../../src/qemu_hdl_cosim/test_top.v}
+set_property FILE_TYPE SystemVerilog [get_files ../../src/qemu_hdl_cosim/test_top.v]
 set_property top test_top [get_filesets sim_1]
+add_files -fileset sim_1 -norecurse {../../src/sim/axi_vip/axi_vip_0_passthrough_mst_stimulus.sv}
+set_property file_type {Verilog Header} [get_files  ../../src/sim/axi_vip/axi_vip_0_passthrough_mst_stimulus.sv]
 set_property top_lib xil_defaultlib [get_filesets sim_1]
 
 update_compile_order -fileset sources_1

@@ -1,5 +1,9 @@
 `timescale 1ns / 100ps
 
+//`include "axi_vip_0_exdes_generic.sv"
+`include "axi_vip_0_passthrough_mst_stimulus.sv"
+//`include "axi_vip_0_slv_basic_stimulus.sv"
+
 module test_top ();
 
 reg  PCIE_CLK_N;
@@ -24,6 +28,10 @@ shell_region_wrapper DUT (
   .pcie_refclk_clk_p (PCIE_CLK_P)
 );
 
+// instantiate vip master
+//  axi_vip_0_exdes_generic  generic_tb();
+  axi_vip_0_passthrough_mst_stimulus mst();
+//  axi_vip_0_slv_basic_stimulus slv();
     
 always
 begin

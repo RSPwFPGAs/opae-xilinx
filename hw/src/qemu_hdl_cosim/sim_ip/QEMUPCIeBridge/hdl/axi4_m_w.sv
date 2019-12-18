@@ -136,7 +136,7 @@ module axi4_m_w
             if ( i_m_wready ) begin
                 n_m_wvalid = 0;
                 //if ( n_len_cnt == n_len ) begin
-                //   	n_m_last = 1;
+                   	n_m_last = 0;
                    	n_write_state = WRITE_RESPONSE;
                 //end else begin
                 //	n_len_cnt = r_len_cnt + 1;

@@ -31,6 +31,12 @@ import shell_region_axi_vip_0_0_pkg::*;
 
 module axi_vip_0_passthrough_mst_stimulus();
 
+  integer file, r;
+  reg [80*8:1] command;
+  reg [31:0] data1;
+  reg [31:0] data2;
+
+
    /*************************************************************************************************
   * Declare variables which will be used in API and parital randomization for transaction generation
   * and data read back from driver.
@@ -191,25 +197,60 @@ module axi_vip_0_passthrough_mst_stimulus();
 
 //    agent.wait_mst_drivers_idle();           // Wait mst drivers are in idle then stop the simulation
 
-    mtestWID = $urandom_range(0,(1<<(0)-1)); 
-    mtestWADDR = 0;
-    mtestWBurstLength = 0;
-    mtestWDataSize = xil_axi_size_t'(xil_clog2((32)/8));
-    mtestWBurstType = XIL_AXI_BURST_TYPE_INCR;
-    mtestWData = $urandom();
-    //single write transaction filled in user inputs through API 
-    single_write_transaction_api("single write with api",
-                                 .id(mtestWID),
-                                 .addr(mtestWADDR),
-                                 .len(mtestWBurstLength), 
-                                 .size(mtestWDataSize),
-                                 .burst(mtestWBurstType),
-                                 .wuser(mtestWUSER),
-                                 .awuser(mtestAWUSER), 
-                                 .data(mtestWData)
-                                );
 
+
+//    mtestWID = $urandom_range(0,(1<<(0)-1)); 
+//    mtestWADDR = 0;
+//    mtestWBurstLength = 0;
+//    mtestWDataSize = xil_axi_size_t'(xil_clog2((32)/8));
+//    mtestWBurstType = XIL_AXI_BURST_TYPE_INCR;
+//    mtestWData = $urandom();
+//    //single write transaction filled in user inputs through API 
+//    single_write_transaction_api("single write with api",
+//                                 .id(mtestWID),
+//                                 .addr(mtestWADDR),
+//                                 .len(mtestWBurstLength), 
+//                                 .size(mtestWDataSize),
+//                                 .burst(mtestWBurstType),
+//                                 .wuser(mtestWUSER),
+//                                 .awuser(mtestAWUSER), 
+//                                 .data(mtestWData)
+//                                );
+
+//    agent.wait_mst_drivers_idle();           // Wait mst drivers are in idle then stop the simulation
+    
+    
+    
+    file = $fopen("debug_trace.txt","r");
+    if (file == 0)
+    begin
+        $display("Failed to open debug_trace playback file!");
+    end
+    
+    while (!$feof(file))
+    begin
+        r = $fscanf(file, " %s %h %h\n", command, data1, data2);
+        case (command)
+        "rd":
+        begin
+            //cpu_rd(data1);
+            $display("trace_rd mem[%8h] = %8h", data1, data2);
+        end
+        "wr":
+        begin
+            //cpu_wr(data1,data2);
+            debug_trace_wr(data1,data2);
+            $display("trace_wr mem[%8h] = %8h", data1, data2);
+        end
+        default:
+            $display("Trace Playback Unknown command '%0s'", command);
+        endcase
+    end
+
+    $fclose(file);    
+    
     agent.wait_mst_drivers_idle();           // Wait mst drivers are in idle then stop the simulation
+    
    
 //    if(generic_tb.error_cnt ==0) begin
 //      $display("EXAMPLE TEST DONE : Test Completed Successfully");
@@ -218,6 +259,19 @@ module axi_vip_0_passthrough_mst_stimulus();
 //    end 
     //$finish;
   end
+  
+  task debug_trace_wr(input bit[31:0] addr, input bit[31:0] data);
+      single_write_transaction_api("single write with api",
+                                     .id(0),
+                                     .addr(addr),
+                                     .len(0), 
+                                     .size(xil_axi_size_t'(xil_clog2((32)/8))),
+                                     .burst(XIL_AXI_BURST_TYPE_INCR),
+                                     .wuser(0),
+                                     .awuser(0), 
+                                     .data(data)
+                                    );
+  endtask : debug_trace_wr
 
   /*************************************************************************************************
   * Fully randomization of transaction

@@ -114,7 +114,13 @@ module axi4_m_w
                 //$display("V: Q->H WR: addr: %h", n_addr);
                 n_write_state = WRITE_DATA;
                 n_m_awvalid = 1;
-                n_len_cnt = 0;
+                n_m_wvalid = 1;
+                for ( i=0; i<STBW; i=i+1 ) begin
+                    n_m_wdata[(i*8)+:8] = r_data[(STBW*r_len_cnt)+i];
+                end
+                n_m_wstrb = r_strb[r_len_cnt];
+                n_m_last = 1;
+		n_len_cnt = 0;
                 n_addr = req_addr;
                 n_size = req_size;
                 n_len  = req_len;
@@ -123,25 +129,18 @@ module axi4_m_w
             end
         end // case: WRITE_IDLE
 
-        WRITE_DATA: begin
+        WRITE_DATA: begin    
             if ( i_m_awready ) begin
                 n_m_awvalid = 0;
             end   
             if ( i_m_wready ) begin
-                n_m_wvalid = 1;
-                
-                for ( i=0; i<STBW; i=i+1 ) begin
-                    n_m_wdata[(i*8)+:8] = r_data[(STBW*r_len_cnt)+i];
-                end
-
-                n_m_wstrb = r_strb[r_len_cnt];
-
-                if ( n_len_cnt == n_len ) begin
-                   	n_m_last = 1;
+                n_m_wvalid = 0;
+                //if ( n_len_cnt == n_len ) begin
+                //   	n_m_last = 1;
                    	n_write_state = WRITE_RESPONSE;
-                end else begin
-                	n_len_cnt = r_len_cnt + 1;
-                end
+                //end else begin
+                //	n_len_cnt = r_len_cnt + 1;
+                //end
 
             end // if ( i_m_wready )
         end // case: WRITE_DATA

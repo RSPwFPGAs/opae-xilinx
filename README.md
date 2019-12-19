@@ -41,7 +41,7 @@ A full-system simulation, which involves application/driver software code and FI
 ![Alt text](./doc/pics/opae_scan_cmd_list.png)
 
 
-### OPAE-scan behaviour wave form in QEMU-HDL co-simulation:
+### OPAE-scan AXI-bus transaction waveform in QEMU-HDL co-simulation:
 ![Alt text](./doc/pics/opae_scan_sim_wave.png)
 
 

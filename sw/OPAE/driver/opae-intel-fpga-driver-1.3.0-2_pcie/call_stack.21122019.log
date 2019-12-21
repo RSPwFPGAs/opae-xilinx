@@ -1,0 +1,81 @@
+[ 3164.496887] pr_info LOG: ccidrv_exit
+[ 3164.508360] LOG: call_stack: ccidrv_init
+[ 3164.508362] Intel(R) FPGA PCIe Driver: Version 0.14.0
+[ 3164.509049] LOG: call_stack: cci_pci_probe
+[ 3164.509110] intel-fpga-pci 0000:00:04.0: PCIE AER unavailable -5.
+[ 3164.509658] LOG: call_stack: create_init_drvdata
+[ 3164.509660] LOG: call_stack: cci_pci_alloc_irq
+[ 3164.509661] LOG: call_stack: cci_pci_create_feature_devs
+[ 3164.509662] LOG: call_stack: build_info_alloc_and_init
+[ 3164.509663] LOG: call_stack: fpga_create_parent_dev
+[ 3164.510358] LOG: call_stack: parse_start
+[ 3164.510360] LOG: call_stack: parse_start_from
+[ 3164.510361] LOG: call_stack: cci_pci_ioremap_bar
+[ 3164.510378] LOG: call_stack: parse_feature_list
+[ 3164.510379] LOG: call_stack: parse_feature_list, for_loop
+[ 3164.510380] LOG: call_stack: parse_feature
+[ 3168.808960] LOG: call_stack: parse_feature_fiu
+[ 3168.846852] LOG: call_stack: parse_feature_fme
+[ 3168.846854] LOG: call_stack: build_info_create_dev
+[ 3168.846858] LOG: call_stack: build_info_commit_dev
+[ 3168.848637] LOG: call_stack: create_feature_instance
+[ 3168.873730] LOG: call_stack: build_info_add_sub_feature
+[ 3168.990392] LOG: call_stack: parse_feature_list, for_loop
+[ 3168.990396] LOG: call_stack: parse_feature
+[ 3169.027101] LOG: call_stack: parse_feature_private
+[ 3169.063371] LOG: call_stack: feature_dev_id_type
+[ 3169.063373] LOG: call_stack: parse_feature_fme_private
+[ 3169.101454] LOG: call_stack: parse_feature_irqs
+[ 3169.137824] LOG: call_stack: create_feature_instance
+[ 3169.164397] LOG: call_stack: build_info_add_sub_feature
+[ 3169.200684] LOG: call_stack: parse_feature_list, for_loop
+[ 3169.200687] LOG: call_stack: parse_feature
+[ 3169.236838] LOG: call_stack: parse_feature_private
+[ 3169.272675] LOG: call_stack: feature_dev_id_type
+[ 3169.272677] LOG: call_stack: parse_feature_fme_private
+[ 3169.307880] LOG: call_stack: parse_feature_irqs
+[ 3169.341995] LOG: call_stack: create_feature_instance
+[ 3169.367006] LOG: call_stack: build_info_add_sub_feature
+[ 3169.401096] LOG: call_stack: parse_feature_list, for_loop
+[ 3169.401099] LOG: call_stack: parse_feature
+[ 3169.435048] LOG: call_stack: parse_feature_private
+[ 3169.469225] LOG: call_stack: feature_dev_id_type
+[ 3169.469227] LOG: call_stack: parse_feature_fme_private
+[ 3169.505153] LOG: call_stack: parse_feature_irqs
+[ 3169.538877] LOG: call_stack: create_feature_instance
+[ 3169.564072] LOG: call_stack: build_info_add_sub_feature
+[ 3169.598041] LOG: call_stack: parse_feature_list, for_loop
+[ 3169.598044] LOG: call_stack: parse_feature
+[ 3169.631885] LOG: call_stack: parse_feature_private
+[ 3169.665872] LOG: call_stack: feature_dev_id_type
+[ 3169.665874] LOG: call_stack: parse_feature_fme_private
+[ 3169.699932] LOG: call_stack: parse_feature_irqs
+[ 3169.733590] LOG: call_stack: create_feature_instance
+[ 3169.758658] LOG: call_stack: build_info_add_sub_feature
+[ 3169.798620] LOG: call_stack: parse_feature_list, for_loop
+[ 3169.798624] LOG: call_stack: parse_feature
+[ 3169.847494] LOG: call_stack: parse_feature_private
+[ 3169.892370] LOG: call_stack: feature_dev_id_type
+[ 3169.892372] LOG: call_stack: parse_feature_fme_private
+[ 3169.927063] LOG: call_stack: parse_feature_irqs
+[ 3169.927065] LOG: call_stack: create_feature_instance
+[ 3169.952536] LOG: call_stack: build_info_add_sub_feature
+[ 3169.986672] LOG: call_stack: parse_feature_list, for_loop
+[ 3169.986676] LOG: call_stack: parse_feature
+[ 3170.046030] intel-fpga-pci 0000:00:04.0: Feature Type 0 is not supported.
+[ 3170.080957] LOG: call_stack: parse_ports_from_fme
+[ 3170.115547] LOG: call_stack: parse_switch_to
+[ 3170.115551] LOG: call_stack: parse_start_from
+[ 3170.115552] LOG: call_stack: cci_pci_ioremap_bar
+[ 3170.116699] intel-fpga-pci 0000:00:04.0: can't ioremap BAR 2: [??? 0x00000000 flags 0x0]
+[ 3170.116702] intel-fpga-pci 0000:00:04.0: can't ioremap memory from BAR 2.
+[ 3170.117230] LOG: call_stack: build_info_free
+[ 3170.117232] LOG: call_stack: remove_all_devs
+[ 3170.117234] LOG: call_stack: remove_parent_dev
+[ 3170.118146] LOG: call_stack: feature_dev_id_type
+[ 3170.118150] LOG: call_stack: cci_pci_free_irq
+[ 3170.118151] LOG: call_stack: destroy_drvdata
+[ 3170.118152] LOG: call_stack: cci_pci_remove_port_devs
+[ 3170.118152] LOG: call_stack: cci_pci_release_regions
+[ 3170.118571] intel-fpga-pci: probe of 0000:00:04.0 failed with error -12
+

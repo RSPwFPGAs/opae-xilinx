@@ -1,0 +1,113 @@
+[ 1592.224004] LOG: call_stack: ccidrv_exit
+[ 1592.225415] LOG: call_stack: fpga_ids_destroy
+[ 1592.235633] LOG: call_stack: ccidrv_init
+[ 1592.235635] Intel(R) FPGA PCIe Driver: Version 0.14.0
+[ 1592.235637] LOG: call_stack: fpga_ids_init
+[ 1592.236337] LOG: call_stack: cci_pci_probe
+[ 1592.236393] intel-fpga-pci 0000:00:04.0: PCIE AER unavailable -5.
+[ 1592.236940] LOG: call_stack: create_init_drvdata
+[ 1592.236941] LOG: call_stack: alloc_fpga_id
+[ 1592.236943] LOG: call_stack: cci_pci_alloc_irq
+[ 1592.236944] LOG: call_stack: cci_pci_create_feature_devs
+[ 1592.236945] LOG: call_stack: build_info_alloc_and_init
+[ 1592.236945] LOG: call_stack: fpga_create_parent_dev
+[ 1592.238111] LOG: call_stack: parse_start
+[ 1592.238112] LOG: call_stack: parse_start_from
+[ 1592.238113] LOG: call_stack: cci_pci_ioremap_bar
+[ 1592.238132] LOG: call_stack: parse_feature_list
+[ 1592.238133] LOG: call_stack: parse_feature_list, for_loop
+[ 1592.238133] LOG: call_stack: parse_feature
+[ 1592.238134] LOG: readq: header.csr = readq(hdr);
+[ 1596.998257] LOG: call_stack: parse_feature_fiu
+[ 1596.998261] LOG: readq: header.csr = readq(hdr);
+[ 1597.032777] LOG: call_stack: parse_feature_fme
+[ 1597.032781] LOG: call_stack: build_info_create_dev
+[ 1597.032782] LOG: call_stack: build_info_commit_dev
+[ 1597.034548] LOG: call_stack: alloc_fpga_id
+[ 1597.034553] LOG: call_stack: create_feature_instance
+[ 1597.058177] LOG: call_stack: build_info_add_sub_feature
+[ 1597.091447] LOG: readq: fiu_header.csr = readq(&fiu_hdr->csr);
+[ 1597.125301] LOG: readq: header.csr = readq(hdr);
+[ 1597.159130] LOG: call_stack: parse_feature_list, for_loop
+[ 1597.159134] LOG: call_stack: parse_feature
+[ 1597.159134] LOG: readq: header.csr = readq(hdr);
+[ 1597.194251] LOG: call_stack: parse_feature_private
+[ 1597.194253] LOG: readq: header.csr = readq(hdr);
+[ 1597.231156] LOG: call_stack: feature_dev_id_type
+[ 1597.231158] LOG: call_stack: parse_feature_fme_private
+[ 1597.231161] LOG: readq: header.csr = readq(hdr);
+[ 1597.267350] LOG: call_stack: parse_feature_irqs
+[ 1597.304565] LOG: call_stack: create_feature_instance
+[ 1597.335266] LOG: call_stack: build_info_add_sub_feature
+[ 1597.335271] LOG: readq: header.csr = readq(hdr);
+[ 1597.370722] LOG: call_stack: parse_feature_list, for_loop
+[ 1597.370725] LOG: call_stack: parse_feature
+[ 1597.370726] LOG: readq: header.csr = readq(hdr);
+[ 1597.405711] LOG: call_stack: parse_feature_private
+[ 1597.405712] LOG: readq: header.csr = readq(hdr);
+[ 1597.441247] LOG: call_stack: feature_dev_id_type
+[ 1597.441249] LOG: call_stack: parse_feature_fme_private
+[ 1597.441252] LOG: readq: header.csr = readq(hdr);
+[ 1597.477094] LOG: call_stack: parse_feature_irqs
+[ 1597.512510] LOG: call_stack: create_feature_instance
+[ 1597.538849] LOG: call_stack: build_info_add_sub_feature
+[ 1597.538853] LOG: readq: header.csr = readq(hdr);
+[ 1597.574195] LOG: call_stack: parse_feature_list, for_loop
+[ 1597.574199] LOG: call_stack: parse_feature
+[ 1597.574200] LOG: readq: header.csr = readq(hdr);
+[ 1597.613486] LOG: call_stack: parse_feature_private
+[ 1597.613488] LOG: readq: header.csr = readq(hdr);
+[ 1597.650582] LOG: call_stack: feature_dev_id_type
+[ 1597.650584] LOG: call_stack: parse_feature_fme_private
+[ 1597.650587] LOG: readq: header.csr = readq(hdr);
+[ 1597.689394] LOG: call_stack: parse_feature_irqs
+[ 1597.728460] LOG: call_stack: create_feature_instance
+[ 1597.756194] LOG: call_stack: build_info_add_sub_feature
+[ 1597.756199] LOG: readq: header.csr = readq(hdr);
+[ 1597.794323] LOG: call_stack: parse_feature_list, for_loop
+[ 1597.794327] LOG: call_stack: parse_feature
+[ 1597.794328] LOG: readq: header.csr = readq(hdr);
+[ 1597.831199] LOG: call_stack: parse_feature_private
+[ 1597.831201] LOG: readq: header.csr = readq(hdr);
+[ 1597.870096] LOG: call_stack: feature_dev_id_type
+[ 1597.870097] LOG: call_stack: parse_feature_fme_private
+[ 1597.870100] LOG: readq: header.csr = readq(hdr);
+[ 1597.906512] LOG: call_stack: parse_feature_irqs
+[ 1597.942282] LOG: call_stack: create_feature_instance
+[ 1597.968758] LOG: call_stack: build_info_add_sub_feature
+[ 1597.968762] LOG: readq: header.csr = readq(hdr);
+[ 1598.012777] LOG: call_stack: parse_feature_list, for_loop
+[ 1598.012780] LOG: call_stack: parse_feature
+[ 1598.012781] LOG: readq: header.csr = readq(hdr);
+[ 1598.048858] LOG: call_stack: parse_feature_private
+[ 1598.048859] LOG: readq: header.csr = readq(hdr);
+[ 1598.084896] LOG: call_stack: feature_dev_id_type
+[ 1598.084897] LOG: call_stack: parse_feature_fme_private
+[ 1598.084900] LOG: readq: header.csr = readq(hdr);
+[ 1598.119334] LOG: call_stack: parse_feature_irqs
+[ 1598.119338] LOG: call_stack: create_feature_instance
+[ 1598.144198] LOG: call_stack: build_info_add_sub_feature
+[ 1598.144203] LOG: readq: header.csr = readq(hdr);
+[ 1598.178178] LOG: call_stack: parse_feature_list, for_loop
+[ 1598.178181] LOG: call_stack: parse_feature
+[ 1598.178182] LOG: readq: header.csr = readq(hdr);
+[ 1598.237050] intel-fpga-pci 0000:00:04.0: Feature Type 0 is not supported.
+[ 1598.237053] LOG: readq: header.csr = readq(hdr);
+[ 1598.272763] LOG: call_stack: parse_ports_from_fme
+[ 1598.272767] LOG: readq: port.csr = readq(&fme_hdr->port[i]);
+[ 1598.309697] LOG: call_stack: parse_switch_to
+[ 1598.309702] LOG: call_stack: parse_start_from
+[ 1598.309702] LOG: call_stack: cci_pci_ioremap_bar
+[ 1598.311175] intel-fpga-pci 0000:00:04.0: can't ioremap BAR 2: [??? 0x00000000 flags 0x0]
+[ 1598.311178] intel-fpga-pci 0000:00:04.0: can't ioremap memory from BAR 2.
+[ 1598.311216] LOG: call_stack: build_info_free
+[ 1598.311217] LOG: call_stack: remove_all_devs
+[ 1598.311219] LOG: call_stack: remove_parent_dev
+[ 1598.312183] LOG: call_stack: feature_dev_id_type
+[ 1598.312185] LOG: call_stack: free_fpga_id
+[ 1598.312187] LOG: call_stack: cci_pci_free_irq
+[ 1598.312188] LOG: call_stack: destroy_drvdata
+[ 1598.312189] LOG: call_stack: cci_pci_remove_port_devs
+[ 1598.312190] LOG: call_stack: cci_pci_release_regions
+[ 1598.312207] LOG: call_stack: free_fpga_id
+[ 1598.312577] intel-fpga-pci: probe of 0000:00:04.0 failed with error -12

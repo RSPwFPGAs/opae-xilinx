@@ -9,5 +9,5 @@ lsmod | grep intel-fpga-pci
 echo -e "\n\t **** Loading the pcie module \n"
 sudo insmod intel-fpga-pci.ko
 lsmod | grep intel-fpga-pci
-dmesg | tail -100
+dmesg | tail -150
 

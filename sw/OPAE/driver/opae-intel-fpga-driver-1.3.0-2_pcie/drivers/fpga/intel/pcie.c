@@ -81,6 +81,7 @@ struct cci_pci_region {
 
 static void fpga_ids_init(void)
 {
+pr_info("LOG: call_stack: %s", __func__);
 	int i;
 
 	for (i = 0; i < ARRAY_SIZE(fpga_ids); i++)
@@ -89,6 +90,7 @@ static void fpga_ids_init(void)
 
 static void fpga_ids_destroy(void)
 {
+pr_info("LOG: call_stack: %s", __func__);
 	int i;
 
 	for (i = 0; i < ARRAY_SIZE(fpga_ids); i++)
@@ -97,6 +99,7 @@ static void fpga_ids_destroy(void)
 
 static int alloc_fpga_id(enum fpga_id_type type, struct device *dev)
 {
+pr_info("LOG: call_stack: %s", __func__);
 	int id;
 
 	WARN_ON(type >= FPGA_ID_MAX);
@@ -108,6 +111,7 @@ static int alloc_fpga_id(enum fpga_id_type type, struct device *dev)
 
 static void free_fpga_id(enum fpga_id_type type, int id)
 {
+pr_info("LOG: call_stack: %s", __func__);
 	WARN_ON(type >= FPGA_ID_MAX);
 	mutex_lock(&fpga_id_mutex);
 	idr_remove(fpga_ids + type, id);
@@ -264,6 +268,7 @@ pr_info("LOG: call_stack: %s", __func__);
 					      FME_FEATURE_ID_HEADER);
 
 	mutex_lock(&drvdata->lock);
+pr_info("LOG: readq: port.csr = readq(&fme_hdr->port[port_id]);");
 	port.csr = readq(&fme_hdr->port[port_id]);
 	if (port.afu_access_control == FME_AFU_ACCESS_VF) {
 		dev_dbg(&pdev->dev, "port_%d has already been turned to VF.\n",
@@ -782,6 +787,7 @@ pr_info("LOG: call_stack: %s", __func__);
 		struct feature_port_uint *port_uint = start;
 		struct feature_port_uint_cap uint_cap;
 
+pr_info("LOG: readq: uint_cap.csr = readq(&port_uint->capability);");
 		uint_cap.csr = readq(&port_uint->capability);
 		if (uint_cap.intr_num) {
 			finfo->vec_start = uint_cap.first_vec_num;
@@ -793,6 +799,7 @@ pr_info("LOG: call_stack: %s", __func__);
 		struct feature_port_error *port_err = start;
 		struct feature_port_err_capability port_err_cap;
 
+pr_info("LOG: readq: uint_cap.csr = readq(&port_uint->capability);");
 		port_err_cap.csr = readq(&port_err->error_capability);
 		if (port_err_cap.support_intr) {
 			finfo->vec_start = port_err_cap.intr_vector_num;
@@ -804,6 +811,7 @@ pr_info("LOG: call_stack: %s", __func__);
 		struct feature_fme_err *fme_err = start;
 		struct feature_fme_error_capability fme_err_cap;
 
+pr_info("LOG: readq: fme_err_cap.csr = readq(&fme_err->fme_err_capability);");
 		fme_err_cap.csr = readq(&fme_err->fme_err_capability);
 		if (fme_err_cap.support_intr) {
 			finfo->vec_start = fme_err_cap.intr_vector_num;
@@ -825,6 +833,7 @@ static int parse_feature_fme_private(struct build_feature_devs_info *binfo,
 pr_info("LOG: call_stack: %s", __func__);
 	struct feature_header header;
 
+pr_info("LOG: readq: header.csr = readq(hdr);");
 	header.csr = readq(hdr);
 
 	if (header.id >= ARRAY_SIZE(fme_features)) {
@@ -865,6 +874,8 @@ pr_info("LOG: call_stack: %s", __func__);
 	struct feature_port_control control;
 
 	port_hdr = (struct feature_port_header *)start;
+pr_info("LOG: readq: capability.csr = readq(&port_hdr->capability);");
+pr_info("LOG: readq: control.csr = readq(&port_hdr->control);");
 	capability.csr = readq(&port_hdr->capability);
 	control.csr = readq(&port_hdr->control);
 	port_features[id].resource_size = capability.mmio_size << 10;
@@ -884,6 +895,7 @@ pr_info("LOG: call_stack: %s", __func__);
 	struct feature_header header;
 	enum port_feature_id id;
 
+pr_info("LOG: readq: header.csr = readq(hdr);");
 	header.csr = readq(hdr);
 	/*
 	 * the region of port feature id is [0x10, 0x13], + 1 to reserve 0
@@ -951,6 +963,7 @@ pr_info("LOG: call_stack: %s", __func__);
 	void __iomem *start = hdr;
 	int ret;
 
+pr_info("LOG: readq: header.csr = readq(hdr);");
 	header.csr = readq(hdr);
 
 	switch (header.id) {
@@ -975,6 +988,7 @@ pr_info("LOG: call_stack: %s", __func__);
 
 	/* Check FIU's next_afu pointer to AFU */
 	fiu_hdr = (struct feature_fiu_header *)(hdr + 1);
+pr_info("LOG: readq: fiu_header.csr = readq(&fiu_hdr->csr);");
 	fiu_header.csr = readq(&fiu_hdr->csr);
 
 	if (fiu_header.next_afu) {
@@ -995,6 +1009,7 @@ static int parse_feature_private(struct build_feature_devs_info *binfo,
 pr_info("LOG: call_stack: %s", __func__);
 	struct feature_header header;
 
+pr_info("LOG: readq: header.csr = readq(hdr);");
 	header.csr = readq(hdr);
 
 	if (!binfo->feature_dev) {
@@ -1022,6 +1037,7 @@ pr_info("LOG: call_stack: %s", __func__);
 	struct feature_header header;
 	int ret = 0;
 	
+pr_info("LOG: readq: header.csr = readq(hdr);");
 	header.csr = readq(hdr);
 
 	switch (header.type) {
@@ -1062,6 +1078,7 @@ pr_info("LOG: call_stack: %s, for_loop", __func__);
 		if (ret)
 			break;
 
+pr_info("LOG: readq: header.csr = readq(hdr);");
 		header.csr = readq(hdr);
 		if (header.eol || !header.next_header_offset)
 			break;
@@ -1085,6 +1102,7 @@ pr_info("LOG: call_stack: %s", __func__);
 	fme_hdr = binfo->pfme_hdr;
 
 	do {
+pr_info("LOG: readq: port.csr = readq(&fme_hdr->port[i]);");
 		port.csr = readq(&fme_hdr->port[i]);
 		if (!port.port_implemented)
 			break;
@@ -1255,6 +1273,7 @@ pr_info("LOG: call_stack: %s", __func__);
 
 	WARN_ON(!fme_hdr);
 
+pr_info("LOG: readq: port.csr = readq(&fme_hdr->port[port_id]);");
 	port.csr = readq(&fme_hdr->port[port_id]);
 	WARN_ON(!port.port_implemented);
 

@@ -1,4 +1,6 @@
 <span style="display: inline-block;">
+    
+The original work can be found at [qemu-hdl-cosim](https://github.com/RSPwFPGAs/qemu-hdl-cosim)
 
 # Table of Contents
 1. [Overview of qemu-hdl-cosim](#overview)

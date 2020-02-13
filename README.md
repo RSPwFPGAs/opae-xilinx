@@ -35,7 +35,7 @@ Although the OPAE specification mandates the use of [CCI-P](https://01.org/sites
 
 <a name="overviewqemusim"></a>
 ## Full-System Simulation with QEMU
-A full-system simulation, which involves application/driver software code and FIM/AFU hardware logic, not only speeds up the development and debugging process of the SW/HW interface, but also enables the evaluation of this full-stack solution without a physical FPGA acceleration card. Please take a look at [qemu-hdl-cosim](https://github.com/RSPwFPGAs/qemu-hdl-cosim) for details.
+A full-system simulation, which involves application/driver software code and FIM/AFU hardware logic, not only speeds up the development and debugging process of the SW/HW interface, but also enables the evaluation of this full-stack solution without a physical FPGA acceleration card. Please take a look at the [README](./sw/QEMU/qemu_hdl_cosim/) for details.
 
 ### OPAE-scan results in QEMU-HDL co-simulation:
 ![Alt text](./doc/pics/opae_scan_cmd_list.png)

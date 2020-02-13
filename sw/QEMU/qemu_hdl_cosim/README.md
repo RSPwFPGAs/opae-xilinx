@@ -114,7 +114,7 @@ Create a QEMU image
 
 Copy driver and application to the image
 ----------------------------
-1. Copy $COSIM_REPO_HOME/software_sorting to the image.
+1. Copy opae-intel-fpga-driver to the image.
 
 >
 >```bash

@@ -1,4 +1,4 @@
-This folder contains the pcie driver for OPAE compilant FPGA add-on cards.
+This folder contains the pcie driver for OPAE compilant FPGA add-on cards, which can be obtained from [OPAE release 1.3.0-2](https://github.com/OPAE/opae-sdk/releases/download/1.3.0-2/opae-intel-fpga-driver-1.3.0-2.tar.gz).
 
 The content of ./drivers/fpga/intel/pcie.c has been modified to print out the callstack and hardware accesses.
 

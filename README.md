@@ -6,7 +6,7 @@
     - [Ported OPAE](#overviewopaeport)
         - [FIM and AFU design](#overviewopaeportfimandafu)
         - [Using AXI instead of CCI-P](#overviewopaeportaxivsccip)
-    - [Full-System Simulation with QEMU](#overviewqemusim)
+    - [Demo: Full-System Simulation with QEMU](#overviewqemusim)
     - [Directory Structure](#overviewdirstr)
     - [Development Tools](#overviewdevtools)
 2. [Getting Started](#gettingstarted)
@@ -34,7 +34,7 @@ Based on the 'Shell', a design flow of the AFU(Accelerator Function Unit) part, 
 Although the OPAE specification mandates the use of [CCI-P](https://01.org/sites/default/files/downloads/opae/cci-p-mpf-overview.pdf) interface between FIM and AFU when targeting Intel MCP and DCP platforms, this project uses AXI interface instead. The inclusion of an industry standard interface makes the OPAE ecosystem truly [Vendor Neutral](https://github.com/RSPwFPGAs/opae-xilinx/wiki/The-evolution-to-Vendor-Neutral-OPAE) and makes the many IPs targeting ASIC designs available to FPGA designers, such as [MatchLib](https://github.com/NVlabs/matchlib) and [HLSLibs](https://github.com/hlslibs).
 
 <a name="overviewqemusim"></a>
-## Full-System Simulation with QEMU
+## Demo: Full-System Simulation with QEMU
 A full-system simulation, which involves application/driver software code and FIM/AFU hardware logic, not only speeds up the development and debugging process of the SW/HW interface, but also enables the evaluation of this full-stack solution without a physical FPGA acceleration card. Please take a look at the [README](./sw/QEMU/qemu_hdl_cosim/) for details.
 
 ### OPAE-scan results in QEMU-HDL co-simulation:

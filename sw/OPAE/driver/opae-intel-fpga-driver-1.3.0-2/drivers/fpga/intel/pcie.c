@@ -81,6 +81,7 @@ struct cci_pci_region {
 
 static void fpga_ids_init(void)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int i;
 
 	for (i = 0; i < ARRAY_SIZE(fpga_ids); i++)
@@ -89,6 +90,7 @@ static void fpga_ids_init(void)
 
 static void fpga_ids_destroy(void)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int i;
 
 	for (i = 0; i < ARRAY_SIZE(fpga_ids); i++)
@@ -97,6 +99,7 @@ static void fpga_ids_destroy(void)
 
 static int alloc_fpga_id(enum fpga_id_type type, struct device *dev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int id;
 
 	WARN_ON(type >= FPGA_ID_MAX);
@@ -108,6 +111,7 @@ static int alloc_fpga_id(enum fpga_id_type type, struct device *dev)
 
 static void free_fpga_id(enum fpga_id_type type, int id)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	WARN_ON(type >= FPGA_ID_MAX);
 	mutex_lock(&fpga_id_mutex);
 	idr_remove(fpga_ids + type, id);
@@ -117,6 +121,7 @@ static void free_fpga_id(enum fpga_id_type type, int id)
 static void cci_pci_add_port_dev(struct pci_dev *pdev,
 				 struct platform_device *port_dev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct cci_drvdata *drvdata = dev_get_drvdata(&pdev->dev);
 	struct feature_platform_data *pdata = dev_get_platdata(&port_dev->dev);
 
@@ -128,6 +133,7 @@ static void cci_pci_add_port_dev(struct pci_dev *pdev,
 
 static void cci_pci_remove_port_devs(struct pci_dev *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct cci_drvdata *drvdata = dev_get_drvdata(&pdev->dev);
 	struct feature_platform_data *pdata, *ptmp;
 
@@ -147,6 +153,7 @@ static void cci_pci_remove_port_devs(struct pci_dev *pdev)
 static struct platform_device *cci_pci_lookup_port_by_id(struct pci_dev *pdev,
 							 int port_id)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct cci_drvdata *drvdata = dev_get_drvdata(&pdev->dev);
 	struct feature_platform_data *pdata;
 
@@ -181,6 +188,7 @@ struct build_feature_devs_info {
 
 static void cci_pci_release_regions(struct pci_dev *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct cci_drvdata *drvdata = dev_get_drvdata(&pdev->dev);
 	struct cci_pci_region *tmp, *region;
 
@@ -194,12 +202,13 @@ static void cci_pci_release_regions(struct pci_dev *pdev)
 
 static void __iomem *cci_pci_ioremap_bar(struct pci_dev *pdev, int bar)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct cci_drvdata *drvdata = dev_get_drvdata(&pdev->dev);
 	struct cci_pci_region *region;
 
 	list_for_each_entry(region, &drvdata->regions, node)
 		if (region->bar == bar) {
-			dev_dbg(&pdev->dev, "BAR %d region exists\n", bar);
+			dev_info(&pdev->dev, "BAR %d region exists\n", bar);
 			return region->ioaddr;
 		}
 
@@ -221,6 +230,7 @@ static void __iomem *cci_pci_ioremap_bar(struct pci_dev *pdev, int bar)
 
 static int parse_start_from(struct build_feature_devs_info *binfo, int bar)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	binfo->ioaddr = cci_pci_ioremap_bar(binfo->pdev, bar);
 	if (!binfo->ioaddr)
 		return -ENOMEM;
@@ -232,6 +242,7 @@ static int parse_start_from(struct build_feature_devs_info *binfo, int bar)
 
 static int parse_start(struct build_feature_devs_info *binfo)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	/* fpga feature list starts from BAR 0 */
 	return parse_start_from(binfo, 0);
 }
@@ -239,11 +250,13 @@ static int parse_start(struct build_feature_devs_info *binfo)
 /* switch the memory mapping to BAR# @bar */
 static int parse_switch_to(struct build_feature_devs_info *binfo, int bar)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	return parse_start_from(binfo, bar);
 }
 
 static int attach_port_dev(struct platform_device *pdev, int port_id)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_fme_header *fme_hdr;
 	struct feature_fme_port port;
 	struct device *pci_dev = fpga_feature_dev_to_pcidev(pdev);
@@ -255,9 +268,10 @@ static int attach_port_dev(struct platform_device *pdev, int port_id)
 					      FME_FEATURE_ID_HEADER);
 
 	mutex_lock(&drvdata->lock);
+pr_info("LOG: readq: port.csr = readq(&fme_hdr->port[port_id]); ");
 	port.csr = readq(&fme_hdr->port[port_id]);
 	if (port.afu_access_control == FME_AFU_ACCESS_VF) {
-		dev_dbg(&pdev->dev, "port_%d has already been turned to VF.\n",
+		dev_info(&pdev->dev, "port_%d has already been turned to VF.\n",
 			port_id);
 		mutex_unlock(&drvdata->lock);
 		return -EBUSY;
@@ -271,12 +285,12 @@ static int attach_port_dev(struct platform_device *pdev, int port_id)
 	}
 
 	if (device_is_registered(&port_dev->dev)) {
-		dev_dbg(pci_dev, "port_%d is not released.\n", port_id);
+		dev_info(pci_dev, "port_%d is not released.\n", port_id);
 		ret = -EBUSY;
 		goto exit;
 	}
 
-	dev_dbg(pci_dev, "now re-assign port_%d:%s\n", port_id, port_dev->name);
+	dev_info(pci_dev, "now re-assign port_%d:%s\n", port_id, port_dev->name);
 
 	ret = platform_device_add(port_dev);
 	if (ret)
@@ -292,6 +306,7 @@ exit:
 
 static int detach_port_dev(struct platform_device *pdev, int port_id)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct device *dev = fpga_feature_dev_to_pcidev(pdev);
 	struct cci_drvdata *drvdata = dev_get_drvdata(dev);
 	struct platform_device *port_dev;
@@ -306,7 +321,7 @@ static int detach_port_dev(struct platform_device *pdev, int port_id)
 	}
 
 	if (!device_is_registered(&port_dev->dev)) {
-		dev_dbg(&pdev->dev,
+		dev_info(&pdev->dev,
 		   "port_%d is released or already assigned a VF.\n", port_id);
 		ret = -EBUSY;
 		goto exit;
@@ -327,6 +342,7 @@ exit:
 static int
 config_port(struct platform_device *pdev, u32 port_id, bool release)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	/* Todo: some potential check */
 	if (release)
 		return detach_port_dev(pdev, port_id);
@@ -337,6 +353,7 @@ config_port(struct platform_device *pdev, u32 port_id, bool release)
 static struct platform_device *fpga_for_each_port(struct platform_device *pdev,
 		     void *data, int (*match)(struct platform_device *, void *))
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct device *pci_dev = fpga_feature_dev_to_pcidev(pdev);
 	struct cci_drvdata *drvdata = dev_get_drvdata(pci_dev);
 	struct feature_platform_data *pdata;
@@ -358,6 +375,7 @@ exit:
 static struct build_feature_devs_info *
 build_info_alloc_and_init(struct pci_dev *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct build_feature_devs_info *binfo;
 
 	binfo = devm_kzalloc(&pdev->dev, sizeof(*binfo), GFP_KERNEL);
@@ -369,6 +387,7 @@ build_info_alloc_and_init(struct pci_dev *pdev)
 
 static enum fpga_id_type feature_dev_id_type(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	if (!strcmp(pdev->name, FPGA_FEATURE_DEV_FME))
 		return FME_ID;
 
@@ -385,6 +404,7 @@ static enum fpga_id_type feature_dev_id_type(struct platform_device *pdev)
  */
 static int build_info_commit_dev(struct build_feature_devs_info *binfo)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int ret;
 
 	if (!binfo->feature_dev)
@@ -417,6 +437,7 @@ static int
 build_info_create_dev(struct build_feature_devs_info *binfo,
 		      enum fpga_id_type type, int feature_nr, const char *name)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct platform_device *fdev;
 	struct resource *res;
 	struct feature_platform_data *pdata;
@@ -479,6 +500,7 @@ build_info_create_dev(struct build_feature_devs_info *binfo,
 
 static int remove_feature_dev(struct device *dev, void *data)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct platform_device *pdev = to_platform_device(dev);
 
 	platform_device_unregister(pdev);
@@ -487,6 +509,7 @@ static int remove_feature_dev(struct device *dev, void *data)
 
 static int remove_parent_dev(struct device *dev, void *data)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	/* remove platform devices attached in the parent device */
 	device_for_each_child(dev, NULL, remove_feature_dev);
 	device_unregister(dev);
@@ -495,12 +518,14 @@ static int remove_parent_dev(struct device *dev, void *data)
 
 static void remove_all_devs(struct pci_dev *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	/* remove parent device and all its children. */
 	device_for_each_child(&pdev->dev, NULL, remove_parent_dev);
 }
 
 static void build_info_free(struct build_feature_devs_info *binfo)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	if (!IS_ERR_OR_NULL(binfo->parent_dev))
 		remove_all_devs(binfo->pdev);
 
@@ -523,6 +548,7 @@ build_info_add_sub_feature(struct build_feature_devs_info *binfo,
 			   resource_size_t resource_size, void __iomem *start,
 			   unsigned int vec_start, unsigned int vec_cnt)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4,8,0)
 	struct cci_drvdata *drvdata = dev_get_drvdata(&binfo->pdev->dev);
 	struct msix_entry *msix_entries = drvdata->msix_entries;
@@ -705,6 +731,7 @@ static int
 create_feature_instance(struct build_feature_devs_info *binfo,
 			void __iomem *start, struct feature_info *finfo)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_header *hdr = start;
 
 	if (binfo->ioend - start < finfo->resource_size)
@@ -712,7 +739,7 @@ create_feature_instance(struct build_feature_devs_info *binfo,
 
 	if (finfo->revision_id != SKIP_REVISION_CHECK
 		&& hdr->revision > finfo->revision_id) {
-		dev_dbg(&binfo->pdev->dev,
+		dev_info(&binfo->pdev->dev,
 		"feature %s revision :default:%x, now at:%x, mis-match.\n",
 		finfo->name, finfo->revision_id, hdr->revision);
 	}
@@ -725,6 +752,7 @@ create_feature_instance(struct build_feature_devs_info *binfo,
 static int parse_feature_fme(struct build_feature_devs_info *binfo,
 			     void __iomem *start)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct cci_drvdata *drvdata = dev_get_drvdata(&binfo->pdev->dev);
 	int ret;
 
@@ -745,6 +773,7 @@ static int parse_feature_fme(struct build_feature_devs_info *binfo,
 static void parse_feature_irqs(struct build_feature_devs_info *binfo,
 			       void __iomem *start, struct feature_info *finfo)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int vec_cnt;
 
 	finfo->vec_start = 0;
@@ -758,34 +787,37 @@ static void parse_feature_irqs(struct build_feature_devs_info *binfo,
 		struct feature_port_uint *port_uint = start;
 		struct feature_port_uint_cap uint_cap;
 
+pr_info("LOG: readq: uint_cap.csr = readq(&port_uint->capability); ");
 		uint_cap.csr = readq(&port_uint->capability);
 		if (uint_cap.intr_num) {
 			finfo->vec_start = uint_cap.first_vec_num;
 			finfo->vec_cnt = uint_cap.intr_num;
 		} else
-			dev_dbg(&binfo->pdev->dev, "UAFU doesn't support interrupt\n");
+			dev_info(&binfo->pdev->dev, "UAFU doesn't support interrupt\n");
 
 	} else if (!strcmp(finfo->name, PORT_FEATURE_ERR)) {
 		struct feature_port_error *port_err = start;
 		struct feature_port_err_capability port_err_cap;
 
+pr_info("LOG: readq: uint_cap.csr = readq(&port_uint->capability); ");
 		port_err_cap.csr = readq(&port_err->error_capability);
 		if (port_err_cap.support_intr) {
 			finfo->vec_start = port_err_cap.intr_vector_num;
 			finfo->vec_cnt = 1;
 		} else
-			dev_dbg(&binfo->pdev->dev, "Port error doesn't support interrupt\n");
+			dev_info(&binfo->pdev->dev, "Port error doesn't support interrupt\n");
 
 	} else if (!strcmp(finfo->name, FME_FEATURE_GLOBAL_ERR)) {
 		struct feature_fme_err *fme_err = start;
 		struct feature_fme_error_capability fme_err_cap;
 
+pr_info("LOG: readq: fme_err_cap.csr = readq(&fme_err->fme_err_capability); ");
 		fme_err_cap.csr = readq(&fme_err->fme_err_capability);
 		if (fme_err_cap.support_intr) {
 			finfo->vec_start = fme_err_cap.intr_vector_num;
 			finfo->vec_cnt = 1;
 		} else
-			dev_dbg(&binfo->pdev->dev, "FME error doesn't support interrupt\n");
+			dev_info(&binfo->pdev->dev, "FME error doesn't support interrupt\n");
 	}
 
 	if (finfo->vec_start + finfo->vec_cnt > vec_cnt) {
@@ -798,8 +830,10 @@ static void parse_feature_irqs(struct build_feature_devs_info *binfo,
 static int parse_feature_fme_private(struct build_feature_devs_info *binfo,
 				     struct feature_header *hdr)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_header header;
 
+pr_info("LOG: readq: header.csr = readq(hdr); ");
 	header.csr = readq(hdr);
 
 	if (header.id >= ARRAY_SIZE(fme_features)) {
@@ -818,6 +852,7 @@ static int parse_feature_fme_private(struct build_feature_devs_info *binfo,
 static int parse_feature_port(struct build_feature_devs_info *binfo,
 			     void __iomem *start)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int ret;
 
 	ret = build_info_create_dev(binfo, PORT_ID, port_feature_num(),
@@ -832,15 +867,19 @@ static int parse_feature_port(struct build_feature_devs_info *binfo,
 static void enable_port_uafu(struct build_feature_devs_info *binfo,
 			     void __iomem *start)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	enum port_feature_id id = PORT_FEATURE_ID_UAFU;
 	struct feature_port_header *port_hdr;
 	struct feature_port_capability capability;
 	struct feature_port_control control;
 
 	port_hdr = (struct feature_port_header *)start;
+pr_info("LOG: readq: capability.csr = readq(&port_hdr->capability); ");
 	capability.csr = readq(&port_hdr->capability);
+pr_info("LOG: readq: control.csr = readq(&port_hdr->control); ");
 	control.csr = readq(&port_hdr->control);
 	port_features[id].resource_size = capability.mmio_size << 10;
+pr_info("port_features[%d].resource_size = 0x%x ", id, port_features[id].resource_size);
 
 	/*
 	 * From SAS spec, to Enable UAFU, we should reset related port,
@@ -853,9 +892,11 @@ static void enable_port_uafu(struct build_feature_devs_info *binfo,
 static int parse_feature_port_private(struct build_feature_devs_info *binfo,
 				      struct feature_header *hdr)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_header header;
 	enum port_feature_id id;
 
+pr_info("LOG: readq: header.csr = readq(hdr); ");
 	header.csr = readq(hdr);
 	/*
 	 * the region of port feature id is [0x10, 0x13], + 1 to reserve 0
@@ -879,9 +920,11 @@ static int parse_feature_port_private(struct build_feature_devs_info *binfo,
 static int parse_feature_port_afu(struct build_feature_devs_info *binfo,
 				  struct feature_header *hdr)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	enum port_feature_id id = PORT_FEATURE_ID_UAFU;
 	int ret;
 
+pr_info("port_features[%d].resource_size = 0x%x ", id, port_features[id].resource_size);
 	if (port_features[id].resource_size) {
 		ret = create_feature_instance(binfo, hdr, &port_features[id]);
 		port_features[id].resource_size = 0;
@@ -896,6 +939,7 @@ static int parse_feature_port_afu(struct build_feature_devs_info *binfo,
 static int parse_feature_afu(struct build_feature_devs_info *binfo,
 			     struct feature_header *hdr)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	if (!binfo->feature_dev) {
 		dev_err(&binfo->pdev->dev, "this AFU does not belong to any FIU.\n");
 		return -EINVAL;
@@ -915,11 +959,13 @@ static int parse_feature_afu(struct build_feature_devs_info *binfo,
 static int parse_feature_fiu(struct build_feature_devs_info *binfo,
 			     struct feature_header *hdr)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_header header;
 	struct feature_fiu_header *fiu_hdr, fiu_header;
 	void __iomem *start = hdr;
 	int ret;
 
+pr_info("LOG: readq: header.csr = readq(hdr); ");
 	header.csr = readq(hdr);
 
 	switch (header.id) {
@@ -938,12 +984,13 @@ static int parse_feature_fiu(struct build_feature_devs_info *binfo,
 			return ret;
 		break;
 	default:
-		dev_info(&binfo->pdev->dev, "FIU TYPE %d is not supported yet.\n",
+		dev_info(&binfo->pdev->dev, "FIU ID %d is not supported yet.\n",
 			 header.id);
 	}
 
 	/* Check FIU's next_afu pointer to AFU */
 	fiu_hdr = (struct feature_fiu_header *)(hdr + 1);
+pr_info("LOG: readq: fiu_header.csr = readq(&fiu_hdr->csr); ");
 	fiu_header.csr = readq(&fiu_hdr->csr);
 
 	if (fiu_header.next_afu) {
@@ -951,7 +998,7 @@ static int parse_feature_fiu(struct build_feature_devs_info *binfo,
 		return parse_feature_afu(binfo, start);
 	}
 
-	dev_dbg(&binfo->pdev->dev, "No AFUs detected on FIU %d\n",
+	dev_info(&binfo->pdev->dev, "No AFUs detected on FIU %d\n",
 		header.id);
 
 	return 0;
@@ -960,8 +1007,11 @@ static int parse_feature_fiu(struct build_feature_devs_info *binfo,
 static int parse_feature_private(struct build_feature_devs_info *binfo,
 				 struct feature_header *hdr)
 {
+
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_header header;
 
+pr_info("LOG: readq: header.csr = readq(hdr); ");
 	header.csr = readq(hdr);
 
 	if (!binfo->feature_dev) {
@@ -985,9 +1035,11 @@ static int parse_feature_private(struct build_feature_devs_info *binfo,
 static int parse_feature(struct build_feature_devs_info *binfo,
 			 struct feature_header *hdr)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_header header;
 	int ret = 0;
-
+	
+pr_info("LOG: readq: header.csr = readq(hdr); ");
 	header.csr = readq(hdr);
 
 	switch (header.type) {
@@ -1011,6 +1063,7 @@ static int parse_feature(struct build_feature_devs_info *binfo,
 static int
 parse_feature_list(struct build_feature_devs_info *binfo, void __iomem *start)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_header *hdr, header;
 	void __iomem *end = binfo->ioend;
 	int ret = 0;
@@ -1021,12 +1074,13 @@ parse_feature_list(struct build_feature_devs_info *binfo, void __iomem *start)
 			ret =  -EINVAL;
 			break;
 		}
-
+pr_info("LOG: call_stack: %s, for_loop", __func__);
 		hdr = (struct feature_header *)start;
 		ret = parse_feature(binfo, hdr);
 		if (ret)
 			break;
 
+pr_info("LOG: readq: header.csr = readq(hdr); ");
 		header.csr = readq(hdr);
 		if (header.eol || !header.next_header_offset)
 			break;
@@ -1037,18 +1091,20 @@ parse_feature_list(struct build_feature_devs_info *binfo, void __iomem *start)
 
 static int parse_ports_from_fme(struct build_feature_devs_info *binfo)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_fme_header *fme_hdr;
 	struct feature_fme_port port;
 	int i = 0, ret = 0;
 
 	if (binfo->pfme_hdr == NULL) {
-		dev_dbg(&binfo->pdev->dev, "VF is detected.\n");
+		dev_info(&binfo->pdev->dev, "VF is detected.\n");
 		return ret;
 	}
 
 	fme_hdr = binfo->pfme_hdr;
 
 	do {
+pr_info("LOG: readq: port.csr = readq(&fme_hdr->port[i]); ");
 		port.csr = readq(&fme_hdr->port[i]);
 		if (!port.port_implemented)
 			break;
@@ -1068,6 +1124,7 @@ static int parse_ports_from_fme(struct build_feature_devs_info *binfo)
 
 static int create_init_drvdata(struct pci_dev *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct cci_drvdata *drvdata;
 
 	drvdata = devm_kzalloc(&pdev->dev, sizeof(*drvdata), GFP_KERNEL);
@@ -1092,6 +1149,7 @@ static int create_init_drvdata(struct pci_dev *pdev)
 
 static void destroy_drvdata(struct pci_dev *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct cci_drvdata *drvdata = dev_get_drvdata(&pdev->dev);
 
 	if (drvdata->fme_dev) {
@@ -1112,6 +1170,7 @@ static struct class *fpga_class;
 
 struct device *fpga_create_parent_dev(struct pci_dev *pdev, int id)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct device *dev;
 
 	dev = device_create(fpga_class, &pdev->dev, MKDEV(0, 0), NULL,
@@ -1137,6 +1196,7 @@ struct device *fpga_create_parent_dev(struct pci_dev *pdev, int id)
 
 static int cci_pci_create_feature_devs(struct pci_dev *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct cci_drvdata *drvdata = dev_get_drvdata(&pdev->dev);
 	struct build_feature_devs_info *binfo;
 	int ret;
@@ -1205,6 +1265,7 @@ MODULE_DEVICE_TABLE(pci, cci_pcie_id_tbl);
 
 static void port_config_vf(struct device *fme_dev, int port_id, bool is_vf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_fme_header *fme_hdr;
 	struct feature_fme_port port;
 	int type = is_vf ? FME_AFU_ACCESS_VF : FME_AFU_ACCESS_PF;
@@ -1214,15 +1275,18 @@ static void port_config_vf(struct device *fme_dev, int port_id, bool is_vf)
 
 	WARN_ON(!fme_hdr);
 
+pr_info("LOG: readq: port.csr = readq(&fme_hdr->port[port_id]); ");
 	port.csr = readq(&fme_hdr->port[port_id]);
 	WARN_ON(!port.port_implemented);
 
 	port.afu_access_control = type;
+pr_info("LOG: writeq(port.csr, &fme_hdr->port[port_id]);");
 	writeq(port.csr, &fme_hdr->port[port_id]);
 }
 
 static int cci_pci_sriov_configure(struct pci_dev *pcidev, int num_vfs)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int ret;
 	int vf_ports = 0;
 	struct device *fme_dev;
@@ -1251,12 +1315,12 @@ static int cci_pci_sriov_configure(struct pci_dev *pcidev, int num_vfs)
 
 		if (!num_vfs) {
 			port_config_vf(fme_dev, id, false);
-			dev_dbg(&pcidev->dev, "port_%d is turned to PF.\n", id);
+			dev_info(&pcidev->dev, "port_%d is turned to PF.\n", id);
 			continue;
 		}
 
 		port_config_vf(fme_dev, id, true);
-		dev_dbg(&pcidev->dev, "port_%d is turned to VF.\n", id);
+		dev_info(&pcidev->dev, "port_%d is turned to VF.\n", id);
 		if (++vf_ports == num_vfs)
 			break;
 	}
@@ -1285,6 +1349,7 @@ unlock_exit:
 
 static int cci_pci_alloc_irq(struct pci_dev *pcidev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4,8,0)
 	struct cci_drvdata *drvdata = dev_get_drvdata(&pcidev->dev);
 	int i = 0;
@@ -1293,7 +1358,7 @@ static int cci_pci_alloc_irq(struct pci_dev *pcidev)
 	int ret = 0;
 
 	if (nvec <= 0) {
-		dev_dbg(&pcidev->dev, "fpga interrupt not supported\n");
+		dev_info(&pcidev->dev, "fpga interrupt not supported\n");
 		return 0;
 	}
 
@@ -1326,6 +1391,7 @@ static int cci_pci_alloc_irq(struct pci_dev *pcidev)
 
 static void cci_pci_free_irq(struct pci_dev *pcidev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4,8,0)
 	struct cci_drvdata *drvdata = dev_get_drvdata(&pcidev->dev);
 
@@ -1342,6 +1408,7 @@ static void cci_pci_free_irq(struct pci_dev *pcidev)
 static
 int cci_pci_probe(struct pci_dev *pcidev, const struct pci_device_id *pcidevid)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int ret;
 
 	ret = pci_enable_device(pcidev);
@@ -1403,6 +1470,7 @@ exit:
 static
 void cci_pci_remove(struct pci_dev *pcidev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct cci_drvdata *drvdata = dev_get_drvdata(&pcidev->dev);
 	struct feature_platform_data *pdata;
 	struct pid_info *pid;
@@ -1457,6 +1525,7 @@ static struct pci_driver cci_pci_driver = {
 
 static int __init ccidrv_init(void)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int ret;
 
 	pr_info("Intel(R) FPGA PCIe Driver: Version %s\n", DRV_VERSION);
@@ -1487,6 +1556,7 @@ exit_ids:
 
 static void __exit ccidrv_exit(void)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	pci_unregister_driver(&cci_pci_driver);
 	class_destroy(fpga_class);
 	fpga_chardev_uinit();

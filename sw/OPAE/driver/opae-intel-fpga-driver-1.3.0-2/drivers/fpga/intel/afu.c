@@ -35,10 +35,12 @@
 static ssize_t
 revision_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_header *port_hdr
 		= get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 	struct feature_header header;
 
+pr_info("LOG: readq: header.csr = readq(&port_hdr->header); ");
 	header.csr = readq(&port_hdr->header);
 
 	return scnprintf(buf, PAGE_SIZE, "%d\n", header.revision);
@@ -49,6 +51,7 @@ static DEVICE_ATTR_RO(revision);
 static ssize_t
 id_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int id = fpga_port_id(to_platform_device(dev));
 
 	return scnprintf(buf, PAGE_SIZE, "%d\n", id);
@@ -58,11 +61,13 @@ static DEVICE_ATTR_RO(id);
 static ssize_t
 ltr_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_header *port_hdr;
 	struct feature_port_control control;
 
 	port_hdr = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 
+pr_info("LOG: readq: control.csr = readq(&port_hdr->control); ");
 	control.csr = readq(&port_hdr->control);
 
 	return scnprintf(buf, PAGE_SIZE, "%d\n", control.latency_tolerance);
@@ -72,6 +77,7 @@ static DEVICE_ATTR_RO(ltr);
 static ssize_t
 ap1_event_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	struct feature_port_header *port_hdr;
 	struct feature_port_status status;
@@ -79,6 +85,7 @@ ap1_event_show(struct device *dev, struct device_attribute *attr, char *buf)
 	port_hdr = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 
 	mutex_lock(&pdata->lock);
+pr_info("LOG: readq: status.csr = readq(&port_hdr->status); ");
 	status.csr = readq(&port_hdr->status);
 	mutex_unlock(&pdata->lock);
 
@@ -89,6 +96,7 @@ static ssize_t
 ap1_event_store(struct device *dev, struct device_attribute *attr,
 		const char *buf, size_t count)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	struct feature_port_header *port_hdr;
 	struct feature_port_status status;
@@ -105,8 +113,10 @@ ap1_event_store(struct device *dev, struct device_attribute *attr,
 	port_hdr = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 
 	mutex_lock(&pdata->lock);
+pr_info("LOG: readq: status.csr = readq(&port_hdr->status); ");
 	status.csr = readq(&port_hdr->status);
 	status.ap1_event = ap1_event;
+pr_info("LOG: writeq: writeq(status.csr, &port_hdr->status); ");
 	writeq(status.csr, &port_hdr->status);
 	mutex_unlock(&pdata->lock);
 
@@ -118,6 +128,7 @@ static ssize_t
 ap2_event_show(struct device *dev, struct device_attribute *attr,
 	       char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	struct feature_port_header *port_hdr;
 	struct feature_port_status status;
@@ -125,6 +136,7 @@ ap2_event_show(struct device *dev, struct device_attribute *attr,
 	port_hdr = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 
 	mutex_lock(&pdata->lock);
+pr_info("LOG: readq: status.csr = readq(&port_hdr->status); ");
 	status.csr = readq(&port_hdr->status);
 	mutex_unlock(&pdata->lock);
 
@@ -135,6 +147,7 @@ static ssize_t
 ap2_event_store(struct device *dev, struct device_attribute *attr,
 		const char *buf, size_t count)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	struct feature_port_header *port_hdr;
 	struct feature_port_status status;
@@ -151,8 +164,10 @@ ap2_event_store(struct device *dev, struct device_attribute *attr,
 	port_hdr = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 
 	mutex_lock(&pdata->lock);
+pr_info("LOG: readq: status.csr = readq(&port_hdr->status); ");
 	status.csr = readq(&port_hdr->status);
 	status.ap2_event = ap2_event;
+pr_info("LOG: writeq: writeq(status.csr, &port_hdr->status); ");
 	writeq(status.csr, &port_hdr->status);
 	mutex_unlock(&pdata->lock);
 
@@ -163,6 +178,7 @@ static DEVICE_ATTR_RW(ap2_event);
 static ssize_t
 power_state_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	struct feature_port_header *port_hdr;
 	struct feature_port_status status;
@@ -170,6 +186,7 @@ power_state_show(struct device *dev, struct device_attribute *attr, char *buf)
 	port_hdr = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 
 	mutex_lock(&pdata->lock);
+pr_info("LOG: readq: status.csr = readq(&port_hdr->status);");
 	status.csr = readq(&port_hdr->status);
 	mutex_unlock(&pdata->lock);
 
@@ -181,6 +198,7 @@ static ssize_t
 userclk_freqcmd_show(struct device *dev, struct device_attribute *attr,
 		     char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	struct feature_port_header *port_hdr;
 	u64 userclk_freq_cmd;
@@ -188,6 +206,7 @@ userclk_freqcmd_show(struct device *dev, struct device_attribute *attr,
 	port_hdr = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 
 	mutex_lock(&pdata->lock);
+pr_info("LOG: readq: userclk_freq_cmd = readq(&port_hdr->user_clk_freq_cmd0);");
 	userclk_freq_cmd = readq(&port_hdr->user_clk_freq_cmd0);
 	mutex_unlock(&pdata->lock);
 
@@ -198,6 +217,7 @@ static ssize_t
 userclk_freqcmd_store(struct device *dev, struct device_attribute *attr,
 		      const char *buf, size_t count)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	struct feature_port_header *port_hdr;
 	u64 userclk_freq_cmd;
@@ -210,6 +230,7 @@ userclk_freqcmd_store(struct device *dev, struct device_attribute *attr,
 	port_hdr = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 
 	mutex_lock(&pdata->lock);
+pr_info("LOG: writeq: writeq(userclk_freq_cmd, &port_hdr->user_clk_freq_cmd0); ");
 	writeq(userclk_freq_cmd, &port_hdr->user_clk_freq_cmd0);
 	mutex_unlock(&pdata->lock);
 
@@ -221,6 +242,7 @@ static ssize_t
 userclk_freqcntrcmd_show(struct device *dev, struct device_attribute *attr,
 			 char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	struct feature_port_header *port_hdr;
 	u64 userclk_freqcntr_cmd;
@@ -228,6 +250,7 @@ userclk_freqcntrcmd_show(struct device *dev, struct device_attribute *attr,
 	port_hdr = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 
 	mutex_lock(&pdata->lock);
+pr_info("LOG: readq: userclk_freqcntr_cmd = readq(&port_hdr->user_clk_freq_cmd1); ");
 	userclk_freqcntr_cmd = readq(&port_hdr->user_clk_freq_cmd1);
 	mutex_unlock(&pdata->lock);
 
@@ -238,6 +261,7 @@ static ssize_t
 userclk_freqcntrcmd_store(struct device *dev, struct device_attribute *attr,
 			  const char *buf, size_t count)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	struct feature_port_header *port_hdr;
 	u64 userclk_freqcntr_cmd;
@@ -250,6 +274,7 @@ userclk_freqcntrcmd_store(struct device *dev, struct device_attribute *attr,
 	port_hdr = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 
 	mutex_lock(&pdata->lock);
+pr_info("LOG: writeq: writeq(userclk_freqcntr_cmd, &port_hdr->user_clk_freq_cmd1); ");
 	writeq(userclk_freqcntr_cmd, &port_hdr->user_clk_freq_cmd1);
 	mutex_unlock(&pdata->lock);
 
@@ -261,11 +286,13 @@ static ssize_t
 userclk_freqsts_show(struct device *dev, struct device_attribute *attr,
 		     char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_header *port_hdr;
 	u64 userclk_freq_sts;
 
 	port_hdr = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 
+pr_info("LOG: readq: userclk_freq_sts = readq(&port_hdr->user_clk_freq_sts0); ");
 	userclk_freq_sts = readq(&port_hdr->user_clk_freq_sts0);
 
 	return scnprintf(buf, PAGE_SIZE, "0x%llx\n", userclk_freq_sts);
@@ -276,11 +303,13 @@ static ssize_t
 userclk_freqcntrsts_show(struct device *dev, struct device_attribute *attr,
 			 char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_header *port_hdr;
 	u64 userclk_freqcntr_sts;
 
 	port_hdr = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_HEADER);
 
+pr_info("LOG: readq: userclk_freqcntr_sts = readq(&port_hdr->user_clk_freq_sts1); ");
 	userclk_freqcntr_sts = readq(&port_hdr->user_clk_freq_sts1);
 
 	return scnprintf(buf, PAGE_SIZE, "0x%llx\n", userclk_freqcntr_sts);
@@ -307,12 +336,13 @@ static const struct attribute *port_hdr_userclk_attrs[] = {
 
 static int port_hdr_init(struct platform_device *pdev, struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_header *port_hdr =
 		get_feature_ioaddr_by_index(&pdev->dev, PORT_FEATURE_ID_HEADER);
 	struct feature_header header;
 	int ret;
 
-	dev_dbg(&pdev->dev, "PORT HDR Init.\n");
+	dev_info(&pdev->dev, "PORT HDR Init.\n");
 
 	fpga_port_reset(pdev);
 
@@ -320,6 +350,7 @@ static int port_hdr_init(struct platform_device *pdev, struct feature *feature)
 	if (ret)
 		return ret;
 
+pr_info("LOG: readq: header.csr = readq(&port_hdr->header); ");
 	header.csr = readq(&port_hdr->header);
 	if (header.revision > 0)
 		return 0;
@@ -334,7 +365,8 @@ static int port_hdr_init(struct platform_device *pdev, struct feature *feature)
 static void port_hdr_uinit(struct platform_device *pdev,
 					struct feature *feature)
 {
-	dev_dbg(&pdev->dev, "PORT HDR UInit.\n");
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
+	dev_info(&pdev->dev, "PORT HDR UInit.\n");
 
 	sysfs_remove_files(&pdev->dev.kobj, port_hdr_userclk_attrs);
 	sysfs_remove_files(&pdev->dev.kobj, port_hdr_attrs);
@@ -344,6 +376,7 @@ static long
 port_hdr_ioctl(struct platform_device *pdev, struct feature *feature,
 					unsigned int cmd, unsigned long arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	long ret;
 
 	switch (cmd) {
@@ -354,7 +387,7 @@ port_hdr_ioctl(struct platform_device *pdev, struct feature *feature,
 			ret = -EINVAL;
 		break;
 	default:
-		dev_dbg(&pdev->dev, "%x cmd not handled", cmd);
+		dev_info(&pdev->dev, "%x cmd not handled", cmd);
 		ret = -ENODEV;
 	}
 
@@ -372,6 +405,7 @@ static struct feature_ops port_hdr_ops = {
 static ssize_t
 afu_id_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	struct feature_header *hdr =
 			get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_UAFU);
@@ -386,7 +420,9 @@ afu_id_show(struct device *dev, struct device_attribute *attr, char *buf)
 		return -EBUSY;
 	}
 
+pr_info("LOG: readq: guidl = readq(&afu_hdr->guid.b[0]); ");
 	guidl = readq(&afu_hdr->guid.b[0]);
+pr_info("LOG: readq: guidh = readq(&afu_hdr->guid.b[8]); ");
 	guidh = readq(&afu_hdr->guid.b[8]);
 	mutex_unlock(&pdata->lock);
 
@@ -401,11 +437,12 @@ static const struct attribute *port_uafu_attrs[] = {
 
 static int port_afu_init(struct platform_device *pdev, struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct resource *res = &pdev->resource[feature->resource_index];
 	u32 flags = FPGA_REGION_READ | FPGA_REGION_WRITE | FPGA_REGION_MMAP;
 	int ret;
 
-	dev_dbg(&pdev->dev, "PORT AFU Init.\n");
+	dev_info(&pdev->dev, "PORT AFU Init.\n");
 
 	ret = afu_region_add(dev_get_platdata(&pdev->dev),
 			     FPGA_PORT_INDEX_UAFU, resource_size(res),
@@ -419,7 +456,8 @@ static int port_afu_init(struct platform_device *pdev, struct feature *feature)
 static void port_afu_uinit(struct platform_device *pdev,
 					struct feature *feature)
 {
-	dev_dbg(&pdev->dev, "PORT AFU UInit.\n");
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
+	dev_info(&pdev->dev, "PORT AFU UInit.\n");
 
 	sysfs_remove_files(&pdev->dev.kobj, port_uafu_attrs);
 }
@@ -427,6 +465,7 @@ static void port_afu_uinit(struct platform_device *pdev,
 static long port_afu_set_irq(struct platform_device *pdev,
 			struct feature *feature, unsigned long arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	struct fpga_port_uafu_irq_set hdr;
 	struct fpga_afu *afu;
@@ -472,11 +511,13 @@ static struct feature_ops port_afu_ops = {
 
 static u8 port_umsg_get_num(struct device *dev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_umsg *port_umsg;
 	struct feature_port_umsg_cap capability;
 
 	port_umsg = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_UMSG);
 
+pr_info("LOG: readq: capability.csr = readq(&port_umsg->capability);");
 	capability.csr = readq(&port_umsg->capability);
 
 	return capability.umsg_allocated;
@@ -487,11 +528,13 @@ static u8 port_umsg_get_num(struct device *dev)
 
 static int port_umsg_enable(struct device *dev, bool enable)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_umsg *port_umsg;
 	struct feature_port_umsg_cap capability;
 
 	port_umsg = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_UMSG);
 
+pr_info("LOG: readq: capability.csr = readq(&port_umsg->capability);");
 	capability.csr = readq(&port_umsg->capability);
 
 	/* Return directly if UMSG is already enabled/disabled */
@@ -500,6 +543,7 @@ static int port_umsg_enable(struct device *dev, bool enable)
 		return 0;
 
 	capability.umsg_enable = enable;
+pr_info("LOG: writeq: writeq(capability.csr, &port_umsg->capability); ");
 	writeq(capability.csr, &port_umsg->capability);
 
 	/*
@@ -521,11 +565,13 @@ static int port_umsg_enable(struct device *dev, bool enable)
 
 static bool port_umsg_is_enabled(struct device *dev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_umsg *port_umsg;
 	struct feature_port_umsg_cap capability;
 
 	port_umsg = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_UMSG);
 
+pr_info("LOG: readq: capability.csr = readq(&port_umsg->capability); ");
 	capability.csr = readq(&port_umsg->capability);
 
 	return capability.umsg_enable;
@@ -533,23 +579,28 @@ static bool port_umsg_is_enabled(struct device *dev)
 
 static void port_umsg_set_mode(struct device *dev, u32 mode)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_umsg *port_umsg;
 	struct feature_port_umsg_mode umode;
 
 	port_umsg = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_UMSG);
 
+pr_info("LOG: readq: umode.csr = readq(&port_umsg->mode); ");
 	umode.csr = readq(&port_umsg->mode);
 	umode.umsg_hint_enable = mode;
+pr_info("LOG: writeq: writeq(umode.csr, &port_umsg->mode); ");
 	writeq(umode.csr, &port_umsg->mode);
 }
 
 static u64 port_umsg_get_addr(struct device *dev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_umsg *port_umsg;
 	struct feature_port_umsg_baseaddr baseaddr;
 
 	port_umsg = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_UMSG);
 
+pr_info("LOG: readq: baseaddr.csr = readq(&port_umsg->baseaddr); ");
 	baseaddr.csr = readq(&port_umsg->baseaddr);
 
 	return baseaddr.base_addr;
@@ -557,20 +608,24 @@ static u64 port_umsg_get_addr(struct device *dev)
 
 static void port_umsg_set_addr(struct device *dev, u64 iova)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_umsg *port_umsg;
 	struct feature_port_umsg_baseaddr baseaddr;
 
 	port_umsg = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_UMSG);
 
+pr_info("LOG: readq: baseaddr.csr = readq(&port_umsg->baseaddr); ");
 	baseaddr.csr = readq(&port_umsg->baseaddr);
 	baseaddr.base_addr = iova;
+pr_info("LOG: writeq: writeq(baseaddr.csr, &port_umsg->baseaddr); ");
 	writeq(baseaddr.csr, &port_umsg->baseaddr);
 }
 
 static int afu_port_umsg_enable(struct device *dev, bool enable)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	if (enable && !port_umsg_get_addr(dev)) {
-		dev_dbg(dev, "umsg base addr is not configured\n");
+		dev_info(dev, "umsg base addr is not configured\n");
 		return -EIO;
 	}
 
@@ -579,6 +634,7 @@ static int afu_port_umsg_enable(struct device *dev, bool enable)
 
 static int afu_port_umsg_set_addr(struct device *dev, u64 iova)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	struct fpga_afu *afu = fpga_pdata_get_private(pdata);
 	struct fpga_afu_dma_region *dma_region;
@@ -586,7 +642,7 @@ static int afu_port_umsg_set_addr(struct device *dev, u64 iova)
 
 	/* Make sure base addr is configured only when umsg is disabled */
 	if (port_umsg_is_enabled(dev)) {
-		dev_dbg(dev, "umsg is still enabled\n");
+		dev_info(dev, "umsg is still enabled\n");
 		return -EIO;
 	}
 
@@ -602,7 +658,7 @@ static int afu_port_umsg_set_addr(struct device *dev, u64 iova)
 		/* Check if any dma region matches with iova for umsg */
 		dma_region = afu_dma_region_find(pdata, iova, size);
 		if (!dma_region) {
-			dev_dbg(dev, "dma region not found for umsg\n");
+			dev_info(dev, "dma region not found for umsg\n");
 			return -EINVAL;
 		}
 
@@ -636,11 +692,12 @@ static int afu_port_umsg_set_addr(struct device *dev, u64 iova)
 
 static int afu_port_umsg_set_mode(struct device *dev, u32 mode)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	struct fpga_afu *afu = fpga_pdata_get_private(pdata);
 
 	if (mode >> afu->num_umsgs) {
-		dev_dbg(dev, "invaild UMsg config hint_bitmap\n");
+		dev_info(dev, "invaild UMsg config hint_bitmap\n");
 		return -EINVAL;
 	}
 
@@ -651,6 +708,7 @@ static int afu_port_umsg_set_mode(struct device *dev, u32 mode)
 
 static void afu_port_umsg_halt(struct device *dev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	if (is_feature_present(dev, PORT_FEATURE_ID_UMSG)) {
 		afu_port_umsg_enable(dev, false);
 		afu_port_umsg_set_addr(dev, 0);
@@ -661,6 +719,7 @@ static void afu_port_umsg_halt(struct device *dev)
 static long afu_umsg_ioctl_enable(struct feature_platform_data *pdata,
 				  bool enable, unsigned long arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	long ret;
 
 	if (arg)
@@ -676,6 +735,7 @@ static long afu_umsg_ioctl_enable(struct feature_platform_data *pdata,
 static long
 afu_umsg_ioctl_set_mode(struct feature_platform_data *pdata, void __user *arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_port_umsg_cfg uconfig;
 	unsigned long minsz;
 	long ret;
@@ -698,6 +758,7 @@ afu_umsg_ioctl_set_mode(struct feature_platform_data *pdata, void __user *arg)
 static long afu_umsg_ioctl_set_base_addr(struct feature_platform_data *pdata,
 						void __user *arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_port_umsg_base_addr baseaddr;
 	unsigned long minsz;
 	long ret;
@@ -719,10 +780,11 @@ static long afu_umsg_ioctl_set_base_addr(struct feature_platform_data *pdata,
 
 static int port_umsg_init(struct platform_device *pdev, struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	struct fpga_afu *afu;
 
-	dev_dbg(&pdev->dev, "PORT UMSG Init.\n");
+	dev_info(&pdev->dev, "PORT UMSG Init.\n");
 
 	mutex_lock(&pdata->lock);
 	afu = fpga_pdata_get_private(pdata);
@@ -736,13 +798,15 @@ static int port_umsg_init(struct platform_device *pdev, struct feature *feature)
 static void port_umsg_uinit(struct platform_device *pdev,
 					struct feature *feature)
 {
-	dev_dbg(&pdev->dev, "PORT UMSG UInit.\n");
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
+	dev_info(&pdev->dev, "PORT UMSG UInit.\n");
 }
 
 static long
 port_umsg_ioctl(struct platform_device *pdev, struct feature *feature,
 					unsigned int cmd, unsigned long arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	long ret;
 
@@ -756,7 +820,7 @@ port_umsg_ioctl(struct platform_device *pdev, struct feature *feature,
 	case FPGA_PORT_UMSG_SET_BASE_ADDR:
 		return afu_umsg_ioctl_set_base_addr(pdata, (void __user *)arg);
 	default:
-		dev_dbg(&pdev->dev, "%x cmd not handled", cmd);
+		dev_info(&pdev->dev, "%x cmd not handled", cmd);
 		ret = -ENODEV;
 	}
 
@@ -772,6 +836,7 @@ static struct feature_ops port_umsg_ops = {
 
 static int port_uint_init(struct platform_device *pdev, struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	struct fpga_afu *afu;
 
@@ -789,13 +854,15 @@ static int port_uint_init(struct platform_device *pdev, struct feature *feature)
 static void port_uint_uinit(struct platform_device *pdev,
 			    struct feature *feature)
 {
-	dev_dbg(&pdev->dev, "PORT UINT UInit.\n");
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
+	dev_info(&pdev->dev, "PORT UINT UInit.\n");
 }
 
 static long
 port_uint_ioctl(struct platform_device *pdev, struct feature *feature,
 		unsigned int cmd, unsigned long arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	long ret;
 
 	switch (cmd) {
@@ -803,7 +870,7 @@ port_uint_ioctl(struct platform_device *pdev, struct feature *feature,
 		ret = port_afu_set_irq(pdev, feature, arg);
 		break;
 	default:
-		dev_dbg(&pdev->dev, "%x cmd not handled", cmd);
+		dev_info(&pdev->dev, "%x cmd not handled", cmd);
 		return -ENODEV;
 	}
 	return ret;
@@ -817,10 +884,11 @@ static struct feature_ops port_uint_ops = {
 
 static int port_stp_init(struct platform_device *pdev, struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct resource *res = &pdev->resource[feature->resource_index];
 	u32 flags = FPGA_REGION_READ | FPGA_REGION_WRITE | FPGA_REGION_MMAP;
 
-	dev_dbg(&pdev->dev, "PORT STP Init.\n");
+	dev_info(&pdev->dev, "PORT STP Init.\n");
 
 	return afu_region_add(dev_get_platdata(&pdev->dev),
 			      FPGA_PORT_INDEX_STP, resource_size(res),
@@ -830,7 +898,8 @@ static int port_stp_init(struct platform_device *pdev, struct feature *feature)
 static void port_stp_uinit(struct platform_device *pdev,
 			   struct feature *feature)
 {
-	dev_dbg(&pdev->dev, "PORT STP UInit.\n");
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
+	dev_info(&pdev->dev, "PORT STP UInit.\n");
 }
 
 static struct feature_ops port_stp_ops = {
@@ -842,10 +911,11 @@ static struct feature_ops port_stp_ops = {
 static int port_iopll_init(struct platform_device *pdev,
 			   struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct pac_iopll_plat_data iopll_data;
 	struct platform_device *subdev;
 
-	dev_dbg(&pdev->dev, "PORT IOPLL Init.\n");
+	dev_info(&pdev->dev, "PORT IOPLL Init.\n");
 
 	memset(&iopll_data, 0, sizeof(iopll_data));
 	iopll_data.csr_base = feature->ioaddr + sizeof(struct feature_header);
@@ -862,9 +932,10 @@ static int port_iopll_init(struct platform_device *pdev,
 static void port_iopll_uinit(struct platform_device *pdev,
 			     struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct platform_device *subdev = feature_get_priv(feature);
 
-	dev_dbg(&pdev->dev, "PORT IOPLL UInit.\n");
+	dev_info(&pdev->dev, "PORT IOPLL UInit.\n");
 
 	feature_destroy_subdev(subdev);
 	feature_set_priv(feature, NULL);
@@ -888,6 +959,7 @@ static struct feature_driver port_feature_drvs[] = {
 
 static int afu_open(struct inode *inode, struct file *filp)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct platform_device *fdev = fpga_inode_to_feature_dev(inode);
 	struct feature_platform_data *pdata;
 	struct pid_info *pid_info, *ptmp;
@@ -928,7 +1000,7 @@ static int afu_open(struct inode *inode, struct file *filp)
 
 unlock:
 	mutex_unlock(&pdata->lock);
-	dev_dbg(&fdev->dev, "Device File Opened %d Times\n", pdata->open_count);
+	dev_info(&fdev->dev, "Device File Opened %d Times\n", pdata->open_count);
 	filp->private_data = fdev;
 
 	return 0;
@@ -936,12 +1008,13 @@ unlock:
 
 static int afu_release(struct inode *inode, struct file *filp)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct platform_device *pdev = filp->private_data;
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	struct pid_info *pid_info, *ptmp;
 	struct pid *pid;
 
-	dev_dbg(&pdev->dev, "Device File Release\n");
+	dev_info(&pdev->dev, "Device File Release\n");
 	mutex_lock(&pdata->lock);
 	__feature_dev_use_end(pdata);
 
@@ -975,6 +1048,7 @@ static int afu_release(struct inode *inode, struct file *filp)
 static long afu_ioctl_check_extension(struct feature_platform_data *pdata,
 				     unsigned long arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	/* No extension support for now */
 	return 0;
 }
@@ -982,6 +1056,7 @@ static long afu_ioctl_check_extension(struct feature_platform_data *pdata,
 static long
 afu_ioctl_get_info(struct feature_platform_data *pdata, void __user *arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_port_info info;
 	struct fpga_afu *afu;
 	unsigned long minsz;
@@ -1012,6 +1087,7 @@ afu_ioctl_get_info(struct feature_platform_data *pdata, void __user *arg)
 static long
 afu_ioctl_get_region_info(struct feature_platform_data *pdata, void __user *arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_port_region_info rinfo;
 	struct fpga_afu_region region;
 	unsigned long minsz;
@@ -1042,6 +1118,7 @@ afu_ioctl_get_region_info(struct feature_platform_data *pdata, void __user *arg)
 static long
 afu_ioctl_dma_map(struct feature_platform_data *pdata, void __user *arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_port_dma_map map;
 	unsigned long minsz;
 	long ret;
@@ -1063,7 +1140,7 @@ afu_ioctl_dma_map(struct feature_platform_data *pdata, void __user *arg)
 		return -EFAULT;
 	}
 
-	dev_dbg(&pdata->dev->dev, "dma map: ua=%llx, len=%llx, iova=%llx\n",
+	dev_info(&pdata->dev->dev, "dma map: ua=%llx, len=%llx, iova=%llx\n",
 				(unsigned long long)map.user_addr,
 				(unsigned long long)map.length,
 				(unsigned long long)map.iova);
@@ -1074,6 +1151,7 @@ afu_ioctl_dma_map(struct feature_platform_data *pdata, void __user *arg)
 static long
 afu_ioctl_dma_unmap(struct feature_platform_data *pdata, void __user *arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_port_dma_unmap unmap;
 	unsigned long minsz;
 
@@ -1090,12 +1168,13 @@ afu_ioctl_dma_unmap(struct feature_platform_data *pdata, void __user *arg)
 
 static long afu_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct platform_device *pdev = filp->private_data;
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	struct feature *f;
 	long ret;
 
-	dev_dbg(&pdev->dev, "%s cmd 0x%x\n", __func__, cmd);
+	dev_info(&pdev->dev, "%s cmd 0x%x\n", __func__, cmd);
 
 	switch (cmd) {
 	case FPGA_GET_API_VERSION:
@@ -1132,6 +1211,7 @@ static long afu_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 
 static int afu_mmap(struct file *filp, struct vm_area_struct *vma)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu_region region;
 	struct platform_device *pdev = filp->private_data;
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
@@ -1172,6 +1252,7 @@ static const struct file_operations afu_fops = {
 
 static int afu_dev_init(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu *afu;
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 
@@ -1191,6 +1272,7 @@ static int afu_dev_init(struct platform_device *pdev)
 
 static int afu_dev_destroy(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	struct fpga_afu *afu;
 
@@ -1207,9 +1289,10 @@ static int afu_dev_destroy(struct platform_device *pdev)
 
 static int afu_probe(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int ret;
 
-	dev_dbg(&pdev->dev, "%s\n", __func__);
+	dev_info(&pdev->dev, "%s\n", __func__);
 
 	ret = afu_dev_init(pdev);
 	if (ret)
@@ -1235,7 +1318,8 @@ exit:
 
 static int afu_remove(struct platform_device *pdev)
 {
-	dev_dbg(&pdev->dev, "%s\n", __func__);
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
+	dev_info(&pdev->dev, "%s\n", __func__);
 
 	fpga_dev_feature_uinit(pdev);
 	fpga_unregister_dev_ops(pdev);

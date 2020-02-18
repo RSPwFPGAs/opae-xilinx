@@ -19,6 +19,7 @@
 
 static void put_all_pages(struct page **pages, int npages)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int i;
 
 	for (i = 0; i < npages; i++)
@@ -28,6 +29,7 @@ static void put_all_pages(struct page **pages, int npages)
 
 void afu_dma_region_init(struct feature_platform_data *pdata)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu *afu = fpga_pdata_get_private(pdata);
 
 	afu->dma_regions = RB_ROOT;
@@ -35,6 +37,7 @@ void afu_dma_region_init(struct feature_platform_data *pdata)
 
 static long afu_dma_adjust_locked_vm(struct device *dev, long npages, bool incr)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	unsigned long locked, lock_limit;
 	int ret = 0;
 
@@ -59,7 +62,7 @@ static long afu_dma_adjust_locked_vm(struct device *dev, long npages, bool incr)
 		current->mm->locked_vm -= npages;
 	}
 
-	dev_dbg(dev, "[%d] RLIMIT_MEMLOCK %c%ld %ld/%ld%s\n", current->pid,
+	dev_info(dev, "[%d] RLIMIT_MEMLOCK %c%ld %ld/%ld%s\n", current->pid,
 				incr ? '+' : '-',
 				npages << PAGE_SHIFT,
 				current->mm->locked_vm << PAGE_SHIFT,
@@ -74,6 +77,7 @@ static long afu_dma_adjust_locked_vm(struct device *dev, long npages, bool incr)
 static long afu_dma_pin_pages(struct feature_platform_data *pdata,
 				struct fpga_afu_dma_region *region)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	long npages = region->length >> PAGE_SHIFT;
 	struct device *dev = &pdata->dev->dev;
 	long ret, pinned;
@@ -98,7 +102,7 @@ static long afu_dma_pin_pages(struct feature_platform_data *pdata,
 		goto err;
 	}
 
-	dev_dbg(dev, "%ld pages pinned\n", pinned);
+	dev_info(dev, "%ld pages pinned\n", pinned);
 
 	return 0;
 
@@ -113,6 +117,7 @@ err:
 static void afu_dma_unpin_pages(struct feature_platform_data *pdata,
 				struct fpga_afu_dma_region *region)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	long npages = region->length >> PAGE_SHIFT;
 	struct device *dev = &pdata->dev->dev;
 
@@ -120,11 +125,12 @@ static void afu_dma_unpin_pages(struct feature_platform_data *pdata,
 	kfree(region->pages);
 	afu_dma_adjust_locked_vm(dev, npages, false);
 
-	dev_dbg(dev, "%ld pages unpinned\n", npages);
+	dev_info(dev, "%ld pages unpinned\n", npages);
 }
 
 static bool afu_dma_check_continuous_pages(struct fpga_afu_dma_region *region)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int npages = region->length >> PAGE_SHIFT;
 	int i;
 
@@ -139,6 +145,7 @@ static bool afu_dma_check_continuous_pages(struct fpga_afu_dma_region *region)
 static bool dma_region_check_iova(struct fpga_afu_dma_region *region,
 				  u64 iova, u64 size)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	if (!size && region->iova != iova)
 		return false;
 
@@ -150,10 +157,11 @@ static bool dma_region_check_iova(struct fpga_afu_dma_region *region,
 static int afu_dma_region_add(struct feature_platform_data *pdata,
 					struct fpga_afu_dma_region *region)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu *afu = fpga_pdata_get_private(pdata);
 	struct rb_node **new, *parent = NULL;
 
-	dev_dbg(&pdata->dev->dev, "add region (iova = %llx)\n",
+	dev_info(&pdata->dev->dev, "add region (iova = %llx)\n",
 					(unsigned long long)region->iova);
 
 	new = &(afu->dma_regions.rb_node);
@@ -186,9 +194,10 @@ static int afu_dma_region_add(struct feature_platform_data *pdata,
 static void afu_dma_region_remove(struct feature_platform_data *pdata,
 					struct fpga_afu_dma_region *region)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu *afu;
 
-	dev_dbg(&pdata->dev->dev, "del region (iova = %llx)\n",
+	dev_info(&pdata->dev->dev, "del region (iova = %llx)\n",
 					(unsigned long long)region->iova);
 
 	afu = fpga_pdata_get_private(pdata);
@@ -198,6 +207,7 @@ static void afu_dma_region_remove(struct feature_platform_data *pdata,
 /* Need to be called with pdata->lock held */
 void afu_dma_region_destroy(struct feature_platform_data *pdata)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu *afu = fpga_pdata_get_private(pdata);
 	struct rb_node *node = rb_first(&afu->dma_regions);
 	struct fpga_afu_dma_region *region;
@@ -205,7 +215,7 @@ void afu_dma_region_destroy(struct feature_platform_data *pdata)
 	while (node) {
 		region = container_of(node, struct fpga_afu_dma_region, node);
 
-		dev_dbg(&pdata->dev->dev, "del region (iova = %llx)\n",
+		dev_info(&pdata->dev->dev, "del region (iova = %llx)\n",
 					(unsigned long long)region->iova);
 
 		rb_erase(node, &afu->dma_regions);
@@ -235,6 +245,7 @@ void afu_dma_region_destroy(struct feature_platform_data *pdata)
 struct fpga_afu_dma_region *
 afu_dma_region_find(struct feature_platform_data *pdata, u64 iova, u64 size)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu *afu = fpga_pdata_get_private(pdata);
 	struct rb_node *node = afu->dma_regions.rb_node;
 	struct device *dev = &pdata->dev->dev;
@@ -245,7 +256,7 @@ afu_dma_region_find(struct feature_platform_data *pdata, u64 iova, u64 size)
 		region = container_of(node, struct fpga_afu_dma_region, node);
 
 		if (dma_region_check_iova(region, iova, size)) {
-			dev_dbg(dev, "find region (iova = %llx)\n",
+			dev_info(dev, "find region (iova = %llx)\n",
 				(unsigned long long)region->iova);
 			return region;
 		}
@@ -259,7 +270,7 @@ afu_dma_region_find(struct feature_platform_data *pdata, u64 iova, u64 size)
 			break;
 	}
 
-	dev_dbg(dev, "region with iova %llx and size %llx is not found\n",
+	dev_info(dev, "region with iova %llx and size %llx is not found\n",
 		(unsigned long long)iova, (unsigned long long)size);
 	return NULL;
 }
@@ -267,12 +278,14 @@ afu_dma_region_find(struct feature_platform_data *pdata, u64 iova, u64 size)
 static struct fpga_afu_dma_region *
 afu_dma_region_find_iova(struct feature_platform_data *pdata, u64 iova)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	return afu_dma_region_find(pdata, iova, 0);
 }
 
 long afu_dma_map_region(struct feature_platform_data *pdata,
 		       u64 user_addr, u64 length, u64 *iova)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu_dma_region *region;
 	int ret;
 
@@ -346,6 +359,7 @@ free_region:
 
 long afu_dma_unmap_region(struct feature_platform_data *pdata, u64 iova)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu_dma_region *region;
 
 	mutex_lock(&pdata->lock);

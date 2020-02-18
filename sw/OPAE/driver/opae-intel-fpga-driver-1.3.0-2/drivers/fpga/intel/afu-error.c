@@ -23,6 +23,7 @@
 /* Mask / Unmask Port Errors by the Error Mask register. */
 static void port_err_mask(struct device *dev, bool mask)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_error *port_err;
 	struct feature_port_err_key err_mask;
 
@@ -33,12 +34,14 @@ static void port_err_mask(struct device *dev, bool mask)
 	else
 		err_mask.csr = 0;
 
+pr_info("LOG: writeq: writeq(err_mask.csr, &port_err->error_mask); ");
 	writeq(err_mask.csr, &port_err->error_mask);
 }
 
 /* Clear All Port Errors. */
 static int port_err_clear(struct device *dev, u64 err)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_header *port_hdr;
 	struct feature_port_error *port_err;
 	struct feature_port_err_key mask;
@@ -62,6 +65,7 @@ static int port_err_clear(struct device *dev, u64 err)
 	 */
 
 	/* If device is still in AP6 state, can not clear any error.*/
+pr_info("LOG: readq: status.csr = readq(&port_hdr->status); ");
 	status.csr = readq(&port_hdr->status);
 	if (status.power_state == PORT_POWER_STATE_AP6) {
 		dev_err(dev, "Could not clear errors, device in AP6 state.\n");
@@ -77,12 +81,16 @@ static int port_err_clear(struct device *dev, u64 err)
 	port_err_mask(dev, true);
 
 	/* Clear errors if err input matches with current port errors.*/
+pr_info("LOG: readq: mask.csr = readq(&port_err->port_error); ");
 	mask.csr = readq(&port_err->port_error);
 
 	if (mask.csr == err) {
+pr_info("LOG: writeq: writeq(mask.csr, &port_err->port_error); ");
 		writeq(mask.csr, &port_err->port_error);
 
+pr_info("LOG: readq: first.csr = readq(&port_err->port_first_error); ");
 		first.csr = readq(&port_err->port_first_error);
+pr_info("LOG: writeq: writeq(first.csr, &port_err->port_first_error); ");
 		writeq(first.csr, &port_err->port_first_error);
 	} else
 		ret = -EBUSY;
@@ -99,11 +107,13 @@ static int port_err_clear(struct device *dev, u64 err)
 static ssize_t
 revision_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_error *port_err;
 	struct feature_header header;
 
 	port_err = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_ERROR);
 
+pr_info("LOG: readq: header.csr = readq(&port_err->header); ");
 	header.csr = readq(&port_err->header);
 
 	return scnprintf(buf, PAGE_SIZE, "%d\n", header.revision);
@@ -113,11 +123,13 @@ static DEVICE_ATTR_RO(revision);
 static ssize_t
 errors_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_error *port_err;
 	struct feature_port_err_key error;
 
 	port_err = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_ERROR);
 
+pr_info("LOG: readq: error.csr = readq(&port_err->port_error); ");
 	error.csr = readq(&port_err->port_error);
 
 	return scnprintf(buf, PAGE_SIZE, "0x%llx\n",
@@ -128,11 +140,13 @@ static DEVICE_ATTR_RO(errors);
 static ssize_t
 first_error_show(struct device *dev, struct device_attribute *attr, char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_error *port_err;
 	struct feature_port_first_err_key first_error;
 
 	port_err = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_ERROR);
 
+pr_info("LOG: readq: first_error.csr = readq(&port_err->port_first_error); ");
 	first_error.csr = readq(&port_err->port_first_error);
 
 	return scnprintf(buf, PAGE_SIZE, "0x%llx\n",
@@ -143,13 +157,16 @@ static DEVICE_ATTR_RO(first_error);
 static ssize_t first_malformed_req_show(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_error *port_err;
 	struct feature_port_malformed_req0 malreq0;
 	struct feature_port_malformed_req1 malreq1;
 
 	port_err = get_feature_ioaddr_by_index(dev, PORT_FEATURE_ID_ERROR);
 
+pr_info("LOG: readq: malreq0.header_lsb = readq(&port_err->malreq0); ");
 	malreq0.header_lsb = readq(&port_err->malreq0);
+pr_info("LOG: readq: malreq1.header_msb = readq(&port_err->malreq1); ");
 	malreq1.header_msb = readq(&port_err->malreq1);
 
 	return scnprintf(buf, PAGE_SIZE, "0x%016llx%016llx\n",
@@ -161,6 +178,7 @@ static DEVICE_ATTR_RO(first_malformed_req);
 static ssize_t clear_store(struct device *dev,
 		struct device_attribute *attr, const char *buff, size_t count)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 	int ret;
 	u64 value;
@@ -197,10 +215,11 @@ static struct attribute_group port_err_attr_group = {
 
 static int port_err_init(struct platform_device *pdev, struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	struct fpga_afu *afu;
 
-	dev_dbg(&pdev->dev, "PORT ERR Init.\n");
+	dev_info(&pdev->dev, "PORT ERR Init.\n");
 
 	mutex_lock(&pdata->lock);
 	port_err_mask(&pdev->dev, false);
@@ -215,7 +234,8 @@ static int port_err_init(struct platform_device *pdev, struct feature *feature)
 static void port_err_uinit(struct platform_device *pdev,
 					struct feature *feature)
 {
-	dev_dbg(&pdev->dev, "PORT ERR UInit.\n");
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
+	dev_info(&pdev->dev, "PORT ERR UInit.\n");
 
 	sysfs_remove_group(&pdev->dev.kobj, &port_err_attr_group);
 }
@@ -223,6 +243,7 @@ static void port_err_uinit(struct platform_device *pdev,
 static long port_err_set_irq(struct platform_device *pdev,
 			     struct feature *feature, unsigned long arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	struct fpga_port_err_irq_set hdr;
 	struct fpga_afu *afu;
@@ -254,6 +275,7 @@ static long
 port_err_ioctl(struct platform_device *pdev, struct feature *feature,
 	       unsigned int cmd, unsigned long arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	long ret;
 
 	switch (cmd) {
@@ -261,7 +283,7 @@ port_err_ioctl(struct platform_device *pdev, struct feature *feature,
 		ret = port_err_set_irq(pdev, feature, arg);
 		break;
 	default:
-		dev_dbg(&pdev->dev, "%x cmd not handled", cmd);
+		dev_info(&pdev->dev, "%x cmd not handled", cmd);
 		return -ENODEV;
 	}
 

@@ -24,6 +24,7 @@ void feature_platform_data_add(struct feature_platform_data *pdata,
 			       struct feature_irq_ctx *ctx,
 			       unsigned int ctx_num)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	WARN_ON(index >= pdata->num);
 	WARN_ON(ctx_num && !ctx);
 
@@ -36,6 +37,7 @@ void feature_platform_data_add(struct feature_platform_data *pdata,
 
 int feature_platform_data_size(int num)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	return sizeof(struct feature_platform_data) +
 		num * sizeof(struct feature);
 }
@@ -43,6 +45,7 @@ int feature_platform_data_size(int num)
 struct feature_platform_data *
 feature_platform_data_alloc_and_init(struct platform_device *dev, int num)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata;
 
 	pdata = kzalloc(feature_platform_data_size(num), GFP_KERNEL);
@@ -58,22 +61,26 @@ feature_platform_data_alloc_and_init(struct platform_device *dev, int num)
 
 int fme_feature_num(void)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	return FME_FEATURE_ID_MAX;
 }
 
 int port_feature_num(void)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	return PORT_FEATURE_ID_MAX;
 }
 
 int fme_feature_to_resource_index(int feature_id)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	WARN_ON(feature_id >= FME_FEATURE_ID_MAX);
 	return feature_id;
 }
 
 void fpga_dev_feature_uinit(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature *feature;
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 
@@ -90,6 +97,7 @@ feature_instance_init(struct platform_device *pdev,
 		      struct feature_platform_data *pdata,
 		      struct feature *feature, struct feature_driver *drv)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int ret;
 
 	WARN_ON(!feature->ioaddr);
@@ -111,6 +119,7 @@ feature_instance_init(struct platform_device *pdev,
 int fpga_dev_feature_init(struct platform_device *pdev,
 			  struct feature_driver *feature_drvs)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature *feature;
 	struct feature_driver *drv = feature_drvs;
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
@@ -151,6 +160,7 @@ struct fpga_chardev_info fpga_chrdevs[] = {
 
 void fpga_chardev_uinit(void)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int i;
 
 	for (i = 0; i < FPGA_DEVT_MAX; i++)
@@ -163,6 +173,7 @@ void fpga_chardev_uinit(void)
 
 int fpga_chardev_init(void)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int i, ret;
 
 	for (i = 0; i < FPGA_DEVT_MAX; i++) {
@@ -181,6 +192,7 @@ exit:
 
 dev_t fpga_get_devt(enum fpga_devt_type type, int id)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	WARN_ON(type >= FPGA_DEVT_MAX);
 
 	return MKDEV(MAJOR(fpga_chrdevs[type].devt), id);
@@ -190,6 +202,7 @@ int fpga_register_dev_ops(struct platform_device *pdev,
 			  const struct file_operations *fops,
 			  struct module *owner)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 
 	cdev_init(&pdata->cdev, fops);
@@ -208,6 +221,7 @@ EXPORT_SYMBOL_GPL(fpga_register_dev_ops);
 
 void fpga_unregister_dev_ops(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 
 	cdev_del(&pdata->cdev);
@@ -216,6 +230,7 @@ EXPORT_SYMBOL_GPL(fpga_unregister_dev_ops);
 
 int fpga_port_id(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_header *port_hdr;
 	struct feature_port_capability capability;
 
@@ -223,6 +238,7 @@ int fpga_port_id(struct platform_device *pdev)
 					       PORT_FEATURE_ID_HEADER);
 	WARN_ON(!port_hdr);
 
+pr_info("LOG: readq: capability.csr = readq(&port_hdr->capability); ");
 	capability.csr = readq(&port_hdr->capability);
 	return capability.port_number;
 }
@@ -236,6 +252,7 @@ EXPORT_SYMBOL_GPL(fpga_port_id);
  */
 void __fpga_port_enable(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	struct feature_port_header *port_hdr;
 	struct feature_port_control control;
@@ -249,8 +266,10 @@ void __fpga_port_enable(struct platform_device *pdev)
 					       PORT_FEATURE_ID_HEADER);
 	WARN_ON(!port_hdr);
 
+pr_info("LOG: readq: control.csr = readq(&port_hdr->control); ");
 	control.csr = readq(&port_hdr->control);
 	control.port_sftrst = 0x0;
+pr_info("LOG: writeq: writeq(control.csr, &port_hdr->control); ");
 	writeq(control.csr, &port_hdr->control);
 }
 EXPORT_SYMBOL_GPL(__fpga_port_enable);
@@ -260,6 +279,7 @@ EXPORT_SYMBOL_GPL(__fpga_port_enable);
 
 int __fpga_port_disable(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	struct feature_port_header *port_hdr;
 	struct feature_port_control control;
@@ -272,8 +292,10 @@ int __fpga_port_disable(struct platform_device *pdev)
 	WARN_ON(!port_hdr);
 
 	/* Set port soft reset */
+pr_info("LOG: readq: control.csr = readq(&port_hdr->control); ");
 	control.csr = readq(&port_hdr->control);
 	control.port_sftrst = 0x1;
+pr_info("LOG: writeq: writeq(control.csr, &port_hdr->control); ");
 	writeq(control.csr, &port_hdr->control);
 
 	/*
@@ -295,6 +317,7 @@ EXPORT_SYMBOL_GPL(__fpga_port_disable);
 
 static irqreturn_t fpga_msix_handler(int irq, void *arg)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct eventfd_ctx *trigger = arg;
 
 	eventfd_signal(trigger, 1);
@@ -303,6 +326,7 @@ static irqreturn_t fpga_msix_handler(int irq, void *arg)
 
 static int fpga_set_vector_signal(struct feature *feature, int vector, int fd)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct eventfd_ctx *trigger;
 	int irq, ret;
 
@@ -348,6 +372,7 @@ static int fpga_set_vector_signal(struct feature *feature, int vector, int fd)
 int fpga_msix_set_block(struct feature *feature, unsigned int start,
 			unsigned int count, int32_t *fds)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int i, j, ret = 0;
 
 	if (start >= feature->ctx_num || start + count > feature->ctx_num)
@@ -372,9 +397,10 @@ struct platform_device *feature_create_subdev(struct platform_device *pdev,
 					      const char *name, void *data,
 					      size_t length)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct platform_device_info pdevinfo;
 
-	dev_dbg(&pdev->dev, "%s create %s subdev\n", __func__, name);
+	dev_info(&pdev->dev, "%s create %s subdev\n", __func__, name);
 
 	memset(&pdevinfo, 0, sizeof(pdevinfo));
 
@@ -390,6 +416,7 @@ EXPORT_SYMBOL_GPL(feature_create_subdev);
 
 void feature_destroy_subdev(struct platform_device *subdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	platform_device_unregister(subdev);
 }
 EXPORT_SYMBOL_GPL(feature_destroy_subdev);

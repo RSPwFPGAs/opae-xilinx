@@ -3,10 +3,12 @@
 static void port_check_reg(struct device *dev, void __iomem *addr,
 				const char *reg_name, u64 dflt)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
+pr_info("LOG: readq: value = readq(addr); ");
 	u64 value = readq(addr);
 
 	if (value != dflt)
-		dev_dbg(dev, "%s: incorrect value 0x%llx vs defautl 0x%llx\n",
+		dev_info(dev, "%s: incorrect value 0x%llx vs defautl 0x%llx\n",
 				reg_name, (unsigned long long)value,
 				(unsigned long long)dflt);
 }
@@ -33,6 +35,7 @@ struct feature_port_header hdr_dflt = {
 
 int port_hdr_test(struct platform_device *pdev, struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_header *port_hdr = feature->ioaddr;
 
 	/* Check if default value of hardware registers matches with spec */
@@ -57,7 +60,7 @@ int port_hdr_test(struct platform_device *pdev, struct feature *feature)
 	port_check_reg(&pdev->dev, &port_hdr->user_clk_freq_sts1,
 			"hdr:user_clk_sts1", hdr_dflt.user_clk_freq_sts1);
 
-	dev_dbg(&pdev->dev, "%s finished\n", __func__);
+	dev_info(&pdev->dev, "%s finished\n", __func__);
 
 	return 0;
 }
@@ -85,6 +88,7 @@ struct feature_port_error err_dflt = {
 
 int port_err_test(struct platform_device *pdev, struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_error *port_err = feature->ioaddr;
 
 	port_check_reg(&pdev->dev, &port_err->error_mask,
@@ -100,7 +104,7 @@ int port_err_test(struct platform_device *pdev, struct feature *feature)
 	port_check_reg(&pdev->dev, &port_err->port_debug,
 			"err:port_debug", err_dflt.port_debug.port_debug);
 
-	dev_dbg(&pdev->dev, "%s finished\n", __func__);
+	dev_info(&pdev->dev, "%s finished\n", __func__);
 	return 0;
 }
 
@@ -118,6 +122,7 @@ struct feature_port_umsg umsg_dflt = {
 
 int port_umsg_test(struct platform_device *pdev, struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_umsg *port_umsg = feature->ioaddr;
 
 	port_check_reg(&pdev->dev, &port_umsg->capability,
@@ -127,7 +132,7 @@ int port_umsg_test(struct platform_device *pdev, struct feature *feature)
 	port_check_reg(&pdev->dev, &port_umsg->mode,
 				"umsg:mode", umsg_dflt.mode.csr);
 
-	dev_dbg(&pdev->dev, "%s finished\n", __func__);
+	dev_info(&pdev->dev, "%s finished\n", __func__);
 	return 0;
 }
 
@@ -139,11 +144,12 @@ struct feature_port_stp stp_dflt = {
 
 int port_stp_test(struct platform_device *pdev,	struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_port_stp *port_stp = feature->ioaddr;
 
 	port_check_reg(&pdev->dev, &port_stp->stp_status,
 				"stp:stp_csr", stp_dflt.stp_status.csr);
 
-	dev_dbg(&pdev->dev, "%s finished\n", __func__);
+	dev_info(&pdev->dev, "%s finished\n", __func__);
 	return 0;
 }

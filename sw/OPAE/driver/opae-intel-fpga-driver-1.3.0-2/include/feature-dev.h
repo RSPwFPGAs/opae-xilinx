@@ -1626,6 +1626,7 @@ struct feature_platform_data {
 static inline int
 feature_dev_use_excl_begin(struct feature_platform_data *pdata)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	/*
 	 * If device file is opened with O_EXCL flag, check the open_count
 	 * and set excl_open and increate open_count to ensure exclusive use.
@@ -1644,6 +1645,7 @@ feature_dev_use_excl_begin(struct feature_platform_data *pdata)
 
 static inline int feature_dev_use_begin(struct feature_platform_data *pdata)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	mutex_lock(&pdata->lock);
 	if (pdata->excl_open || pdata->unplug) {
 		mutex_unlock(&pdata->lock);
@@ -1657,12 +1659,14 @@ static inline int feature_dev_use_begin(struct feature_platform_data *pdata)
 
 static inline void __feature_dev_use_end(struct feature_platform_data *pdata)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	pdata->excl_open = 0;
 	pdata->open_count--;
 }
 
 static inline void feature_dev_use_end(struct feature_platform_data *pdata)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	mutex_lock(&pdata->lock);
 	__feature_dev_use_end(pdata);
 	mutex_unlock(&pdata->lock);
@@ -1670,22 +1674,26 @@ static inline void feature_dev_use_end(struct feature_platform_data *pdata)
 
 static inline void feature_set_priv(struct feature *feature, void *priv)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	feature->priv = priv;
 }
 
 static inline void *feature_get_priv(struct feature *feature)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	return feature->priv;
 }
 
 static inline void
 fpga_pdata_set_private(struct feature_platform_data *pdata, void *private)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	pdata->private = private;
 }
 
 static inline void *fpga_pdata_get_private(struct feature_platform_data *pdata)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	return pdata->private;
 }
 
@@ -1786,6 +1794,7 @@ int fpga_port_id(struct platform_device *pdev);
 static inline int fpga_port_check_id(struct platform_device *pdev,
 				     void *pport_id)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	return fpga_port_id(pdev) == *(int *)pport_id;
 }
 
@@ -1794,6 +1803,7 @@ int __fpga_port_disable(struct platform_device *pdev);
 
 static inline void fpga_port_enable(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 
 	mutex_lock(&pdata->lock);
@@ -1803,6 +1813,7 @@ static inline void fpga_port_enable(struct platform_device *pdev)
 
 static inline int fpga_port_disable(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	int ret;
 
@@ -1815,9 +1826,10 @@ static inline int fpga_port_disable(struct platform_device *pdev)
 
 static inline int __fpga_port_reset(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int ret;
 
-	ret = __fpga_port_disable(pdev);
+	ret = __fpga_port_disable(pdev); ret = 0; // for now, ignore sftrst timeout. by_bibo
 	if (ret)
 		return ret;
 
@@ -1827,6 +1839,7 @@ static inline int __fpga_port_reset(struct platform_device *pdev)
 
 static inline int fpga_port_reset(struct platform_device *pdev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(&pdev->dev);
 	int ret;
 
@@ -1839,6 +1852,7 @@ static inline int fpga_port_reset(struct platform_device *pdev)
 static inline
 struct platform_device *fpga_inode_to_feature_dev(struct inode *inode)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata;
 
 	pdata = container_of(inode->i_cdev, struct feature_platform_data, cdev);
@@ -1848,6 +1862,7 @@ struct platform_device *fpga_inode_to_feature_dev(struct inode *inode)
 static inline void __iomem *
 get_feature_ioaddr_by_index(struct device *dev, int index)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct feature_platform_data *pdata = dev_get_platdata(dev);
 
 	return pdata->features[index].ioaddr;
@@ -1855,18 +1870,21 @@ get_feature_ioaddr_by_index(struct device *dev, int index)
 
 static inline bool is_feature_present(struct device *dev, int index)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	return !!get_feature_ioaddr_by_index(dev, index);
 }
 
 static inline struct device *
 fpga_feature_dev_to_pcidev(struct platform_device *dev)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	return dev->dev.parent->parent;
 }
 
 static inline struct device *
 fpga_pdata_to_pcidev(struct feature_platform_data *pdata)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	return fpga_feature_dev_to_pcidev(pdata->dev);
 }
 
@@ -1888,6 +1906,7 @@ int fpga_msix_set_block(struct feature *feature, unsigned int start,
 	int ret = -ETIMEDOUT;						     \
 	typeof(_expect) value;						     \
 	for (; wait <= _timeout; wait += _invl) {			     \
+pr_info("LOG: readq: value.csr = readq(_reg_addr); ");\
 		value.csr = readq(_reg_addr);				     \
 		if (_expect._field == value._field) {			     \
 			ret = 0;					     \

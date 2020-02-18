@@ -16,6 +16,7 @@
 
 void afu_region_init(struct feature_platform_data *pdata)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu *afu = fpga_pdata_get_private(pdata);
 
 	INIT_LIST_HEAD(&afu->regions);
@@ -26,6 +27,7 @@ void afu_region_init(struct feature_platform_data *pdata)
 static struct fpga_afu_region *get_region_by_index(struct fpga_afu *afu,
 						   u32 region_index)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu_region *region;
 
 	for_each_region(region, afu)
@@ -38,6 +40,7 @@ static struct fpga_afu_region *get_region_by_index(struct fpga_afu *afu,
 int afu_region_add(struct feature_platform_data *pdata, u32 region_index,
 		   u64 region_size, u64 phys, u32 flags)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu_region *region;
 	struct fpga_afu *afu;
 	int ret = 0;
@@ -78,6 +81,7 @@ exit:
 
 void afu_region_destroy(struct feature_platform_data *pdata)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu_region *tmp, *region;
 	struct fpga_afu *afu = fpga_pdata_get_private(pdata);
 
@@ -90,6 +94,7 @@ void afu_region_destroy(struct feature_platform_data *pdata)
 int afu_get_region_by_index(struct feature_platform_data *pdata,
 			    u32 region_index, struct fpga_afu_region *pregion)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu_region *region;
 	struct fpga_afu *afu;
 	int ret = 0;
@@ -111,6 +116,7 @@ int afu_get_region_by_offset(struct feature_platform_data *pdata,
 			    u64 offset, u64 size,
 			    struct fpga_afu_region *pregion)
 {
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	struct fpga_afu_region *region;
 	struct fpga_afu *afu;
 	int ret = 0;

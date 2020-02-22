@@ -66,6 +66,10 @@ A full-system simulation, which involves application/driver software code and FI
 │       ├── qemu_hdl_cosim
 │       └── sim
 └── sw
+    ├── OPAE
+    │   └── driver
+    └── QEMU
+        └── qemu_hdl_cosim
 ```
 
 <a name="overviewdevtools"></a>

@@ -292,11 +292,11 @@ pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	WARN_ON(!port_hdr);
 
 	/* Set port soft reset */
-pr_info("LOG: readq: control.csr = readq(&port_hdr->control); ");
 	control.csr = readq(&port_hdr->control);
+pr_info("LOG: readq: control.csr(=0x%016x) = readq(&port_hdr->control(=0x%016x)); ", control.csr, &port_hdr->control);
 	control.port_sftrst = 0x1;
-pr_info("LOG: writeq: writeq(control.csr, &port_hdr->control); ");
 	writeq(control.csr, &port_hdr->control);
+pr_info("LOG: writeq: writeq(control.csr(=0x%016x), &port_hdr->control(=0x%016x)); ", control.csr, &port_hdr->control);
 
 	/*
 	 * HW sets ack bit to 1 when all outstanding requests have been drained
@@ -304,13 +304,13 @@ pr_info("LOG: writeq: writeq(control.csr, &port_hdr->control); ");
 	 * Driver polls port_soft_reset_ack to determine if reset done by HW.
 	 */
 	control.port_sftrst_ack = 1;
-
+/*
 	if (fpga_wait_register_field(port_sftrst_ack, control,
 		&port_hdr->control, RST_POLL_TIMEOUT, RST_POLL_INVL)) {
 		dev_err(&pdev->dev, "timeout, fail to reset device\n");
 		return -ETIMEDOUT;
 	}
-
+*/
 	return 0;
 }
 EXPORT_SYMBOL_GPL(__fpga_port_disable);

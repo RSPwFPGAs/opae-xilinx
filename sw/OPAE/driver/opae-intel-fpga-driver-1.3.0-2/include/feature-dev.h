@@ -1829,7 +1829,7 @@ static inline int __fpga_port_reset(struct platform_device *pdev)
 pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
 	int ret;
 
-	ret = __fpga_port_disable(pdev); ret = 0; // for now, ignore sftrst timeout. by_bibo
+	ret = __fpga_port_disable(pdev);
 	if (ret)
 		return ret;
 
@@ -1902,12 +1902,13 @@ int fpga_msix_set_block(struct feature *feature, unsigned int start,
  */
 #define fpga_wait_register_field(_field, _expect, _reg_addr, _timeout, _invl)\
 ({									     \
+pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);  \
 	int wait = 0;							     \
 	int ret = -ETIMEDOUT;						     \
 	typeof(_expect) value;						     \
 	for (; wait <= _timeout; wait += _invl) {			     \
-pr_info("LOG: readq: value.csr = readq(_reg_addr); ");\
 		value.csr = readq(_reg_addr);				     \
+pr_info("LOG: readq: value.csr(=0x%016x) = readq(_reg_addr(=0x%016x)); ",value.csr, _reg_addr);\
 		if (_expect._field == value._field) {			     \
 			ret = 0;					     \
 			break;						     \

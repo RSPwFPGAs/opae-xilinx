@@ -543,15 +543,15 @@ pr_info("LOG: readq: capability.csr = readq(&port_umsg->capability);");
 		return 0;
 
 	capability.umsg_enable = enable;
-pr_info("LOG: writeq: writeq(capability.csr, &port_umsg->capability); ");
 	writeq(capability.csr, &port_umsg->capability);
+pr_info("LOG: writeq: writeq(capability.csr(=0x%016x), &port_umsg->capability(=0x%016x)); ", capability.csr, &port_umsg->capability);
 
 	/*
 	 * Each time umsg engine enabled/disabled, driver polls the
 	 * init_complete bit for confirmation.
 	 */
 	capability.umsg_init_complete = !!enable;
-
+/*
 	if (fpga_wait_register_field(umsg_init_complete, capability,
 				     &port_umsg->capability,
 				     UMSG_EN_POLL_TIMEOUT, UMSG_EN_POLL_INVL)) {
@@ -559,7 +559,7 @@ pr_info("LOG: writeq: writeq(capability.csr, &port_umsg->capability); ");
 					enable ? "enable" : "disable");
 		return -ETIMEDOUT;
 	}
-
+*/
 	return 0;
 }
 

@@ -4,8 +4,8 @@ static void port_check_reg(struct device *dev, void __iomem *addr,
 				const char *reg_name, u64 dflt)
 {
 pr_info("LOG: call_stack: %s: %4d: %s", __FILE__, __LINE__, __func__);
-pr_info("LOG: readq: value = readq(addr); ");
 	u64 value = readq(addr);
+pr_info("LOG: readq: value(=0x%016x) = readq(addr(=0x%016x)); ", value, addr);
 
 	if (value != dflt)
 		dev_info(dev, "%s: incorrect value 0x%llx vs defautl 0x%llx\n",

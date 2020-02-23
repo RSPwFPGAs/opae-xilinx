@@ -115,17 +115,17 @@ module axi4_m_w
                 n_write_state = WRITE_DATA;
                 n_m_awvalid = 1;
                 n_m_wvalid = 1;
+                n_data = req_data;
+                n_strb = req_strb;
                 for ( i=0; i<STBW; i=i+1 ) begin
-                    n_m_wdata[(i*8)+:8] = r_data[(STBW*r_len_cnt)+i];
+                    n_m_wdata[(i*8)+:8] = n_data[(STBW*r_len_cnt)+i];
                 end
-                n_m_wstrb = r_strb[r_len_cnt];
+                n_m_wstrb = n_strb[r_len_cnt];
                 n_m_last = 1;
 		n_len_cnt = 0;
                 n_addr = req_addr;
                 n_size = req_size;
                 n_len  = req_len;
-                n_data = req_data;
-                n_strb = req_strb;
             end
         end // case: WRITE_IDLE
 

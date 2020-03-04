@@ -1,36 +1,8 @@
 close_project -quiet
 source create_proj.tcl
 
-source ../../src/ipi/fim_setup_flow.tcl
+source ../../src/ipi/cosim_setup_flow.tcl
 
-
-# replace synthesis IP with simulation IP for PCIe 
-create_bd_cell -type ip -vlnv COMPAS:COMPAS:QEMUPCIeBridge:1.0.0 FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0
-
-delete_bd_objs [get_bd_intf_nets FIM/FIU/pcie_axi_bridge/axi_pcie3_0_M_AXI] [get_bd_intf_nets FIM/FIU/pcie_axi_bridge/S_AXI_1] [get_bd_nets FIM/FIU/pcie_axi_bridge/util_ds_buf_IBUF_OUT] [get_bd_nets FIM/FIU/pcie_axi_bridge/pcie_perstn_1] [get_bd_nets FIM/FIU/pcie_axi_bridge/util_ds_buf_IBUF_DS_ODIV2] [get_bd_nets FIM/FIU/pcie_axi_bridge/axi_pcie3_0_axi_aclk] [get_bd_nets FIM/FIU/pcie_axi_bridge/axi_pcie3_0_axi_aresetn] [get_bd_intf_nets FIM/FIU/pcie_axi_bridge/axi_pcie3_0_pcie_7x_mgt] [get_bd_cells FIM/FIU/pcie_axi_bridge/axi_pcie3_0]
-
-connect_bd_intf_net [get_bd_intf_pins FIM/FIU/pcie_axi_bridge/M_AXI] [get_bd_intf_pins FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI]
-connect_bd_intf_net [get_bd_intf_pins FIM/FIU/pcie_axi_bridge/pci_express] [get_bd_intf_pins FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/pcie_7x_mgt]
-connect_bd_net [get_bd_pins FIM/FIU/pcie_axi_bridge/axi_aclk_port_data] [get_bd_pins FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/o_axi_aclk]
-connect_bd_net [get_bd_pins FIM/FIU/pcie_axi_bridge/axi_aresetn_port_data] [get_bd_pins FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/o_axi_aresetn]
-connect_bd_intf_net [get_bd_intf_pins FIM/FIU/pcie_axi_bridge/S_AXI] [get_bd_intf_pins FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/S_AXI]
-connect_bd_net [get_bd_pins FIM/FIU/pcie_axi_bridge/pcie_perstn] [get_bd_pins FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/i_sys_rst_n]
-connect_bd_net [get_bd_pins FIM/FIU/pcie_axi_bridge/util_ds_buf/IBUF_DS_ODIV2] [get_bd_pins FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/i_refclk]
-connect_bd_net [get_bd_pins FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/i_axi_ctl_aclk] [get_bd_pins FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/o_axi_aclk]
-
-assign_bd_address
-
-
-# add axi_vip
-create_bd_cell -type ip -vlnv xilinx.com:ip:axi_vip:1.1 FIM/FIU/axi_vip_0
-delete_bd_objs [get_bd_intf_nets FIM/FIU/S01_AXI_1]
-connect_bd_intf_net [get_bd_intf_pins FIM/FIU/jtag_axi_0/M_AXI] [get_bd_intf_pins FIM/FIU/axi_vip_0/S_AXI]
-connect_bd_intf_net [get_bd_intf_pins FIM/FIU/axi_vip_0/M_AXI] -boundary_type upper [get_bd_intf_pins FIM/FIU/axi_interconnect_0/S01_AXI]
-connect_bd_net [get_bd_pins FIM/FIU/axi_vip_0/aclk] [get_bd_pins FIM/FIU/pcie_axi_bridge/axi_aclk_port_data]
-connect_bd_net [get_bd_pins FIM/FIU/axi_vip_0/aresetn] [get_bd_pins FIM/FIU/pcie_axi_bridge/axi_aresetn_port_data]
-
-save_bd_design
-validate_bd_design
 
 
 # prepare simulation files

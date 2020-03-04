@@ -1,5 +1,10 @@
 ## FPGA project for partial-reconfiguration default AFU design, depending on exported PR FIM design.
 
+call stack:
+>   ```bash
+>    make build-bin -> run_proj.tcl -> export_role.tcl -> ../../src/ipi/afu_default.bd.tcl
+>   ```
+
 To generate a Green Bitstream based on imported dcp and wrapper files from [../blue_bs](../blue_bs) project
 >
 >   ```bash

@@ -1,5 +1,10 @@
 ## FPGA project for stand-alone FIM design.
 
+call stack:
+>   ```bash
+>    make build-edt -> edt_proj.tcl -> ../../src/ipi/fim_setup_flow.tcl -> ../../src/ipi/fim_debug.bd.tcl
+>   ```
+
 To edit the FIM design
 >
 >   ```bash

@@ -1,0 +1,2 @@
+This folder contains 2 kinds of projects: editing and releasing. The editing ones are /hw/prj/fim and /hw/prj/afu for editing the FIM and AFU designs, respectively, used by develpment users. The releasing ones are /hw/prj/blue_bs and /hw/prj/green_bs for releasing the Shell(FIM) and Role(AFU) bitstreams, respectively, used by deployment users. The Blue Bitstream for Shell(FIM) design is generated once and reused by all sebsequent Green Bitstream generations, and it can be provided to the Role(AFU) develper in source form or compiled bitstream form.
+

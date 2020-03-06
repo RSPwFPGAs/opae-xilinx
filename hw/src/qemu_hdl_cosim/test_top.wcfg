@@ -23,15 +23,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="19763764706fs"></ZoomEndTime>
-      <Cursor1Time time="7636000000fs"></Cursor1Time>
+      <ZoomStartTime time="830447684fs"></ZoomStartTime>
+      <ZoomEndTime time="1220818458fs"></ZoomEndTime>
+      <Cursor1Time time="116010000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="227"></NameColumnWidth>
-      <ValueColumnWidth column_width="540"></ValueColumnWidth>
+      <ValueColumnWidth column_width="536"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="209" />
+   <WVObjectSize size="223" />
    <wvobject type="logic" fp_name="/test_top/DUT/shell_region_i/FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/i_axi_ctl_aclk">
       <obj_property name="ElementShortName">i_axi_ctl_aclk</obj_property>
       <obj_property name="ObjectShortName">i_axi_ctl_aclk</obj_property>
@@ -867,5 +867,61 @@
    <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/S_AXI_bresp">
       <obj_property name="ElementShortName">S_AXI_bresp[1:0]</obj_property>
       <obj_property name="ObjectShortName">S_AXI_bresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_rst_a">
+      <obj_property name="ElementShortName">bram_rst_a</obj_property>
+      <obj_property name="ObjectShortName">bram_rst_a</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_clk_a">
+      <obj_property name="ElementShortName">bram_clk_a</obj_property>
+      <obj_property name="ObjectShortName">bram_clk_a</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_en_a">
+      <obj_property name="ElementShortName">bram_en_a</obj_property>
+      <obj_property name="ObjectShortName">bram_en_a</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_we_a">
+      <obj_property name="ElementShortName">bram_we_a[3:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_we_a[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_addr_a">
+      <obj_property name="ElementShortName">bram_addr_a[11:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_addr_a[11:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_wrdata_a">
+      <obj_property name="ElementShortName">bram_wrdata_a[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_wrdata_a[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_rddata_a">
+      <obj_property name="ElementShortName">bram_rddata_a[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_rddata_a[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_rst_b">
+      <obj_property name="ElementShortName">bram_rst_b</obj_property>
+      <obj_property name="ObjectShortName">bram_rst_b</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_clk_b">
+      <obj_property name="ElementShortName">bram_clk_b</obj_property>
+      <obj_property name="ObjectShortName">bram_clk_b</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_en_b">
+      <obj_property name="ElementShortName">bram_en_b</obj_property>
+      <obj_property name="ObjectShortName">bram_en_b</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_we_b">
+      <obj_property name="ElementShortName">bram_we_b[3:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_we_b[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_addr_b">
+      <obj_property name="ElementShortName">bram_addr_b[11:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_addr_b[11:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_wrdata_b">
+      <obj_property name="ElementShortName">bram_wrdata_b[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_wrdata_b[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test_top/DUT/shell_region_i/AFU/AFU_core/feature_ram/axi_bram_ctrl_0/bram_rddata_b">
+      <obj_property name="ElementShortName">bram_rddata_b[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_rddata_b[31:0]</obj_property>
    </wvobject>
 </wave_config>

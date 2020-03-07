@@ -23,7 +23,7 @@
 
 #define AXI_MAX_SIZE (128)
 
-#define ADDRW (32)
+#define ADDRW (64)
 #define BUSW (32)
 
 #define ICOUNT_INIT (100000)

@@ -599,6 +599,9 @@ proc create_hier_cell_pcie_axi_bridge { parentCell nameHier } {
 
   # Create instance: QEMUPCIeBridge_0, and set properties
   set QEMUPCIeBridge_0 [ create_bd_cell -type ip -vlnv COMPAS:COMPAS:QEMUPCIeBridge QEMUPCIeBridge_0 ]
+  set_property -dict [ list \
+   CONFIG.ADRW {64} \
+ ] $QEMUPCIeBridge_0
 
   # Create instance: util_ds_buf, and set properties
   set util_ds_buf [ create_bd_cell -type ip -vlnv xilinx.com:ip:util_ds_buf util_ds_buf ]
@@ -1182,6 +1185,7 @@ proc create_hier_cell_AFU_core { parentCell nameHier } {
   # Create instance: axi_cdma_0, and set properties
   set axi_cdma_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_cdma axi_cdma_0 ]
   set_property -dict [ list \
+   CONFIG.C_ADDR_WIDTH {64} \
    CONFIG.C_INCLUDE_SG {0} \
    CONFIG.C_M_AXI_DATA_WIDTH {512} \
    CONFIG.C_M_AXI_MAX_BURST_LEN {2} \

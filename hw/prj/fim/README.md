@@ -23,10 +23,4 @@ To simulate the FIM design
 >    make build-sim
 >   ```
 
-To simulate the FIM design with QEMU
->
->   ```bash
->    make build-cosim
->   ```
-
 

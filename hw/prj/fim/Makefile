@@ -1,7 +1,6 @@
 .PHONY: all build-bin build-syn build-edt build-sim
 
 FIM_SRC_FILE=../../src/ipi/fim_debug.bd.tcl
-COSIM_SRC_FILE=../../src/ipi/cosim_default.bd.tcl
 
 all: build-bin
 
@@ -18,10 +17,6 @@ build-edt:
 
 build-sim: 
 	vivado -mode gui   -source sim_proj.tcl -tclargs $(FIM_SRC_FILE)
-
-build-cosim: 
-	vivado -mode batch -source cosim_proj.tcl -tclargs $(COSIM_SRC_FILE)
-	bash cosim_dpi.sh
 
 clean:
 	bash cleanup.sh

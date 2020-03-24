@@ -1442,7 +1442,7 @@ proc create_root_design { parentCell } {
   connect_bd_net -net sys_reset_0_1 [get_bd_ports pcie_perstn] [get_bd_pins FIM/pcie_perstn]
 
   # Create address segments
-  create_bd_addr_seg -range 0x000100000000 -offset 0x00000000 [get_bd_addr_spaces AFU/AFU_core/axi_cdma_0/Data] [get_bd_addr_segs FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/S_AXI/BAR0] SEG_QEMUPCIeBridge_0_BAR0
+  create_bd_addr_seg -range 0x00010000000000000000 -offset 0x00000000 [get_bd_addr_spaces AFU/AFU_core/axi_cdma_0/Data] [get_bd_addr_segs FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/S_AXI/BAR0] SEG_QEMUPCIeBridge_0_BAR0
   create_bd_addr_seg -range 0x00010000 -offset 0x00000000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
   create_bd_addr_seg -range 0x00001000 -offset 0x00020000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs AFU/AFU_core/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem01
   create_bd_addr_seg -range 0x00001000 -offset 0x00021000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs AFU/AFU_core/axi_cdma_0/S_AXI_LITE/Reg] SEG_axi_cdma_0_Reg

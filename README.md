@@ -46,7 +46,7 @@ A full-system simulation, which involves application/driver software code and FI
 
 
 <a name="overviewdirstr"></a>
-## Overview of Directory Structure
+## Directory Structure
 ```
 .
 ├── doc
@@ -76,7 +76,7 @@ A full-system simulation, which involves application/driver software code and FI
 ```
 
 <a name="overviewdevtools"></a>
-## Overview of Development Tools
+## Development Tools
 The FPGA projects are designed with 2018.3 release of Vivado and Vivado HLS.
 
 The FPGA platform currently supported is the [KCU105 development board](https://www.xilinx.com/products/boards-and-kits/kcu105.html) from Xilinx.
@@ -86,12 +86,13 @@ The FPGA platform currently supported is the [KCU105 development board](https://
 To get started with the design of FIM and AFU, or the generation of Blue and Green bitstreams, follow the README in ecah of the directories under [./hw/prj](./hw/prj/).
 
 # ToDo List
-1. Add Container scripts to install OPAE driver/sdk/pyopae - Clean environment.
-2. Use Verilator/GtkWave in the QEMU-HDL cosimulation - Truely open source tools based; Mixed C/Verilog simulation.
-3. Port Xilinx PR driver to OPAE - FME functionality enhancement.
-4. Add Ethernet interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
-5. Add DDR interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
-6. Add AFU BBB logic components for supporting OpenCL/SyCL/oneAPI - ?.
-7. XRT/PYNQ compliant - ?.
-8. Add AFU BBB logic components and compilation flow scripts - A synthesis flow for automatic HLS IP integration.
-9. Optimize FIM pyhsical constraints - Available area estimation for AFU.
+01. Add Container scripts to install OPAE driver/sdk/pyopae - Clean environment.
+02. Use Verilator/GtkWave in the QEMU-HDL cosimulation - Truely open source tools based; Mixed C/Verilog simulation.
+03. Port Xilinx PR driver to OPAE - FME functionality enhancement.
+04. Add Ethernet interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
+05. Add DDR interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
+06. Add AFU BBB logic components for supporting OpenCL/SyCL/oneAPI - ?.
+07. XRT/PYNQ compliant - ?.
+08. Add AFU BBB logic components and compilation flow scripts - A synthesis flow for automatic HLS IP integration.
+09. Optimize FIM pyhsical constraints - Available area estimation for AFU.
+10. Add a [RISC-V Core](https://github.com/SpinalHDL/VexRiscv) as an AXI-Lite master to the FIM - Autonomous task scheduling and hardware microservice.

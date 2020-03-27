@@ -89,7 +89,9 @@ To get started with the design of FIM and AFU, or the generation of Blue and Gre
 1. Add Container scripts to install OPAE driver/sdk/pyopae - Clean environment.
 2. Use Verilator/GtkWave in the QEMU-HDL cosimulation - Truely open source tools based; Mixed C/Verilog simulation.
 3. Port Xilinx PR driver to OPAE - FME functionality enhancement.
-4. Add Ethernet interface to the FIM - FIM functionality enhancement.
-5. Add DDR interface to the FIM - FIM functionality enhancement.
-6. Add logic components for supporting OpenCL/SyCL/oneAPI - ?.
+4. Add Ethernet interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
+5. Add DDR interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
+6. Add AFU BBB logic components for supporting OpenCL/SyCL/oneAPI - ?.
 7. XRT/PYNQ compliant - ?.
+8. Add AFU BBB logic components and compilation flow scripts - A synthesis flow for automatic HLS IP integration.
+9. Optimize FIM pyhsical constraints - Available area estimation for AFU.

@@ -95,4 +95,4 @@ To get started with the design of FIM and AFU, or the generation of Blue and Gre
 07. XRT/PYNQ compliant - ?.
 08. Add AFU BBB logic components and compilation flow scripts - A synthesis flow for automatic HLS IP integration.
 09. Optimize FIM pyhsical constraints - Available area estimation for AFU.
-10. Add a [RISC-V Core](https://github.com/SpinalHDL/VexRiscv) as an AXI-Lite master to the FIM - Autonomous task scheduling and hardware microservice.
+10. Add a [RISC-V Core](https://github.com/SpinalHDL/VexRiscv) as an AXI-Lite master in the FIM - Autonomous task scheduling and hardware microservice.

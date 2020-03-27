@@ -50,13 +50,15 @@ A full-system simulation, which involves application/driver software code and FI
 ```
 .
 ├── doc
+│   ├── dmesg
 │   └── pics
 ├── hw
 │   ├── prj
 │   │   ├── afu
 │   │   ├── blue_bs
 │   │   ├── fim
-│   │   └── green_bs
+│   │   ├── green_bs
+│   │   └── qemu_hdl_cosim
 │   └── src
 │       ├── afu_customize
 │       ├── constraints
@@ -67,7 +69,8 @@ A full-system simulation, which involves application/driver software code and FI
 │       └── sim
 └── sw
     ├── OPAE
-    │   └── driver
+    │   ├── driver
+    │   └── sdk
     └── QEMU
         └── qemu_hdl_cosim
 ```
@@ -81,3 +84,12 @@ The FPGA platform currently supported is the [KCU105 development board](https://
 <a name="gettingstarted"></a>
 # Getting Started
 To get started with the design of FIM and AFU, or the generation of Blue and Green bitstreams, follow the README in ecah of the directories under [./hw/prj](./hw/prj/).
+
+# ToDo List
+1. Add Container scripts to install OPAE driver/sdk/pyopae - Clean environment.
+2. Use Verilator/GtkWave in the QEMU-HDL cosimulation - Truely open source tools based; Mixed C/Verilog simulation.
+3. Port Xilinx PR driver to OPAE - FME functionality enhancement.
+4. Add Ethernet interface to the FIM - FIM functionality enhancement.
+5. Add DDR interface to the FIM - FIM functionality enhancement.
+6. Add logic components for supporting OpenCL/SyCL/oneAPI - ?.
+7. XRT/PYNQ compliant - ?.

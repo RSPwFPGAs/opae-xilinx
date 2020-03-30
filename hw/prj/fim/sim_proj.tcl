@@ -4,8 +4,7 @@ source create_proj.tcl
 source ../../src/ipi/fim_setup_flow.tcl
 
 
-#make_bd_intf_pins_external  [get_bd_intf_pins FIM/FIU/pcie_axi_bridge/pcie3_ultrascale_0/pcie3_ext_pipe_ep]
-make_bd_intf_pins_external  [get_bd_intf_pins FIM/FIU/pcie_axi_bridge/axi_pcie3_0/pcie3_ext_pipe_ep]
+make_bd_intf_pins_external  [get_bd_intf_pins FIM/FIU/pcie_axi_bridge/*/pcie3_ext_pipe_ep]
 
 make_wrapper -files [get_files ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/shell_region/shell_region.bd] -top
 add_files -norecurse           ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/shell_region/hdl/shell_region_wrapper.v
@@ -32,24 +31,7 @@ set_property XELAB.MT_LEVEL off [get_filesets sim_1]
 
 generate_target Simulation [get_files ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/shell_region/shell_region.bd]
 export_ip_user_files -of_objects [get_files ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/shell_region/shell_region.bd] -no_script -sync -force -quiet
-export_simulation -of_objects [get_files ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/shell_region/shell_region.bd] -directory ./proj_opae_fim/proj_opae_fim.ip_user_files/sim_scripts -ip_user_files_dir ./proj_opae_fim/proj_opae_fim.ip_user_files -ipstatic_source_dir ./proj_opae_fim/proj_opae_fim.ip_user_files/ipstatic -lib_map_path [list {modelsim=./proj_opae_fim/proj_opae_fim.cache/compile_simlib/modelsim} {questa=./proj_opae_fim/proj_opae_fim.cache/compile_simlib/questa} {ies=./proj_opae_fim/proj_opae_fim.cache/compile_simlib/ies} {xcelium=./proj_opae_fim/proj_opae_fim.cache/compile_simlib/xcelium} {vcs=./proj_opae_fim/proj_opae_fim.cache/compile_simlib/vcs} {riviera=./proj_opae_fim/proj_opae_fim.cache/compile_simlib/riviera}] -use_ip_compiled_libs -force -quiet
+export_simulation  -force -directory "./" -simulator xsim  -ip_user_files_dir "./proj_opae_fim/proj_opae_fim.ip_user_files" -ipstatic_source_dir "./proj_opae_fim/proj_opae_fim.ip_user_files/ipstatic" -use_ip_compiled_libs
 
 
-launch_simulation
-restart
-restart
-
-open_wave_config {../../src/sim/board_behav.wcfg}
-
-
-open_vcd
-log_vcd -quiet [get_object -r /board/EP/shell_region_i/shell/shell_core/pcie_2_axilite_0/*]
-log_vcd -quiet [get_object -r /board/RP/tx_usrapp/*]
-log_vcd -quiet [get_object -r /board/RP/pcie3_uscale_rp_top_i/*]
-#log_vcd -quiet [get_object /board/EP/*]
-#log_vcd -quiet [get_object /board/RP/*]
-
-
-run 1 ms
-close_vcd
 

@@ -16,9 +16,10 @@ build-edt:
 	vivado -mode gui   -source edt_proj.tcl -tclargs $(FIM_SRC_FILE)
 
 build-sim: 
-	vivado -mode gui   -source sim_proj.tcl -tclargs $(FIM_SRC_FILE)
+	vivado -mode batch -source sim_proj.tcl -tclargs $(FIM_SRC_FILE)
+	bash sim_fim.sh $(FIM_SRC_FILE)
 
-clean:
+lean:
 	bash cleanup.sh
 	#rm vivado* *webtalk* -f
 	#rm .Xil proj_* hd_visual output -rf

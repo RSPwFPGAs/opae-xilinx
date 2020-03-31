@@ -2,13 +2,17 @@
 cd xsim
 rm xsim* webtalk* -rf
 
-echo $1
-if   [ $1 == ../../src/ipi/fim_debug.bd.tcl ]; then
+fim_path=${1:-../../src/ipi/fim_debug.bd.tcl}
+echo $fim_path
+if   [ $fim_path == ../../src/ipi/fim_debug.bd.tcl ]; then
 	sed -i 's/xvlog_opts="--relax/xvlog_opts="--relax -d PCIE_INST=axi_pcie3_0.inst.pcie3_ip_i/g' board.sh
-elif [ $1 == ../../src/ipi/fim_default.bd.tcl ]; then
+elif [ $fim_path == ../../src/ipi/fim_default.bd.tcl ]; then
 	sed -i 's/xvlog_opts="--relax/xvlog_opts="--relax -d PCIE_INST=pcie3_ultrascale_0/g' board.sh
 fi
-sed -i 's/xsim board/xsim -gui -view ..\/..\/..\/src\/sim\/board_behav.wcfg board/g' board.sh
+sed -i 's/xsim board/xsim -gui -view ..\/..\/..\/src\/sim\/board_behav.wcfg -onerror stop -onfinish stop board/g' board.sh
+
+sed -i 's/quit/ /g' cmd.tcl
+
 bash board.sh -noclean_files
 
 cd ..

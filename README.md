@@ -40,10 +40,16 @@ A full-system simulation, which involves application/driver software code and FI
 ### OPAE-scan results in QEMU-HDL co-simulation:
 ![Alt text](./doc/pics/opae_scan_cmd_list.png)
 
-
 ### OPAE-scan AXI-bus transaction waveform in QEMU-HDL co-simulation:
 ![Alt text](./doc/pics/opae_scan_sim_wave.png)
 
+### OPAE sample: Hello_FPGA
+[Application of Xilinx CDMA IP in C.](./sw/OPAE/sdk/opae-sdk-1.3.0-2/samples)
+
+[Application of Xilinx CDMA IP in Python.](./sw/OPAE/sdk/opae-sdk-1.3.0-2/pyopae/samples)
+
+### Docker script to setup an OPAE run-time environment
+[Build OPAE on Ubuntu 16.04 from source code.](./sw/Docker/shared/install_opae_src.sh)
 
 <a name="overviewdirstr"></a>
 ## Directory Structure
@@ -68,9 +74,14 @@ A full-system simulation, which involves application/driver software code and FI
 │       ├── qemu_hdl_cosim
 │       └── sim
 └── sw
+    ├── Docker
     ├── OPAE
     │   ├── driver
     │   └── sdk
+    │       └── opae-sdk-1.3.0-2
+    │           ├── pyopae
+    │           │   └── samples
+    │           └── samples
     └── QEMU
         └── qemu_hdl_cosim
 ```
@@ -86,13 +97,18 @@ The FPGA platform currently supported is the [KCU105 development board](https://
 To get started with the design of FIM and AFU, or the generation of Blue and Green bitstreams, follow the README in ecah of the directories under [./hw/prj](./hw/prj/).
 
 # ToDo List
-01. Add Container scripts to install OPAE driver/sdk/pyopae - Clean environment.
+01. [Done] Add Container scripts to install OPAE driver/sdk/pyopae - Clean environment.
 02. Use Verilator/GtkWave in the QEMU-HDL cosimulation - Truely open source tools based; Mixed C/Verilog simulation.
 03. Port Xilinx PR driver to OPAE - FME functionality enhancement.
 04. Add Ethernet interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
 05. Add DDR interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
-06. Add AFU BBB logic components for supporting OpenCL/SyCL/oneAPI - ?.
-07. XRT/PYNQ compliant - ?.
-08. Add AFU BBB logic components and compilation flow scripts - A synthesis flow for automatic HLS IP integration.
-09. Optimize FIM pyhsical constraints - Available area estimation for AFU.
-10. Add a [RISC-V Core](https://github.com/SpinalHDL/VexRiscv) as an AXI-Lite master in the FIM - Autonomous task scheduling and hardware microservice.
+06. Add AFU BBB logic components and compilation flow scripts - A synthesis flow for automatic HLS IP integration.
+07. Optimize FIM pyhsical constraints - Available area estimation for AFU.
+
+# Wish List
+01. Support SR-IOV.
+02. Support dual PF.
+03. Add AFU BBB logic components for supporting OpenCL/SyCL/oneAPI - ?.
+04. PYNQ/XRT compliant - ?.
+05. VirtIO NIC compatible with [ixy](https://github.com/emmericp/ixy) user space driver - Network attached accelerator (SmartNIC).
+06. Add a [RISC-V Core](https://github.com/SpinalHDL/VexRiscv) as an AXI-Lite master in the FIM - Autonomous task scheduling and hardware microservice.

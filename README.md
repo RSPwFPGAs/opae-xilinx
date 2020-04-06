@@ -50,6 +50,7 @@ A full-system simulation, which involves application/driver software code and FI
 
 ### Docker script to setup an OPAE run-time environment
 [Build OPAE on Ubuntu 16.04 from source code.](./sw/Docker/shared/install_opae_src.sh)
+[The original script is here](https://github.com/akirajoeshoji/docker-intel-pac-rte). Thank you so much akirajoeshoji, for the inspiration!
 
 <a name="overviewdirstr"></a>
 ## Directory Structure

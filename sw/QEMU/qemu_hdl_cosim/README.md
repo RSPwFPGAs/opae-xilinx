@@ -57,15 +57,10 @@ Compile QEMU
 
 3. Apply the patches
 
-     Apply the patch for HDL based device.
+    Apply one patch for the co-simulation and [another patch for memfd.c](https://git.qemu.org/?p=qemu.git;a=commitdiff;h=75e5b70e6b5dcc4f2219992d7cffa462aa406af0).
 
 ```sh
  patch -s -p0 < qemu-cosim.patch
-```
-
-     Apply [another patch for memfd.c](https://git.qemu.org/?p=qemu.git;a=commitdiff;h=75e5b70e6b5dcc4f2219992d7cffa462aa406af0).
-
-```sh
  patch -s -p0 < qemu-memfd.patch
 ``` 
 

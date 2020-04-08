@@ -43,6 +43,8 @@ Compile QEMU
 1. Install Dependencies:
 >
 >```bash
+>    sudo apt update && sudo apt upgrade
+>    sudo apt-get install build-essential autoconf libtool python vim 
 >    sudo apt-get install libzmq3-dev libczmq-dev libncurses5-dev libncursesw5-dev libsdl2-dev
 
 2. Download QEMU 2.10 rc3
@@ -53,14 +55,19 @@ Compile QEMU
 >    wget http://download.qemu-project.org/qemu-2.10.0-rc3.tar.xz
 >    tar -xJf qemu-2.10.0-rc3.tar.xz
 
-3. Apply the patch
+3. Apply the patches
 
+     Apply the patch for HDL based device.
 >
 >```bash
 >    patch -s -p0 < qemu-cosim.patch
 >
->    Apply another patch
->    https://git.qemu.org/?p=qemu.git;a=commitdiff;h=75e5b70e6b5dcc4f2219992d7cffa462aa406af0
+
+     Apply [another patch](https://git.qemu.org/?p=qemu.git;a=commitdiff;h=75e5b70e6b5dcc4f2219992d7cffa462aa406af0).
+>
+>```bash
+>    patch -s -p0 < qemu-memfd.patch
+>    
 
 4. Configure and build
 
@@ -79,7 +86,7 @@ Compile QEMU
 
 >
 >```bash
->    cp ../../../scripts/launch_fpga.sh ./
+>    cp ../../../scripts/launch_fpga.sh .
 >    cd ../../
 
 Create a QEMU image

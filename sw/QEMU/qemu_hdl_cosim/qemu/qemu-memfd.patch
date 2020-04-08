@@ -1,0 +1,26 @@
+diff -Naur qemu-2.10.0-rc3.orig/configure qemu-2.10.0-rc3/configure
+--- qemu-2.10.0-rc3.orig/configure	2020-04-07 21:52:44.032139410 -0700
++++ qemu-2.10.0-rc3/configure	2020-04-07 21:53:12.340060164 -0700
+@@ -3855,7 +3855,7 @@
+ # check if memfd is supported
+ memfd=no
+ cat > $TMPC << EOF
+-#include <sys/memfd.h>
++#include <sys/mman.h>
+ 
+ int main(void)
+ {
+diff -Naur qemu-2.10.0-rc3.orig/util/memfd.c qemu-2.10.0-rc3/util/memfd.c
+--- qemu-2.10.0-rc3.orig/util/memfd.c	2020-04-07 21:52:42.900143009 -0700
++++ qemu-2.10.0-rc3/util/memfd.c	2020-04-07 21:54:01.003956685 -0700
+@@ -31,9 +31,7 @@
+ 
+ #include "qemu/memfd.h"
+ 
+-#ifdef CONFIG_MEMFD
+-#include <sys/memfd.h>
+-#elif defined CONFIG_LINUX
++#if defined CONFIG_LINUX && !defined CONFIG_MEMFD
+ #include <sys/syscall.h>
+ #include <asm/unistd.h>
+ 

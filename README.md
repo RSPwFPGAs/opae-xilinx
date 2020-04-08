@@ -7,6 +7,7 @@
         - [FIM and AFU design](#overviewopaeportfimandafu)
         - [Using AXI instead of CCI-P](#overviewopaeportaxivsccip)
     - [Demo: Full-System Simulation with QEMU](#overviewqemusim)
+    - [Sample Applications: Xilinx CDMA](#samplexilinxcdma)
     - [Directory Structure](#overviewdirstr)
     - [Development Tools](#overviewdevtools)
 2. [Getting Started](#gettingstarted)
@@ -43,13 +44,17 @@ A full-system simulation, which involves application/driver software code and FI
 ### OPAE-scan AXI-bus transaction waveform in QEMU-HDL co-simulation:
 ![Alt text](./doc/pics/opae_scan_sim_wave.png)
 
-### OPAE sample: Hello_FPGA
+<a name="samplexilinxcdma"></a>
+## OPAE Sample Applications: Hello_FPGA with Xilinx CDMA
 [Application of Xilinx CDMA IP in C.](./sw/OPAE/sdk/opae-sdk-1.3.0-2/samples)
 
 [Application of Xilinx CDMA IP in Python.](./sw/OPAE/sdk/opae-sdk-1.3.0-2/pyopae/samples)
 
+The above sample applications have been validated in the QEMU-HDL co-simulation environment.
+
 ### Docker script to setup an OPAE run-time environment
-[Build OPAE on Ubuntu 16.04 from source code.](./sw/Docker/shared/install_opae_src.sh)
+[Build OPAE on Ubuntu 16.04 from source code](./sw/Docker/shared/install_opae_src.sh).
+
 [The original script is here](https://github.com/akirajoeshoji/docker-intel-pac-rte). Thank you so much akirajoeshoji, for the inspiration!
 
 <a name="overviewdirstr"></a>

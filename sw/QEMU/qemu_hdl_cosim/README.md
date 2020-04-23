@@ -73,7 +73,7 @@ Compile QEMU
 >    cd build
 >    ../configure --target-list=x86_64-softmmu --disable-vnc --enable-sdl --enable-curses
 >
->    Modify config-host.mak, Add " -lzmq -lczmq" to the end of LIBS
+>    sed -i 's/LIBS+=/LIBS+=-lzmq -lczmq /g' config-host.mak
 >
 >    make -j32
 
@@ -150,7 +150,7 @@ Shutdown and Backup the image(Optional)
 
 >
 >```bash
->    cd $COSIM_REPO_HOME/../../../hw/prj/fim/
+>    cd $COSIM_REPO_HOME/../../../hw/prj/qemu_hdl_cosim/
 >    make build-cosim
 
 The waveform window will show AXI transactions when the application is launched in the VM.

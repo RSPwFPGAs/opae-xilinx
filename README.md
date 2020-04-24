@@ -53,7 +53,7 @@ A full-system simulation, which involves application/driver software code and FI
 The above sample applications have been validated in the QEMU-HDL co-simulation environment.
 
 ### Docker script to setup an OPAE run-time environment
-[Build OPAE on Ubuntu 16.04 from source code](./sw/Docker/shared/install_opae_src.sh).
+[Build OPAE on Ubuntu 16.04 from source code](./sw/Docker).
 
 [The original script is here](https://github.com/akirajoeshoji/docker-intel-pac-rte). Thank you so much akirajoeshoji, for the inspiration!
 

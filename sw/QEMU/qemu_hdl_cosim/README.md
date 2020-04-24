@@ -125,6 +125,17 @@ Copy driver and application to the image
 >    cd $COSIM_REPO_HOME
 >    scp -P 2200 -r ../../OPAE/driver/opae-intel-fpga-driver-1.3.0-2_pcie/ user@localhost:/home/user/.
 
+Copy the Docker scripts to the Guest Machine, to run Docker VM on the QEMU VM(Optional)
+----------------------------
+1. In the host, Copy the Docker script to the image.
+
+>
+>```bash
+>    cd $COSIM_REPO_HOME
+>    scp -P 2200 -r ../../Docker/ user@localhost:/home/user/.
+
+2. In the VM, Follow the [README.md](../../Docker/README.md) to create the Docker VM and install drivers and SDK in the Docker VM, without polluting the QEMU VM.
+
 Shutdown and Backup the image(Optional)
 ----------------------------
 1. In the VM, Shutdown the VM

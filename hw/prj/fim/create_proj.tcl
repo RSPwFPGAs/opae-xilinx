@@ -1,5 +1,16 @@
-create_project proj_opae_fim ./proj_opae_fim -part xcku040-ffva1156-2-e -f
-set_property board_part xilinx.com:kcu105:part0:1.5 [current_project]
+if ({[lindex $argv 1]}=="kcu105") {
+  set devPart "xcku040-ffva1156-2-e"
+  set brdPart "xilinx.com:kcu105:part0:1.5"
+} 
+if ({[lindex $argv 1]}=="u50dd") {
+  set_param board.repoPaths ../../src/boardrepo/au50dd/
+  set devPart "xcu50-fsvh2104-2L-e"
+  set brdPart "xilinx.com:au50dd:part0:1.0"
+}
+
+
+create_project proj_opae_fim ./proj_opae_fim -part $devPart -f
+set_property board_part $brdPart [current_project]
 
 set_property ip_repo_paths ../../src/ip/xapp1201/pcie2axilite_bridge/ [current_fileset]
 update_ip_catalog

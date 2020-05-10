@@ -48,12 +48,12 @@
 //
 //-----------------------------------------------------------------------------
 //
-// Project    : AXI-MM to PCI Express
+// Project    : The Xilinx PCI Express DMA 
 // File       : board.v
-// Version    : $IpVersion 
+// Version    : 4.1
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-`timescale 1ns/1ns
+`timescale 1ps/1ps
 
 `include "board_common.vh"
 
@@ -65,15 +65,15 @@ module board;
   localparam REF_CLK_HALF_CYCLE    = (REF_CLK_FREQ == 0) ? 5000 :
                                      (REF_CLK_FREQ == 1) ? 4000 :
                                      (REF_CLK_FREQ == 2) ? 2000 : 0;
-  localparam   [2:0] PF0_DEV_CAP_MAX_PAYLOAD_SIZE = 3'b010;
+  localparam   [2:0] PF0_DEV_CAP_MAX_PAYLOAD_SIZE = 3'b011;
 
   localparam   [4:0]  LINK_WIDTH = 5'd8;
   localparam   [2:0]  LINK_SPEED = 3'h4;
-  localparam   [15:0] EP_DEV_ID  = 16'h09c4;//16'h8038;
+  localparam   [15:0] EP_DEV_ID  = 16'h09c4;
 
   localparam integer USER_CLK_RP_FREQ  = ((LINK_SPEED == 3'h4) ? 5 : 4);
-  localparam integer USER_CLK_EP_FREQ  = 5;
-  localparam integer USER_CLK2_FREQ = 3 + 1;
+  localparam integer USER_CLK_EP_FREQ  = ((LINK_SPEED == 3'h4) ? 5 : 4);
+  localparam integer USER_CLK2_FREQ = 2 + 1;
   // USER_CLK2_FREQ = AXI Interface Frequency
   //   0: Disable User Clock
   //   1: 31.25 MHz
@@ -82,10 +82,22 @@ module board;
   //   4: 250.00 MHz
   //   5: 500.00 MHz
   //
-localparam EXT_PIPE_SIM = "TRUE";
-  defparam board.EP.shell_region_i.FIM.FIU.pcie_axi_bridge.`PCIE_INST.inst.EXT_PIPE_SIM = EXT_PIPE_SIM;
-  defparam board.EP.shell_region_i.FIM.FIU.pcie_axi_bridge.`PCIE_INST.inst.PL_EQ_BYPASS_PHASE23 = "TRUE";
+//
 
+
+
+
+  defparam board.EP.shell_region_i.FIM.FIU.pcie_axi_bridge.xdma_0.inst.pcie4c_ip_i.inst.PL_SIM_FAST_LINK_TRAINING=2'h0;
+//
+
+
+
+
+  localparam EXT_PIPE_SIM = "TRUE";
+  defparam board.EP.shell_region_i.FIM.FIU.pcie_axi_bridge.xdma_0.inst.pcie4c_ip_i.inst.EXT_PIPE_SIM = EXT_PIPE_SIM;
+  defparam board.EP.shell_region_i.FIM.FIU.pcie_axi_bridge.xdma_0.inst.pcie4c_ip_i.inst.PL_EQ_BYPASS_PHASE23 = "TRUE";
+  defparam board.RP.pcie_4_0_rport.pcie_4_0_int_inst.EXT_PIPE_SIM = "TRUE";
+  defparam board.RP.EXT_PIPE_SIM = "TRUE";
 
   // System-level clock and reset
   wire               sys_clk;
@@ -100,6 +112,14 @@ localparam EXT_PIPE_SIM = "TRUE";
   wire  [83:0]  xil_tx5_sigs_ep;
   wire  [83:0]  xil_tx6_sigs_ep;
   wire  [83:0]  xil_tx7_sigs_ep;
+  wire  [83:0]  xil_tx8_sigs_ep;
+  wire  [83:0]  xil_tx9_sigs_ep;
+  wire  [83:0]  xil_tx10_sigs_ep;
+  wire  [83:0]  xil_tx11_sigs_ep;
+  wire  [83:0]  xil_tx12_sigs_ep;
+  wire  [83:0]  xil_tx13_sigs_ep;
+  wire  [83:0]  xil_tx14_sigs_ep;
+  wire  [83:0]  xil_tx15_sigs_ep;
 
   wire  [83:0]  xil_rx0_sigs_ep;
   wire  [83:0]  xil_rx1_sigs_ep;
@@ -109,6 +129,14 @@ localparam EXT_PIPE_SIM = "TRUE";
   wire  [83:0]  xil_rx5_sigs_ep;
   wire  [83:0]  xil_rx6_sigs_ep;
   wire  [83:0]  xil_rx7_sigs_ep;
+  wire  [83:0]  xil_rx8_sigs_ep;
+  wire  [83:0]  xil_rx9_sigs_ep;
+  wire  [83:0]  xil_rx10_sigs_ep;
+  wire  [83:0]  xil_rx11_sigs_ep;
+  wire  [83:0]  xil_rx12_sigs_ep;
+  wire  [83:0]  xil_rx13_sigs_ep;
+  wire  [83:0]  xil_rx14_sigs_ep;
+  wire  [83:0]  xil_rx15_sigs_ep; 
 
   wire  [83:0]  xil_tx0_sigs_rp;
   wire  [83:0]  xil_tx1_sigs_rp;
@@ -118,13 +146,17 @@ localparam EXT_PIPE_SIM = "TRUE";
   wire  [83:0]  xil_tx5_sigs_rp;
   wire  [83:0]  xil_tx6_sigs_rp;
   wire  [83:0]  xil_tx7_sigs_rp;
+  wire  [83:0]  xil_tx8_sigs_rp;
+  wire  [83:0]  xil_tx9_sigs_rp;
+  wire  [83:0]  xil_tx10_sigs_rp;
+  wire  [83:0]  xil_tx11_sigs_rp;
+  wire  [83:0]  xil_tx12_sigs_rp;
+  wire  [83:0]  xil_tx13_sigs_rp;
+  wire  [83:0]  xil_tx14_sigs_rp;
+  wire  [83:0]  xil_tx15_sigs_rp;
 
   
 
-  wire led_0;
-  wire led_1;
-  wire led_2;
-  wire led_3;
   //------------------------------------------------------------------------------//
   // Generate system clock
   //------------------------------------------------------------------------------// 
@@ -134,6 +166,15 @@ localparam EXT_PIPE_SIM = "TRUE";
   ) CLK_GEN (
     .sys_clk (sys_clk)
   );
+
+//------------------------------------------------------------------------------//
+   initial begin
+    #1000000000;  // 1ms timeout
+    $display("[%t] : Simulation timeout. TEST FAILED", $realtime);
+    #100000;
+    $finish;
+   end
+  //------------------------------------------------------------------------------//
 
  //------------------------------------------------------------------------------//
   // Generate system-level reset
@@ -149,23 +190,16 @@ localparam EXT_PIPE_SIM = "TRUE";
   //------------------------------------------------------------------------------//
   // EndPoint CSL Instance
   //------------------------------------------------------------------------------//
-//      xilinx_axi_pcie3_ep
+//      xilinx_axi_pcie4_ep
 //	#(
 //   .EXT_PIPE_SIM       (EXT_PIPE_SIM),
 //   .REF_CLK_FREQ       (REF_CLK_FREQ)
 //	)
-//       AXI_PCIE3_EP (
+//       AXI_PCIE_EP (
 //        // PCI-Express Interface
 //        .sys_rst_n          (sys_rst_n),
 //        .sys_clk_p          (sys_clk),
-//        .sys_clk_n          (~sys_clk),    
-//        // Misc signals
-//        .led_0(led_0),
-//        .led_1(led_1),
-//        .led_2(led_2),
-//        .led_3(led_3),
-
-
+//        .sys_clk_n          (~sys_clk),  
 //        .common_commands_in (26'b0 ),
 //        .pipe_rx_0_sigs     (xil_rx0_sigs_ep),
 //        .pipe_rx_1_sigs     (xil_rx1_sigs_ep),
@@ -175,6 +209,14 @@ localparam EXT_PIPE_SIM = "TRUE";
 //        .pipe_rx_5_sigs     (xil_rx5_sigs_ep),
 //        .pipe_rx_6_sigs     (xil_rx6_sigs_ep),
 //        .pipe_rx_7_sigs     (xil_rx7_sigs_ep),
+//        .pipe_rx_8_sigs     (xil_rx8_sigs_ep),
+//        .pipe_rx_9_sigs     (xil_rx9_sigs_ep),
+//        .pipe_rx_10_sigs     (xil_rx10_sigs_ep),
+//        .pipe_rx_11_sigs     (xil_rx11_sigs_ep),
+//        .pipe_rx_12_sigs     (xil_rx12_sigs_ep),
+//        .pipe_rx_13_sigs     (xil_rx13_sigs_ep),
+//        .pipe_rx_14_sigs     (xil_rx14_sigs_ep),
+//        .pipe_rx_15_sigs     (xil_rx15_sigs_ep),                         
 //        .common_commands_out(common_commands_out),  //[0] - pipe_clk out
 //        .pipe_tx_0_sigs     (xil_tx0_sigs_ep),
 //        .pipe_tx_1_sigs     (xil_tx1_sigs_ep),
@@ -184,6 +226,14 @@ localparam EXT_PIPE_SIM = "TRUE";
 //        .pipe_tx_5_sigs     (xil_tx5_sigs_ep),
 //        .pipe_tx_6_sigs     (xil_tx6_sigs_ep),
 //        .pipe_tx_7_sigs     (xil_tx7_sigs_ep),
+//        .pipe_tx_8_sigs     (xil_tx8_sigs_ep),
+//        .pipe_tx_9_sigs     (xil_tx9_sigs_ep),
+//        .pipe_tx_10_sigs     (xil_tx10_sigs_ep),
+//        .pipe_tx_11_sigs     (xil_tx11_sigs_ep),
+//        .pipe_tx_12_sigs     (xil_tx12_sigs_ep),
+//        .pipe_tx_13_sigs     (xil_tx13_sigs_ep),
+//        .pipe_tx_14_sigs     (xil_tx14_sigs_ep),
+//        .pipe_tx_15_sigs     (xil_tx15_sigs_ep),
 
 //        // Tie-offs
 //        .pci_exp_rxp        ('b0),
@@ -195,7 +245,7 @@ localparam EXT_PIPE_SIM = "TRUE";
     .pci_express_rxp('b0),
     .pci_express_txn(),
     .pci_express_txp(),
-    
+
     .pcie_ext_pipe_ep_commands_out (26'b0 )         ,
     .pcie_ext_pipe_ep_tx_0         (xil_rx0_sigs_ep),
     .pcie_ext_pipe_ep_tx_1         (xil_rx1_sigs_ep),
@@ -206,41 +256,29 @@ localparam EXT_PIPE_SIM = "TRUE";
     .pcie_ext_pipe_ep_tx_6         (xil_rx6_sigs_ep),
     .pcie_ext_pipe_ep_tx_7         (xil_rx7_sigs_ep),
     .pcie_ext_pipe_ep_commands_in  (common_commands_out),
-    .pcie_ext_pipe_ep_rx_0         (xil_tx0_sigs_ep),    
-    .pcie_ext_pipe_ep_rx_1         (xil_tx1_sigs_ep),    
-    .pcie_ext_pipe_ep_rx_2         (xil_tx2_sigs_ep),    
-    .pcie_ext_pipe_ep_rx_3         (xil_tx3_sigs_ep),    
-    .pcie_ext_pipe_ep_rx_4         (xil_tx4_sigs_ep),    
-    .pcie_ext_pipe_ep_rx_5         (xil_tx5_sigs_ep),    
-    .pcie_ext_pipe_ep_rx_6         (xil_tx6_sigs_ep),    
-    .pcie_ext_pipe_ep_rx_7         (xil_tx7_sigs_ep),    
+    .pcie_ext_pipe_ep_rx_0         (xil_tx0_sigs_ep),
+    .pcie_ext_pipe_ep_rx_1         (xil_tx1_sigs_ep),
+    .pcie_ext_pipe_ep_rx_2         (xil_tx2_sigs_ep),
+    .pcie_ext_pipe_ep_rx_3         (xil_tx3_sigs_ep),
+    .pcie_ext_pipe_ep_rx_4         (xil_tx4_sigs_ep),
+    .pcie_ext_pipe_ep_rx_5         (xil_tx5_sigs_ep),
+    .pcie_ext_pipe_ep_rx_6         (xil_tx6_sigs_ep),
+    .pcie_ext_pipe_ep_rx_7         (xil_tx7_sigs_ep),
     .pcie_perstn       (sys_rst_n),
-    .pcie_refclk_clk_n (~sys_clk),  
+    .pcie_refclk_clk_n (~sys_clk),
     .pcie_refclk_clk_p (sys_clk)
-    );
-        
-
-//------------------------------------------------------------------------------//
-  initial begin
-    #2500000;  // 2.5ms timeout
-    $display("[%t] : Simulation timeout. TEST FAILED", $realtime);
-    #100;
-    $finish;
-  end
-  //------------------------------------------------------------------------------//
-
+    ); 
+ 
   //------------------------------------------------------------------------------//
   // PCI-Express Root Port FPGA Instantiation
   //(comment out the Simulation Root Port Model to interface with BFM)
   //------------------------------------------------------------------------------//
-  xilinx_pcie_3_0_7vx_rp
+  xilinx_pcie4_uscale_rp
   #(
      .PL_LINK_CAP_MAX_LINK_WIDTH(LINK_WIDTH),
      .PL_LINK_CAP_MAX_LINK_SPEED(LINK_SPEED),
      .EP_DEV_ID                 (EP_DEV_ID),
-     .USER_CLK2_FREQ            (USER_CLK2_FREQ),
      .PF0_DEV_CAP_MAX_PAYLOAD_SIZE(PF0_DEV_CAP_MAX_PAYLOAD_SIZE),
-     .PIPE_SIM_MODE             (EXT_PIPE_SIM),
      .EXT_PIPE_SIM              (EXT_PIPE_SIM),
      .REF_CLK_FREQ              (REF_CLK_FREQ)
   ) RP (
@@ -257,6 +295,14 @@ localparam EXT_PIPE_SIM = "TRUE";
     .pipe_rx_5_sigs     ({45'b0,xil_tx5_sigs_ep[38:0]}),
     .pipe_rx_6_sigs     ({45'b0,xil_tx6_sigs_ep[38:0]}),
     .pipe_rx_7_sigs     ({45'b0,xil_tx7_sigs_ep[38:0]}),
+    .pipe_rx_8_sigs     ({45'b0,xil_tx8_sigs_ep[38:0]}),
+    .pipe_rx_9_sigs     ({45'b0,xil_tx9_sigs_ep[38:0]}),
+    .pipe_rx_10_sigs     ({45'b0,xil_tx10_sigs_ep[38:0]}),
+    .pipe_rx_11_sigs     ({45'b0,xil_tx11_sigs_ep[38:0]}),
+    .pipe_rx_12_sigs     ({45'b0,xil_tx12_sigs_ep[38:0]}),
+    .pipe_rx_13_sigs     ({45'b0,xil_tx13_sigs_ep[38:0]}),
+    .pipe_rx_14_sigs     ({45'b0,xil_tx14_sigs_ep[38:0]}),
+    .pipe_rx_15_sigs     ({45'b0,xil_tx15_sigs_ep[38:0]}),                                 
     .common_commands_out(),
     .pipe_tx_0_sigs     (xil_tx0_sigs_rp),
     .pipe_tx_1_sigs     (xil_tx1_sigs_rp),
@@ -266,6 +312,14 @@ localparam EXT_PIPE_SIM = "TRUE";
     .pipe_tx_5_sigs     (xil_tx5_sigs_rp),
     .pipe_tx_6_sigs     (xil_tx6_sigs_rp),
     .pipe_tx_7_sigs     (xil_tx7_sigs_rp),
+    .pipe_tx_8_sigs     (xil_tx8_sigs_rp),
+    .pipe_tx_9_sigs     (xil_tx9_sigs_rp),
+    .pipe_tx_10_sigs     (xil_tx10_sigs_rp),
+    .pipe_tx_11_sigs     (xil_tx11_sigs_rp),
+    .pipe_tx_12_sigs     (xil_tx12_sigs_rp),
+    .pipe_tx_13_sigs     (xil_tx13_sigs_rp),
+    .pipe_tx_14_sigs     (xil_tx14_sigs_rp),
+    .pipe_tx_15_sigs     (xil_tx15_sigs_rp),    
 
      // Tie-offs
     .pci_exp_rxp        ('b0),
@@ -279,6 +333,15 @@ localparam EXT_PIPE_SIM = "TRUE";
      assign xil_rx5_sigs_ep  = {45'b0,xil_tx5_sigs_rp[38:0]};
      assign xil_rx6_sigs_ep  = {45'b0,xil_tx6_sigs_rp[38:0]};
      assign xil_rx7_sigs_ep  = {45'b0,xil_tx7_sigs_rp[38:0]};
+     assign xil_rx8_sigs_ep   = {45'b0,xil_tx8_sigs_rp[38:0]};
+     assign xil_rx9_sigs_ep   = {45'b0,xil_tx9_sigs_rp[38:0]};
+     assign xil_rx10_sigs_ep  = {45'b0,xil_tx10_sigs_rp[38:0]};
+     assign xil_rx11_sigs_ep  = {45'b0,xil_tx11_sigs_rp[38:0]};
+     assign xil_rx12_sigs_ep  = {45'b0,xil_tx12_sigs_rp[38:0]};
+     assign xil_rx13_sigs_ep  = {45'b0,xil_tx13_sigs_rp[38:0]};
+     assign xil_rx14_sigs_ep  = {45'b0,xil_tx14_sigs_rp[38:0]};
+     assign xil_rx15_sigs_ep  = {45'b0,xil_tx15_sigs_rp[38:0]};
+      
      
   //------------------------------------------------------------------------------//
   // Simulation with BFM (comment out the Simulation Root Port Model)

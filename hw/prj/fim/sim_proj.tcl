@@ -4,26 +4,22 @@ source create_proj.tcl
 source ../../src/ipi/fim_setup_flow.tcl
 
 
-make_bd_intf_pins_external  [get_bd_intf_pins FIM/FIU/pcie_axi_bridge/*/pcie3_ext_pipe_ep]
+make_bd_intf_pins_external  [get_bd_intf_pins FIM/FIU/pcie_axi_bridge/*/pcie*_ext_pipe_ep*]
+set_property name pcie_ext_pipe_ep [get_bd_intf_ports pcie*_ext_pipe_ep*]
 
 make_wrapper -files [get_files ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/shell_region/shell_region.bd] -top
 add_files -norecurse           ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/shell_region/hdl/shell_region_wrapper.v
 
 set_property SOURCE_SET sources_1 [get_filesets sim_1]
-add_files -fileset sim_1 -norecurse {\
-../../src/sim/pcie_rp_vip_pipe/src/tests.vh \
-../../src/sim/pcie_rp_vip_pipe/src/sample_tests.vh \
-../../src/sim/pcie_rp_vip_pipe/src/board_common.vh \
-../../src/sim/pcie_rp_vip_pipe/src/pci_exp_expect_tasks.vh}
-add_files -fileset sim_1 -norecurse {\
- ../../src/sim/pcie_rp_vip_pipe/src/sys_clk_gen.v \
- ../../src/sim/pcie_rp_vip_pipe/src/axi_pcie3_0_pcie3_7vx_rp_model.v \
- ../../src/sim/pcie_rp_vip_pipe/src/xilinx_pcie_3_0_7vx_rp.v \
- ../../src/sim/pcie_rp_vip_pipe/src/pci_exp_usrapp_com.v \
- ../../src/sim/pcie_rp_vip_pipe/src/pci_exp_usrapp_cfg.v \
- ../../src/sim/pcie_rp_vip_pipe/src/pci_exp_usrapp_tx.v  \
- ../../src/sim/pcie_rp_vip_pipe/src/pci_exp_usrapp_rx.v \
- ../../src/sim/pcie_rp_vip_pipe/src/board.v}
+
+if ({[lindex $argv 1]}=="kcu105") {
+	set path_to_hdl "../../src/sim/pcie_rp_vip_pipe/src"
+}
+if ({[lindex $argv 1]}=="u50dd") {
+	set path_to_hdl "../../src/sim/pcie4_rp_vip_pipe/src"
+}
+add_files -fileset sim_1 -norecurse [glob $path_to_hdl/*.v $path_to_hdl/*.vh]
+
 set_property top board [get_filesets sim_1]
 set_property top_lib xil_defaultlib [get_filesets sim_1]
 set_property XELAB.MT_LEVEL off [get_filesets sim_1]

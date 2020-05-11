@@ -634,7 +634,7 @@ proc create_hier_cell_pcie_axi_bridge { parentCell nameHier } {
    CONFIG.en_axi_slave_if {true} \
    CONFIG.en_gt_selection {true} \
    CONFIG.functional_mode {AXI_Bridge} \
-   CONFIG.mode_selection {Basic} \
+   CONFIG.mode_selection {Advanced} \
    CONFIG.pcie_blk_locn {PCIE4C_X1Y1} \
    CONFIG.pcie_id_if {false} \
    CONFIG.pf0_bar0_64bit {true} \
@@ -674,8 +674,9 @@ proc create_hier_cell_pcie_axi_bridge { parentCell nameHier } {
 
   # Create port connections
   connect_bd_net -net pcie_perstn_1 [get_bd_pins pcie_perstn] [get_bd_pins xdma_0/sys_rst_n]
+  connect_bd_net -net util_ds_buf_IBUF_DS_ODIV2 [get_bd_pins util_ds_buf/IBUF_DS_ODIV2] [get_bd_pins xdma_0/sys_clk]
   connect_bd_net -net util_ds_buf_IBUF_OUT [get_bd_pins util_ds_buf/IBUF_OUT] [get_bd_pins xdma_0/sys_clk_gt]
-  connect_bd_net -net xdma_0_axi_aclk [get_bd_pins axi_aclk_port_data] [get_bd_pins xdma_0/axi_aclk] [get_bd_pins xdma_0/sys_clk]
+  connect_bd_net -net xdma_0_axi_aclk [get_bd_pins axi_aclk_port_data] [get_bd_pins xdma_0/axi_aclk]
   connect_bd_net -net xdma_0_axi_aresetn [get_bd_pins axi_aresetn_port_data] [get_bd_pins xdma_0/axi_aresetn]
 
   # Restore current instance

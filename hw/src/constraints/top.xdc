@@ -1,7 +1,7 @@
 
-set_property PACKAGE_PIN K22 [get_ports pcie_perstn]
+set_property PACKAGE_PIN K22     [get_ports pcie_perstn]
 set_property IOSTANDARD LVCMOS18 [get_ports pcie_perstn]
-set_property PULLUP true [get_ports pcie_perstn]
+set_property PULLUP true         [get_ports pcie_perstn]
 set_property PACKAGE_PIN AB5 [get_ports pcie_refclk_clk_n]
 
 create_clock -period 10.000 -name refclk_100 [get_ports pcie_refclk_clk_p]

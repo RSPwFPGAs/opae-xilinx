@@ -72,15 +72,3 @@ set_property offset 0x0000000000000000 [get_bd_addr_segs {AFU/M_AXI_FULL_DATA_PO
 save_bd_design
 validate_bd_design
 
-
-# adding pblock constraints for shell
-add_files -fileset constrs_1 ../../src/constraints/pr_shell.xdc
-set_property target_constrs_file ../../src/constraints/pr_shell.xdc [current_fileset -constrset]
-
-# adding pblock constraints for role
-add_files -fileset constrs_1 ../../src/constraints/pr_role.xdc
-set_property target_constrs_file ../../src/constraints/pr_role.xdc [current_fileset -constrset]
-
-# adding top-level pin constraints
-add_files -fileset constrs_1 ../../src/constraints/top.xdc
-

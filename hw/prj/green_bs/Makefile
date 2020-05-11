@@ -2,6 +2,7 @@
 
 AFU_SRC_FILE=../../src/ipi/afu_default.bd.tcl
 AFU_IP_FILE=./add_afu_ip_path.tcl
+FIM_BRD_TYPE=kcu105
 
 all: build-bin
 
@@ -13,7 +14,7 @@ build-bin:
 	rm ./output -rf
 	mkdir output
 	
-	vivado -mode batch -source run_proj.tcl -tclargs $(AFU_SRC_FILE) $(AFU_IP_FILE)
+	vivado -mode batch -source run_proj.tcl -tclargs $(AFU_SRC_FILE) $(AFU_IP_FILE) $(FIM_BRD_TYPE)
 
 build-syn:
 

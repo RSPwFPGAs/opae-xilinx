@@ -21,3 +21,9 @@ call stack:
 >   ```bash
 >    make build-bin
 >   ```
+
+    To generate and export the FIM design as a Blue Bitstream for U50 board
+>
+>   ```bash
+>    make build-bin FIM_SRC_FILE=../../src/ipi/fim_debug_u50dd.bd.tcl FIM_BRD_TYPE=u50dd
+>   ```

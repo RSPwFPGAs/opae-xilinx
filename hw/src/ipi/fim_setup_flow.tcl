@@ -10,7 +10,3 @@ set_property top shell_region_wrapper [current_fileset]
 update_compile_order -fileset sources_1
 
 
-# adding top-level pin constraints
-add_files -fileset constrs_1 ../../src/constraints/top.xdc
-
-

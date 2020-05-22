@@ -2,7 +2,7 @@
 
 AFU_HLS_PATH=.
 
-all:
+all: run-hls
 
 run-hls:
 	vivado_hls -f run_hls.ipi.tcl

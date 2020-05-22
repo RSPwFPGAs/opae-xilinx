@@ -63,7 +63,15 @@ open_solution -reset solution1
 # Specify a Xilinx device and clock period
 # - Do not specify a clock uncertainty (margin)
 # - Let the  margin to default to 12.5% of clock period
-set_part {xcku040-ffva1156-2-e}
+if ({$::env(FIM_BRD_TYPE)}=="kcu105") {
+  set devPart "xcku040-ffva1156-2-e"
+  set brdPart "xilinx.com:kcu105:part0:1.5"
+} 
+if ({$::env(FIM_BRD_TYPE)}=="u50dd") {
+  set devPart "xcu50-fsvh2104-2L-e"
+  set brdPart "xilinx.com:au50dd:part0:1.0"
+}
+set_part $devPart
 create_clock -period 3.25
 #set_clock_uncertainty 1.25
 

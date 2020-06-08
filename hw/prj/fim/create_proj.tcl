@@ -1,4 +1,5 @@
 if ({[lindex $argv 1]}=="kcu105") {
+  set_param board.repoPaths ../../src/boardrepo/kcu105/
   set devPart "xcku040-ffva1156-2-e"
   set brdPart "xilinx.com:kcu105:part0:1.5"
 } 

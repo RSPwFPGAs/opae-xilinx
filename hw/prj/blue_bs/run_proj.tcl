@@ -4,10 +4,13 @@ source create_proj.tcl
 source ../../src/ipi/pr_setup_flow.tcl
 
 
-launch_runs role_rm_0_synth_1 -jobs 4
+launch_runs role_rm_0_synth_1 -jobs 8
 wait_on_run role_rm_0_synth_1
 
-launch_runs synth_1 -jobs 4
+
+set_property strategy {Flow_PerfOptimized_high}   [get_runs synth_1]
+#set_property strategy {Vivado Synthesis Defaults} [get_runs synth_1]
+launch_runs synth_1 -jobs 8
 wait_on_run synth_1
 
 
@@ -15,7 +18,8 @@ create_pr_configuration -name config_1 -partitions [list shell_region_i/AFU:role
 set_property PR_CONFIGURATION config_1 [get_runs impl_1]
 
 
-launch_runs impl_1 -jobs 4
+set_property strategy {Performance_ExtraTimingOpt} [get_runs impl_1]
+launch_runs impl_1 -jobs 8
 wait_on_run impl_1
 
 

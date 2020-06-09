@@ -38,6 +38,7 @@ Although the OPAE specification mandates the use of [CCI-P](https://01.org/sites
 <a name="overviewopaeportminfim"></a>
 ### Minimum FIM design
 The FIM design is kept to a minimum. On KCU105 platform, over 91% logic area is reserved for the AFU. That is 458k LCs for the accelerator logic.
+
 ![Alt text](./doc/pics/kcu105_fim_pblock_utilization.png)
 
 <a name="overviewqemusim"></a>

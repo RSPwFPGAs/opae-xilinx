@@ -115,7 +115,7 @@ To get started with the design of FIM and AFU, or the generation of Blue and Gre
 04. Add Ethernet interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
 05. Add DDR interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
 06. Add AFU BBB logic components and compilation flow scripts - A synthesis flow for automatic HLS IP integration.
-07. Optimize FIM pyhsical constraints - Available area estimation for AFU.
+07. [Done] Optimize FIM pyhsical constraints - Available area estimation for AFU.
 
 # Wish List
 01. Support SR-IOV.

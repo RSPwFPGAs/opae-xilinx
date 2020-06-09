@@ -3,6 +3,7 @@ create_pblock pblock_role_0
 add_cells_to_pblock [get_pblocks pblock_role_0] [get_cells -quiet [list shell_region_i/AFU]]
 resize_pblock [get_pblocks pblock_role_0] -add    {CLOCKREGION_X0Y0:CLOCKREGION_X3Y4}
 resize_pblock [get_pblocks pblock_role_0] -remove {CLOCKREGION_X3Y0:CLOCKREGION_X3Y2}
+#resize_pblock [get_pblocks pblock_role_0] -remove {CLOCKREGION_X2Y0:CLOCKREGION_X2Y0}
 resize_pblock [get_pblocks pblock_role_0] -remove {IOB_X1Y103:IOB_X1Y103}
 #resize_pblock [get_pblocks pblock_role_0] -remove {SYSMONE1_X0Y0:SYSMONE1_X0Y0}
 

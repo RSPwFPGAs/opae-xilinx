@@ -727,7 +727,7 @@ proc create_root_design { parentCell } {
    CONFIG.AWUSER_WIDTH {0} \
    CONFIG.BUSER_WIDTH {0} \
    CONFIG.DATA_WIDTH {32} \
-   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.FREQ_HZ {100000000} \
    CONFIG.HAS_BRESP {1} \
    CONFIG.HAS_BURST {0} \
    CONFIG.HAS_CACHE {0} \
@@ -760,7 +760,7 @@ proc create_root_design { parentCell } {
   set_property -dict [ list \
    CONFIG.ASSOCIATED_BUSIF {S_AXI_LITE_CTRL_PORT:IP_M_AXI_LITE_CTRL} \
    CONFIG.ASSOCIATED_RESET {ip_axi_aresetn_ctrl} \
-   CONFIG.FREQ_HZ {250000000} \
+   CONFIG.FREQ_HZ {100000000} \
  ] $axi_aclk_ctrl_port
   set axi_aclk_data_port [ create_bd_port -dir I -type clk axi_aclk_data_port ]
   set_property -dict [ list \

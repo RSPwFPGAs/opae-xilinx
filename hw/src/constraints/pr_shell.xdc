@@ -1,6 +1,6 @@
 
 create_pblock pblock_shell
-add_cells_to_pblock [get_pblocks pblock_shell] [get_cells -quiet [list shell_region_i/shell]]
+add_cells_to_pblock [get_pblocks pblock_shell] [get_cells -quiet [list shell_region_i/FIM]]
 resize_pblock [get_pblocks pblock_shell] -add {CLOCKREGION_X3Y0:CLOCKREGION_X3Y2}
 #resize_pblock [get_pblocks pblock_shell] -add {CLOCKREGION_X2Y0:CLOCKREGION_X2Y0}
 resize_pblock [get_pblocks pblock_shell] -add {IOB_X1Y103:IOB_X1Y103}

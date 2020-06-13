@@ -6,6 +6,7 @@
     - [Ported OPAE](#overviewopaeport)
         - [FIM and AFU design](#overviewopaeportfimandafu)
         - [Using AXI instead of CCI-P](#overviewopaeportaxivsccip)
+        - [Minimum FIM design](#overviewopaeportminfim)
     - [Demo: Full-System Simulation with QEMU](#overviewqemusim)
     - [Sample Applications: Xilinx CDMA](#samplexilinxcdma)
     - [Directory Structure](#overviewdirstr)
@@ -33,6 +34,12 @@ Based on the 'Shell', a design flow([Partial Reconfiguration](https://www.xilinx
 <a name="overviewopaeportaxivsccip"></a>
 ### Using AXI instead of CCI-P
 Although the OPAE specification mandates the use of [CCI-P](https://01.org/sites/default/files/downloads/opae/cci-p-mpf-overview.pdf) interface between FIM and AFU when targeting Intel MCP and DCP platforms, this project uses AXI interface instead. The inclusion of an industry standard interface makes the OPAE ecosystem truly [Vendor Neutral](https://github.com/RSPwFPGAs/opae-xilinx/wiki/The-evolution-to-Vendor-Neutral-OPAE) and makes the many IPs targeting ASIC designs available to FPGA designers, such as [MatchLib](https://github.com/NVlabs/matchlib) and [HLSLibs](https://github.com/hlslibs).
+
+<a name="overviewopaeportminfim"></a>
+### Minimum FIM design
+The FIM design is kept to a minimum. On KCU105 platform, over 91% logic area is reserved for the AFU. That is 458k LCs for the accelerator logic.
+
+![Alt text](./doc/pics/kcu105_fim_pblock_utilization.png)
 
 <a name="overviewqemusim"></a>
 ## Demo: Full-System Simulation with QEMU
@@ -109,7 +116,7 @@ To get started with the design of FIM and AFU, or the generation of Blue and Gre
 04. Add Ethernet interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
 05. Add DDR interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
 06. Add AFU BBB logic components and compilation flow scripts - A synthesis flow for automatic HLS IP integration.
-07. Optimize FIM pyhsical constraints - Available area estimation for AFU.
+07. [Done] Optimize FIM pyhsical constraints - Available area estimation for AFU.
 
 # Wish List
 01. Support SR-IOV.

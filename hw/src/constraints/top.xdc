@@ -1,8 +1,19 @@
 
+######## pcie interface ########
 set_property PACKAGE_PIN K22     [get_ports pcie_perstn]
 set_property IOSTANDARD LVCMOS18 [get_ports pcie_perstn]
 set_property PULLUP true         [get_ports pcie_perstn]
 set_property PACKAGE_PIN AB5 [get_ports pcie_refclk_clk_n]
+######## ethernet interface ########
+set_property PACKAGE_PIN AL8     [get_ports eth_tx_disable_ch0]
+set_property IOSTANDARD LVCMOS18 [get_ports eth_tx_disable_ch0]
+set_property PACKAGE_PIN D28     [get_ports eth_tx_disable_ch1]
+set_property IOSTANDARD LVCMOS18 [get_ports eth_tx_disable_ch1]
+# SFP GT in bank 226 sourced by Si570 clock in Bank 227
+set_property PACKAGE_PIN P6 [get_ports eth_refclk_clk_p]
+set_property PACKAGE_PIN P5 [get_ports eth_refclk_clk_n]
+
+set_clock_groups -name async -asynchronous -group [get_clocks -include_generated_clocks -of [get_nets *_txusrclk2_out]] -group [get_clocks -include_generated_clocks eth_refclk_clk_p]
 
 create_clock -period 10.000 -name refclk_100 [get_ports pcie_refclk_clk_p]
 set_false_path -to [get_cells {*/gt_top_i/phy_rst_i/sync_phystatus/sync_vec[*].sync_cell_i/sync_reg[0]}]

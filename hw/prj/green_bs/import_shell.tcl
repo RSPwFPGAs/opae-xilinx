@@ -7,8 +7,8 @@ delete_pblock [get_pblocks shell_region_i_AFU_pblock_role_0]
 set_property HD.RECONFIGURABLE 1 [get_cells shell_region_i/AFU]
 
 opt_design
-place_design
-route_design
+place_design -directive ExtraTimingOpt
+route_design -directive MoreGlobalIterations
 
 
 

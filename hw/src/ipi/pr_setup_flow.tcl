@@ -14,6 +14,11 @@ set_param project.enableprflowIPI true
 source [lindex $argv 0]
 current_bd_design [get_bd_designs role_region_0]
 validate_bd_design
+# export role wrapper file
+make_wrapper -files [get_files ./proj_opae_bbs/proj_opae_bbs.srcs/sources_1/bd/role_region_0/role_region_0.bd] -top
+exec cp ./proj_opae_bbs/proj_opae_bbs.srcs/sources_1/bd/role_region_0/hdl/role_region_0_wrapper.v ./export/.
+exec sed -i "s/module role_region_0_wrapper/module role_rm_0_bb/g" ./export/role_region_0_wrapper.v
+
 # set role as pr
 create_partition_def -name role_pd_0 -module role_region_0
 create_reconfig_module -name role_rm_0 -partition_def [get_partition_defs role_pd_0 ]  -define_from role_region_0

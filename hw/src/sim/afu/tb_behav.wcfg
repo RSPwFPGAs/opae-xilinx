@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb.wdb" id="1">
+         <top_modules>
+            <top_module name="axi_bram_ctrl_funcs" />
+            <top_module name="axi_cdma_pkg" />
+            <top_module name="axi_vip_pkg" />
+            <top_module name="glbl" />
+            <top_module name="lib_pkg" />
+            <top_module name="std" />
+            <top_module name="tb" />
+            <top_module name="vcomponents" />
+            <top_module name="xil_common_vip_pkg" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="421501fs"></ZoomEndTime>
+      <Cursor1Time time="0fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="243"></NameColumnWidth>
+      <ValueColumnWidth column_width="72"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="7" />
+   <wvobject type="logic" fp_name="/tb/sys_clk_ctrl_port">
+      <obj_property name="ElementShortName">sys_clk_ctrl_port</obj_property>
+      <obj_property name="ObjectShortName">sys_clk_ctrl_port</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/sys_clk_data_port">
+      <obj_property name="ElementShortName">sys_clk_data_port</obj_property>
+      <obj_property name="ObjectShortName">sys_clk_data_port</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/sys_resetn_ctrl_port">
+      <obj_property name="ElementShortName">sys_resetn_ctrl_port</obj_property>
+      <obj_property name="ObjectShortName">sys_resetn_ctrl_port</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/sys_resetn_data_port">
+      <obj_property name="ElementShortName">sys_resetn_data_port</obj_property>
+      <obj_property name="ObjectShortName">sys_resetn_data_port</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/start_test">
+      <obj_property name="ElementShortName">start_test</obj_property>
+      <obj_property name="ObjectShortName">start_test</obj_property>
+   </wvobject>
+   <wvobject type="protoinst" fp_name="/tb/DUT/axi_vip_pcie_axilite_pt/M_AXI">
+      <obj_property name="ElementShortName">M_AXI</obj_property>
+      <obj_property name="ObjectShortName">M_AXI</obj_property>
+   </wvobject>
+   <wvobject type="protoinst" fp_name="/tb/DUT/axi_vip_pcie_axifull_pt/S_AXI">
+      <obj_property name="ElementShortName">S_AXI</obj_property>
+      <obj_property name="ObjectShortName">S_AXI</obj_property>
+   </wvobject>
+</wave_config>

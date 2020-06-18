@@ -601,7 +601,7 @@ proc create_root_design { parentCell } {
   set M_USR_IRQ_PORT [ create_bd_port -dir O -from 0 -to 0 -type intr M_USR_IRQ_PORT ]
   set axi_aclk_ctrl_port [ create_bd_port -dir I -type clk axi_aclk_ctrl_port ]
   set_property -dict [ list \
-   CONFIG.ASSOCIATED_BUSIF {S_AXI_LITE_SHRL_CTRL:S_AXI_LITE_CTRL_PORT} \
+   CONFIG.ASSOCIATED_BUSIF {S_AXI_LITE_CTRL_PORT} \
    CONFIG.ASSOCIATED_RESET {axi_aresetn_role_ctrl} \
    CONFIG.FREQ_HZ {100000000} \
  ] $axi_aclk_ctrl_port

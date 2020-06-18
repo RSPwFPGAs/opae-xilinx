@@ -15,8 +15,10 @@ build-edt:
 	vivado -mode gui   -source edt_proj.tcl -tclargs $(AFU_SRC_FILE) $(AFU_IP_FILE) $(AFU_BRD_TYPE)
 
 build-sim: 
+	vivado -mode batch -source sim_proj.tcl -tclargs $(AFU_SRC_FILE) $(AFU_IP_FILE) $(AFU_BRD_TYPE)
+	bash sim_afu.sh
 
 clean:
-	rm vivado* *webtalk* -f
-	rm .Xil proj_* hd_visual -rf
+	rm vivado* *webtalk* README.txt -f
+	rm .Xil proj_* hd_visual xsim -rf
 

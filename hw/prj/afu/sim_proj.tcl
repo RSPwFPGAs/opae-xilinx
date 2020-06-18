@@ -1,6 +1,8 @@
 close_project -quiet
 source create_proj.tcl
 
+source ../../src/ipi/afu_setup_flow.tcl
+
 remove_files       ./proj_opae_afu/proj_opae_afu.srcs/sources_1/bd/role_region_0_sim/role_region_0_sim.bd
 file delete -force ./proj_opae_afu/proj_opae_afu.srcs/sources_1/bd/role_region_0_sim
 create_bd_design "role_region_0_sim"

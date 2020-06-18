@@ -6,10 +6,8 @@
       <db_ref path="tb.wdb" id="1">
          <top_modules>
             <top_module name="axi_bram_ctrl_funcs" />
-            <top_module name="axi_cdma_pkg" />
             <top_module name="axi_vip_pkg" />
             <top_module name="glbl" />
-            <top_module name="lib_pkg" />
             <top_module name="std" />
             <top_module name="tb" />
             <top_module name="vcomponents" />
@@ -18,15 +16,19 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="421501fs"></ZoomEndTime>
-      <Cursor1Time time="0fs"></Cursor1Time>
+      <ZoomStartTime time="65845683fs"></ZoomStartTime>
+      <ZoomEndTime time="66517234fs"></ZoomEndTime>
+      <Cursor1Time time="88034000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="243"></NameColumnWidth>
-      <ValueColumnWidth column_width="72"></ValueColumnWidth>
+      <ValueColumnWidth column_width="68"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="7" />
+   <WVObjectSize size="31" />
+   <wvobject fp_name="divider62" type="divider">
+      <obj_property name="label">tb</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
    <wvobject type="logic" fp_name="/tb/sys_clk_ctrl_port">
       <obj_property name="ElementShortName">sys_clk_ctrl_port</obj_property>
       <obj_property name="ObjectShortName">sys_clk_ctrl_port</obj_property>
@@ -47,12 +49,114 @@
       <obj_property name="ElementShortName">start_test</obj_property>
       <obj_property name="ObjectShortName">start_test</obj_property>
    </wvobject>
+   <wvobject fp_name="divider63" type="divider">
+      <obj_property name="label">vip</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
    <wvobject type="protoinst" fp_name="/tb/DUT/axi_vip_pcie_axilite_pt/M_AXI">
       <obj_property name="ElementShortName">M_AXI</obj_property>
       <obj_property name="ObjectShortName">M_AXI</obj_property>
+      <obj_property name="children_use_element_short_name">true</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ENUM_TRANSACTION</obj_property>
+      <obj_property name="EnumTransactionColorTable">0=blank 1=#D399FF 2=pink</obj_property>
+      <obj_property name="EnumTransactionValueTable">0=blank;1=Read;2=Write;3=Read/Write</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="CustomSignalColor">turquoise</obj_property>
+      <obj_property name="Render_Data">/tb/DUT/axi_vip_pcie_axilite_pt/M_AXI.readWriteSummary</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+      <obj_property name="CellHeight">36</obj_property>
+      <obj_property name="isExpanded"></obj_property>
    </wvobject>
    <wvobject type="protoinst" fp_name="/tb/DUT/axi_vip_pcie_axifull_pt/S_AXI">
       <obj_property name="ElementShortName">S_AXI</obj_property>
       <obj_property name="ObjectShortName">S_AXI</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider61" type="divider">
+      <obj_property name="label">feature_ram</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="protoinst" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI">
+      <obj_property name="ElementShortName">S_AXI</obj_property>
+      <obj_property name="ObjectShortName">S_AXI</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_araddr">
+      <obj_property name="ElementShortName">S_AXI_araddr[11:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_araddr[11:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_arvalid">
+      <obj_property name="ElementShortName">S_AXI_arvalid</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_arvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_arready">
+      <obj_property name="ElementShortName">S_AXI_arready</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_arready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_rdata">
+      <obj_property name="ElementShortName">S_AXI_rdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_rdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_rvalid">
+      <obj_property name="ElementShortName">S_AXI_rvalid</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_rvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_rready">
+      <obj_property name="ElementShortName">S_AXI_rready</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_rready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_rresp">
+      <obj_property name="ElementShortName">S_AXI_rresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_rresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_awaddr">
+      <obj_property name="ElementShortName">S_AXI_awaddr[11:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_awaddr[11:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_awvalid">
+      <obj_property name="ElementShortName">S_AXI_awvalid</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_awvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_awready">
+      <obj_property name="ElementShortName">S_AXI_awready</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_awready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_wdata">
+      <obj_property name="ElementShortName">S_AXI_wdata[31:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_wdata[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_wvalid">
+      <obj_property name="ElementShortName">S_AXI_wvalid</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_wvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_wready">
+      <obj_property name="ElementShortName">S_AXI_wready</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_wready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_wstrb">
+      <obj_property name="ElementShortName">S_AXI_wstrb[3:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_wstrb[3:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_bvalid">
+      <obj_property name="ElementShortName">S_AXI_bvalid</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_bvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_bready">
+      <obj_property name="ElementShortName">S_AXI_bready</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_bready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI_bresp">
+      <obj_property name="ElementShortName">S_AXI_bresp[1:0]</obj_property>
+      <obj_property name="ObjectShortName">S_AXI_bresp[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/axi_bram_ctrl_0/bram_clk_a">
+      <obj_property name="ElementShortName">bram_clk_a</obj_property>
+      <obj_property name="ObjectShortName">bram_clk_a</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/axi_bram_ctrl_0/bram_addr_a">
+      <obj_property name="ElementShortName">bram_addr_a[11:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_addr_a[11:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/axi_bram_ctrl_0/bram_rddata_a">
+      <obj_property name="ElementShortName">bram_rddata_a[31:0]</obj_property>
+      <obj_property name="ObjectShortName">bram_rddata_a[31:0]</obj_property>
    </wvobject>
 </wave_config>

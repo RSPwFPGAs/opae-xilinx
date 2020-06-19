@@ -14,7 +14,7 @@ create_project proj_opae_fim ./proj_opae_fim -part $devPart -f
 set_property board_part $brdPart [current_project]
 
 # add IP
-set_property ip_repo_paths ../../src/ip/xapp1201/pcie2axilite_bridge/ [current_fileset]
+set_property ip_repo_paths {../../src/ip/xapp1201/pcie2axilite_bridge/} [current_fileset]
 update_ip_catalog
 
 add_files {../../src/hdl/pf_csr/pf_csr_v1_0_S00_AXI.v ../../src/hdl/pf_csr/pf_csr_v1_0.v}

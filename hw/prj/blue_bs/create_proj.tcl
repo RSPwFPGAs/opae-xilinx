@@ -14,14 +14,14 @@ create_project proj_opae_bbs ./proj_opae_bbs -part $devPart -f
 set_property board_part $brdPart [current_project]
 
 # add IP
-set_property ip_repo_paths ../../src/ip/xapp1201/pcie2axilite_bridge/ [current_fileset]
+set_property ip_repo_paths {../../src/ip/xapp1201/pcie2axilite_bridge/} [current_fileset]
 update_ip_catalog
 
 add_files {../../src/hdl/pf_csr/pf_csr_v1_0_S00_AXI.v ../../src/hdl/pf_csr/pf_csr_v1_0.v}
 update_compile_order -fileset sources_1
 
 source [lindex $argv 1]
-set_property  ip_repo_paths $AFU_IP_PATH [current_project]
+set_property ip_repo_paths [lappend AFU_IP_PATH [get_property ip_repo_paths [current_fileset]]] [current_project]
 update_ip_catalog
 
 if ({[lindex $argv 3]}=="kcu105") {

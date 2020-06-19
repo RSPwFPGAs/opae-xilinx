@@ -203,22 +203,22 @@ proc create_hier_cell_feature_ram { parentCell nameHier } {
   set_property -dict [ list \
    CONFIG.ECC_TYPE {0} \
    CONFIG.PROTOCOL {AXI4LITE} \
+   CONFIG.SINGLE_PORT_BRAM {1} \
  ] $axi_bram_ctrl_0
 
   # Create instance: blk_mem_gen_0, and set properties
   set blk_mem_gen_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen blk_mem_gen_0 ]
   set_property -dict [ list \
-   CONFIG.Enable_B {Use_ENB_Pin} \
-   CONFIG.Memory_Type {True_Dual_Port_RAM} \
-   CONFIG.Port_B_Clock {100} \
-   CONFIG.Port_B_Enable_Rate {100} \
-   CONFIG.Port_B_Write_Rate {50} \
-   CONFIG.Use_RSTB_Pin {true} \
+   CONFIG.Enable_B {Always_Enabled} \
+   CONFIG.Memory_Type {Single_Port_RAM} \
+   CONFIG.Port_B_Clock {0} \
+   CONFIG.Port_B_Enable_Rate {0} \
+   CONFIG.Port_B_Write_Rate {0} \
+   CONFIG.Use_RSTB_Pin {false} \
  ] $blk_mem_gen_0
 
   # Create interface connections
   connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTA] [get_bd_intf_pins blk_mem_gen_0/BRAM_PORTA]
-  connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTB [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTB] [get_bd_intf_pins blk_mem_gen_0/BRAM_PORTB]
   connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI [get_bd_intf_pins S_AXI] [get_bd_intf_pins axi_bram_ctrl_0/S_AXI]
 
   # Create port connections
@@ -803,8 +803,8 @@ proc create_root_design { parentCell } {
   connect_bd_net -net axi_aresetn_role_data_0_1 [get_bd_ports axi_aresetn_data_port] [get_bd_pins AFU/axi_aresetn_data_port]
 
   # Create address segments
-  create_bd_addr_seg -range 0x00010000 -offset 0x44A00000 [get_bd_addr_spaces S_AXI_LITE_CTRL_PORT] [get_bd_addr_segs M_AXI_FULL_DATA_PORT/Reg] SEG_M_AXI_FULL_DATA_PORT_Reg
-  create_bd_addr_seg -range 0x00010000 -offset 0x44A10000 [get_bd_addr_spaces S_AXI_LITE_CTRL_PORT] [get_bd_addr_segs AFU/adders_0/s_axi_AXILiteS/Reg] SEG_adders_0_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00000000 [get_bd_addr_spaces S_AXI_LITE_CTRL_PORT] [get_bd_addr_segs M_AXI_FULL_DATA_PORT/Reg] SEG_M_AXI_FULL_DATA_PORT_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00030000 [get_bd_addr_spaces S_AXI_LITE_CTRL_PORT] [get_bd_addr_segs AFU/adders_0/s_axi_AXILiteS/Reg] SEG_adders_0_Reg
   create_bd_addr_seg -range 0x00001000 -offset 0x00020000 [get_bd_addr_spaces S_AXI_LITE_CTRL_PORT] [get_bd_addr_segs AFU/AFU_base_ip/AFU_core/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
 
 

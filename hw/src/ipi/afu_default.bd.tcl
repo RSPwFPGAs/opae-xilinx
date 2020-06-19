@@ -203,22 +203,22 @@ proc create_hier_cell_feature_ram { parentCell nameHier } {
   set_property -dict [ list \
    CONFIG.ECC_TYPE {0} \
    CONFIG.PROTOCOL {AXI4LITE} \
+   CONFIG.SINGLE_PORT_BRAM {1} \
  ] $axi_bram_ctrl_0
 
   # Create instance: blk_mem_gen_0, and set properties
   set blk_mem_gen_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen blk_mem_gen_0 ]
   set_property -dict [ list \
-   CONFIG.Enable_B {Use_ENB_Pin} \
-   CONFIG.Memory_Type {True_Dual_Port_RAM} \
-   CONFIG.Port_B_Clock {100} \
-   CONFIG.Port_B_Enable_Rate {100} \
-   CONFIG.Port_B_Write_Rate {50} \
-   CONFIG.Use_RSTB_Pin {true} \
+   CONFIG.Enable_B {Always_Enabled} \
+   CONFIG.Memory_Type {Single_Port_RAM} \
+   CONFIG.Port_B_Clock {0} \
+   CONFIG.Port_B_Enable_Rate {0} \
+   CONFIG.Port_B_Write_Rate {0} \
+   CONFIG.Use_RSTB_Pin {false} \
  ] $blk_mem_gen_0
 
   # Create interface connections
   connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTA] [get_bd_intf_pins blk_mem_gen_0/BRAM_PORTA]
-  connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTB [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTB] [get_bd_intf_pins blk_mem_gen_0/BRAM_PORTB]
   connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI [get_bd_intf_pins S_AXI] [get_bd_intf_pins axi_bram_ctrl_0/S_AXI]
 
   # Create port connections

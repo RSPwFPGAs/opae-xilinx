@@ -13,10 +13,10 @@ add_files -norecurse           ./proj_opae_fim/proj_opae_fim.srcs/sources_1/bd/s
 set_property SOURCE_SET sources_1 [get_filesets sim_1]
 
 if ({[lindex $argv 1]}=="kcu105") {
-	set path_to_hdl "../../src/sim/pcie_rp_vip_pipe/src"
+	set path_to_hdl "../../src/sim/fim/pcie_rp_vip_pipe/src"
 }
 if ({[lindex $argv 1]}=="u50dd") {
-	set path_to_hdl "../../src/sim/pcie4_rp_vip_pipe/src"
+	set path_to_hdl "../../src/sim/fim/pcie4_rp_vip_pipe/src"
 }
 add_files -fileset sim_1 -norecurse [glob $path_to_hdl/*.v $path_to_hdl/*.vh]
 

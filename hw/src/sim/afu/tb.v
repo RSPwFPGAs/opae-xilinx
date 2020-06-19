@@ -7,7 +7,7 @@
 //Design      : pfm_dynamic_wrapper
 //Purpose     : IP block netlist
 //--------------------------------------------------------------------------------
-`timescale 1 ps / 1 ps
+`timescale 1 ns / 1 ns
 
 `include "axi_vip_pcie_axilite_pt_stimulus.sv"
 `include "axi_vip_pcie_axifull_pt_stimulus.sv"

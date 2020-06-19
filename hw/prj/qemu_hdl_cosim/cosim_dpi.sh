@@ -7,6 +7,7 @@ xsc ../../../src/qemu_hdl_cosim/sim_ip/QEMUPCIeBridge/hdl/dpi-pcie.c --additiona
 
 sed -i 's/xelab --relax/xelab -sv_lib dpi --relax/g' test_top.sh
 sed -i 's/xsim test_top/xsim -gui -view ..\/..\/..\/src\/qemu_hdl_cosim\/test_top.wcfg test_top/g' test_top.sh
+sed -i 's/quit/#quit/g' cmd.tcl
 source test_top.sh
 
 cd ..

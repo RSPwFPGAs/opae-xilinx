@@ -13,6 +13,6 @@ create_project proj_opae_afu ./proj_opae_afu -part $devPart -f
 set_property board_part $brdPart [current_project]
 
 source [lindex $argv 1]
-set_property  ip_repo_paths $AFU_IP_PATH [current_project]
+set_property ip_repo_paths [lappend AFU_IP_PATH [get_property ip_repo_paths [current_fileset]]] [current_project]
 update_ip_catalog
 

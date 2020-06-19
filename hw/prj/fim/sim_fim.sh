@@ -13,9 +13,9 @@ elif [ $fim_path == ../../src/ipi/fim_debug_u50dd.bd.tcl ]; then
 else
 	sed -i 's/xvlog_opts="--relax/xvlog_opts="--relax -d PCIE_INST=axi_pcie3_0.inst.pcie3_ip_i/g' board.sh
 fi
-sed -i 's/xsim board/xsim -gui -view ..\/..\/..\/src\/sim\/board_behav.wcfg -onerror stop -onfinish stop board/g' board.sh
+sed -i 's/xsim board/xsim -gui -view ..\/..\/..\/src\/sim\/fim\/board_behav.wcfg -onerror stop -onfinish stop board/g' board.sh
 
-sed -i 's/quit/ /g' cmd.tcl
+sed -i 's/quit/#quit/g' cmd.tcl
 
 bash board.sh -noclean_files
 

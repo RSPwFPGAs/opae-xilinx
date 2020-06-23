@@ -6,12 +6,13 @@
       <db_ref path="tb.wdb" id="1">
          <top_modules>
             <top_module name="axi_bram_ctrl_funcs" />
-            <top_module name="axi_cdma_pkg" />
             <top_module name="axi_vip_pkg" />
             <top_module name="glbl" />
+            <top_module name="ipif_pkg" />
             <top_module name="lib_pkg" />
             <top_module name="std" />
             <top_module name="tb" />
+            <top_module name="tc_types" />
             <top_module name="vcomponents" />
             <top_module name="xil_common_vip_pkg" />
          </top_modules>
@@ -19,14 +20,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="20130000fs"></ZoomEndTime>
+      <ZoomEndTime time="25614860fs"></ZoomEndTime>
       <Cursor1Time time="235000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="241"></NameColumnWidth>
+      <NameColumnWidth column_width="237"></NameColumnWidth>
       <ValueColumnWidth column_width="66"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="10" />
+   <WVObjectSize size="11" />
    <wvobject fp_name="divider62" type="divider">
       <obj_property name="label">tb</obj_property>
       <obj_property name="DisplayName">label</obj_property>
@@ -75,5 +76,9 @@
    <wvobject fp_name="divider61" type="divider">
       <obj_property name="label">feature_ram</obj_property>
       <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="protoinst" fp_name="/tb/DUT/AFU/AFU_base_ip/AFU_core/feature_ram/S_AXI">
+      <obj_property name="ElementShortName">S_AXI</obj_property>
+      <obj_property name="ObjectShortName">S_AXI</obj_property>
    </wvobject>
 </wave_config>

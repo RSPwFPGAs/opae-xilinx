@@ -638,14 +638,16 @@ proc create_hier_cell_pcie_axi_bridge { parentCell nameHier } {
    CONFIG.mode_selection {Advanced} \
    CONFIG.pcie_blk_locn {PCIE4C_X1Y1} \
    CONFIG.pcie_id_if {false} \
+   CONFIG.pciebar2axibar_0 {0xA0000000} \
    CONFIG.pf0_bar0_64bit {true} \
-   CONFIG.pf0_bar0_prefetchable {true} \
-   CONFIG.pf0_bar0_size {128} \
-   CONFIG.pf0_bar2_64bit {true} \
-   CONFIG.pf0_bar2_enabled {true} \
-   CONFIG.pf0_bar2_prefetchable {true} \
+   CONFIG.pf0_bar0_prefetchable {false} \
+   CONFIG.pf0_bar0_scale {Megabytes} \
+   CONFIG.pf0_bar0_size {64} \
+   CONFIG.pf0_bar2_64bit {false} \
+   CONFIG.pf0_bar2_enabled {false} \
+   CONFIG.pf0_bar2_prefetchable {false} \
    CONFIG.pf0_bar2_scale {Megabytes} \
-   CONFIG.pf0_bar2_size {64} \
+   CONFIG.pf0_bar2_size {1} \
    CONFIG.pf0_base_class_menu {Memory_controller} \
    CONFIG.pf0_class_code {120000} \
    CONFIG.pf0_class_code_base {12} \
@@ -1242,28 +1244,28 @@ proc create_root_design { parentCell } {
   connect_bd_net -net sys_reset_0_1 [get_bd_ports pcie_perstn] [get_bd_pins FIM/pcie_perstn]
 
   # Create address segments
-  assign_bd_address -offset 0x00000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] -force
-  assign_bd_address -offset 0x00014000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_0/S_AXI_CTL/Control] -force
-  assign_bd_address -offset 0x00015000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_1/S_AXI_CTL/Control] -force
-  assign_bd_address -offset 0x00012000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/axi_hwicap/S_AXI_LITE/Reg] -force
-  assign_bd_address -offset 0x00013000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/flash_programmer/AXI_LITE/Reg] -force
-  assign_bd_address -offset 0x00011000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/pf_csr/pf_csr_v1_0_0/s00_axi/reg0] -force
-  assign_bd_address -offset 0x00019000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] -force
-  assign_bd_address -offset 0x00018000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] -force
-  assign_bd_address -offset 0x0001B000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] -force
-  assign_bd_address -offset 0x0001A000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] -force
-  assign_bd_address -offset 0x0001E000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/system_management_wiz_0/S_AXI_LITE/Reg] -force
-  assign_bd_address -offset 0x00000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] -force
-  assign_bd_address -offset 0x00014000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_0/S_AXI_CTL/Control] -force
-  assign_bd_address -offset 0x00015000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_1/S_AXI_CTL/Control] -force
-  assign_bd_address -offset 0x00012000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/FME/axi_hwicap/S_AXI_LITE/Reg] -force
-  assign_bd_address -offset 0x00013000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/FME/flash_programmer/AXI_LITE/Reg] -force
-  assign_bd_address -offset 0x00011000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/FME/pf_csr/pf_csr_v1_0_0/s00_axi/reg0] -force
-  assign_bd_address -offset 0x00019000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] -force
-  assign_bd_address -offset 0x00018000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] -force
-  assign_bd_address -offset 0x0001B000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] -force
-  assign_bd_address -offset 0x0001A000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] -force
-  assign_bd_address -offset 0x0001E000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/FME/system_management_wiz_0/S_AXI_LITE/Reg] -force
+  assign_bd_address -offset 0xA0000000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] -force
+  assign_bd_address -offset 0xA0004000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_0/S_AXI_CTL/Control] -force
+  assign_bd_address -offset 0xA0005000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_1/S_AXI_CTL/Control] -force
+  assign_bd_address -offset 0xA0001000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/axi_hwicap/S_AXI_LITE/Reg] -force
+  assign_bd_address -offset 0xA0003000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/flash_programmer/AXI_LITE/Reg] -force
+  assign_bd_address -offset 0xA0002000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/pf_csr/pf_csr_v1_0_0/s00_axi/reg0] -force
+  assign_bd_address -offset 0xA0009000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] -force
+  assign_bd_address -offset 0xA0008000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] -force
+  assign_bd_address -offset 0xA000B000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] -force
+  assign_bd_address -offset 0xA000A000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] -force
+  assign_bd_address -offset 0xA000E000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/system_management_wiz_0/S_AXI_LITE/Reg] -force
+  assign_bd_address -offset 0xA0000000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] -force
+  assign_bd_address -offset 0xA0004000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_0/S_AXI_CTL/Control] -force
+  assign_bd_address -offset 0xA0005000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_1/S_AXI_CTL/Control] -force
+  assign_bd_address -offset 0xA0001000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/FME/axi_hwicap/S_AXI_LITE/Reg] -force
+  assign_bd_address -offset 0xA0003000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/FME/flash_programmer/AXI_LITE/Reg] -force
+  assign_bd_address -offset 0xA0002000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/FME/pf_csr/pf_csr_v1_0_0/s00_axi/reg0] -force
+  assign_bd_address -offset 0xA0009000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] -force
+  assign_bd_address -offset 0xA0008000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] -force
+  assign_bd_address -offset 0xA000B000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] -force
+  assign_bd_address -offset 0xA000A000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] -force
+  assign_bd_address -offset 0xA000E000 -range 0x00001000 -target_address_space [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/xdma_0/M_AXI_B] [get_bd_addr_segs FIM/FME/system_management_wiz_0/S_AXI_LITE/Reg] -force
 
 
   # Restore current instance

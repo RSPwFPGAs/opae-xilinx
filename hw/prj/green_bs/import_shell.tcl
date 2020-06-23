@@ -10,5 +10,5 @@ opt_design
 place_design -directive ExtraTimingOpt
 route_design -directive MoreGlobalIterations
 
-
+write_checkpoint ./dcp/shell_role_110.dcp
 

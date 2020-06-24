@@ -210,11 +210,11 @@ module axi4_ip
         
         case (req_type)
             M_RD: begin
-                $display("V: Q->H addr %x len %x size %x", addr, len, size);
+                $display("V: Q->H addr %x len %x size %x", addr+64'h`PCIE_BAR_MAP, len, size);
                 send_m_read = 1;
             end
             M_WR: begin
-                $display("V: Q->H addr %x len %x size %x strb %x", addr, len, size, strb[0]);
+                $display("V: Q->H addr %x len %x size %x strb %x", addr+64'h`PCIE_BAR_MAP, len, size, strb[0]);
                 send_m_write = 1;
             end
             S_RD: begin
@@ -246,7 +246,7 @@ module axi4_ip
        .i_clk        (o_axi_aclk            )
     ,  .i_rst_n      (o_axi_aresetn         )
 
-    ,  .req_addr     (addr                  )
+    ,  .req_addr     (addr + 64'h`PCIE_BAR_MAP)
     ,  .req_len      (len                   )
     ,  .req_size     (size                  )
     ,  .req_valid    (req_m_rvalid          )
@@ -283,7 +283,7 @@ module axi4_ip
        .i_clk        (o_axi_aclk            )
     ,  .i_rst_n      (o_axi_aresetn         )
 
-    ,  .req_addr     (addr                  )
+    ,  .req_addr     (addr + 64'h`PCIE_BAR_MAP)
     ,  .req_len      (len                   )
     ,  .req_size     (size                  )
     ,  .req_strb     (strb                  )

@@ -239,8 +239,8 @@ module axi_vip_0_passthrough_mst_stimulus();
         "wr":
         begin
             //cpu_wr(data1,data2);
-            debug_trace_wr(data1,data2);
-            $display("trace_wr mem[%8h] = %8h", data1, data2);
+            debug_trace_wr(data1+32'h`PCIE_BAR_MAP,data2);
+            $display("trace_wr mem[%8h] = %8h", data1+32'h`PCIE_BAR_MAP, data2);
         end
         default:
             $display("Trace Playback Unknown command '%0s'", command);

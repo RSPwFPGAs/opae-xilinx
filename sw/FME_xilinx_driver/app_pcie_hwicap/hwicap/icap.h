@@ -2,6 +2,7 @@
 #define ICAP_H
 
 #include "fifo_icap.h"
+#include "reg_icap.h"
 #include <sys/stat.h>
 #include <vector>
 
@@ -21,10 +22,13 @@ public:
     static void* wordcopy(void *dst, const void* src, size_t bytes);
     static int icapRead(unsigned int pf_bar, unsigned long long offset, void *buffer, unsigned long long length);
     static int icapWrite(unsigned int pf_bar, unsigned long long offset, const void *buffer, unsigned long long length);
+    static int regRead(unsigned int pf_bar, unsigned long long offset, void *buffer, unsigned long long length);
+    static int regWrite(unsigned int pf_bar, unsigned long long offset, const void *buffer, unsigned long long length);
 
 private:
 
     FIFO_Icap *micap;
+    REG_Icap  *ricap;
 
     bool mapDevice(const char *f);
     static int pcieBarRead(unsigned int pf_bar, unsigned long long offset, void* buffer, unsigned long long length);

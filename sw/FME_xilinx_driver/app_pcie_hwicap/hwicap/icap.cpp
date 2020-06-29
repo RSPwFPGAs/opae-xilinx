@@ -29,6 +29,7 @@
 ICAP::ICAP(const char *f)
 {
     micap = nullptr;
+    ricap = nullptr;
     mFd = 0;
 
     if( !mapDevice( f ) )
@@ -37,6 +38,7 @@ ICAP::ICAP(const char *f)
     }
 
     micap = new FIFO_Icap(  mMgmtMap );
+    ricap = new REG_Icap(   mMgmtMap );
 
 }
 
@@ -46,6 +48,11 @@ ICAP::~ICAP()
     {
         delete micap;
         micap = nullptr;
+    }
+    if( ricap != nullptr )
+    {
+        delete ricap;
+        ricap = nullptr;
     }
 
     if( mMgmtMap != nullptr )
@@ -64,7 +71,9 @@ int ICAP::ProgramPRbit(const char *fin)
     int retVal = -1;
 
 
+    ricap->freezeShutDownMgr();
     retVal = micap->xclProgramPRbit( fin );
+    ricap->releaseShutDownMgr();
     return retVal;
 }
 
@@ -129,6 +138,16 @@ int ICAP::icapRead(unsigned int pf_bar, unsigned long long offset, void* buffer,
 int ICAP::icapWrite(unsigned int pf_bar, unsigned long long offset, const void* buffer, unsigned long long length)
 {
     return pcieBarWrite( pf_bar, (offset + ICAP_BASE_ADDRESS ), buffer, length );
+}
+
+int ICAP::regRead(unsigned int pf_bar, unsigned long long offset, void* buffer, unsigned long long length)
+{
+    return pcieBarRead( pf_bar, ( offset + 0 ), buffer, length );
+}
+
+int ICAP::regWrite(unsigned int pf_bar, unsigned long long offset, const void* buffer, unsigned long long length)
+{
+    return pcieBarWrite( pf_bar, (offset + 0 ), buffer, length );
 }
 
 /*

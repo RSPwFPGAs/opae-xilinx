@@ -33,9 +33,10 @@
 #define __func__ __FUNCTION__
 #endif
 
-
-#define SHUTDOWNMGR_BASE_0 0x00018000
-#define SHUTDOWNMGR_BASE_1 0x00019000
+#define SHUTDOWNMGR_BASE_0 0x00008000
+#define SHUTDOWNMGR_BASE_1 0x00009000
+#define SHUTDOWNMGR_BASE_2 0x0000a000
+#define SHUTDOWNMGR_BASE_3 0x0000b000
 #define SDM_CSR_OFFSET 0x00 /* Control/Status Register */
 
 
@@ -57,11 +58,15 @@ REG_Icap::~REG_Icap()
 void REG_Icap::freezeShutDownMgr() {
     writeReg((SHUTDOWNMGR_BASE_0 + SDM_CSR_OFFSET), 1);
     writeReg((SHUTDOWNMGR_BASE_1 + SDM_CSR_OFFSET), 1);
+    writeReg((SHUTDOWNMGR_BASE_2 + SDM_CSR_OFFSET), 1);
+    writeReg((SHUTDOWNMGR_BASE_3 + SDM_CSR_OFFSET), 1);
 }
 
 void REG_Icap::releaseShutDownMgr() {
     writeReg((SHUTDOWNMGR_BASE_0 + SDM_CSR_OFFSET), 0);
     writeReg((SHUTDOWNMGR_BASE_1 + SDM_CSR_OFFSET), 0);
+    writeReg((SHUTDOWNMGR_BASE_2 + SDM_CSR_OFFSET), 0);
+    writeReg((SHUTDOWNMGR_BASE_3 + SDM_CSR_OFFSET), 0);
 }
 
 unsigned REG_Icap::readReg(unsigned RegOffset) {

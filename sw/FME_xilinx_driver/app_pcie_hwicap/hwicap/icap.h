@@ -7,7 +7,7 @@
 #include <vector>
 
 
-#define ICAP_BASE_ADDRESS 0x00012000
+#define ICAP_BASE_ADDRESS 0x00001000
 #define BAR_INDEX "0"
 
 

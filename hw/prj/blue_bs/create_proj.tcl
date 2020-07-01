@@ -47,5 +47,8 @@ if ({[lindex $argv 3]}=="u50dd") {
    
   # adding top-level pin constraints
   add_files -fileset constrs_1 ../../src/constraints/top.u50dd.xdc
+
+  # adding bit stream constraints
+  add_files -fileset constrs_1 ../../src/constraints/bit.u50dd.xdc
 }
 

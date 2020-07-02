@@ -8,7 +8,7 @@
         - [Using AXI instead of CCI-P](#overviewopaeportaxivsccip)
         - [Minimum FIM design](#overviewopaeportminfim)
     - [Demo: Full-System Simulation with QEMU](#overviewqemusim)
-    - [Demo: Compatability with Linux DFL driver](#overviewlinuxdfl)
+    - [Demo: Compatability with Linux dfl-pci driver](#overviewlinuxdfl)
     - [Sample Applications: Xilinx CDMA](#samplexilinxcdma)
     - [Directory Structure](#overviewdirstr)
     - [Development Tools](#overviewdevtools)
@@ -53,8 +53,8 @@ A full-system simulation, which involves application/driver software code and FI
 ![Alt text](./doc/pics/opae_scan_sim_wave.png)
 
 <a name="overviewlinuxdfl"></a>
-## Demo: Compatibility with Linux DFL driver
-"FPGA DFL(Device Feature List)" framework is [involved in Linux 4.19 kernel in 2018](https://www.phoronix.com/scan.php?page=news_item&px=FPGA-DFL-Linux-4.19). On Ubuntu 18.04.4 LTS with kernel version 5.3, the FIM design can be successfully identified and the AFU can be enumerated.
+## Demo: Compatibility with Linux dfl-pci driver
+"[FPGA Device Feature List(DFL)](https://www.kernel.org/doc/html/latest/fpga/dfl.html)" framework is [involved in Linux 4.19 kernel in 2018](https://www.phoronix.com/scan.php?page=news_item&px=FPGA-DFL-Linux-4.19). On Ubuntu 18.04.4 LTS with kernel version 5.3, the FIM can be successfully identified and the AFU can be enumerated.
 
 ### DFL enumeration result
 ![Alt text](./doc/pics/linux_dfl_driver_loaded.png)

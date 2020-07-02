@@ -305,16 +305,16 @@ proc create_hier_cell_port01_mux_out { parentCell nameHier } {
   connect_bd_intf_net -intf_net Conn3 [get_bd_intf_pins S_AXI_LITE_PORT01_OCTRL] [get_bd_intf_pins axi_interconnect_0/S00_AXI]
   connect_bd_intf_net -intf_net S_AXI_LITE_ROLE0_CTRL_1 [get_bd_intf_pins S_AXI_LITE_PORT0_CTRL] [get_bd_intf_pins axi_interconnect_2/S00_AXI]
   connect_bd_intf_net -intf_net S_AXI_LITE_ROLE1_CTRL_1 [get_bd_intf_pins S_AXI_LITE_PORT1_CTRL] [get_bd_intf_pins axi_interconnect_3/S00_AXI]
-  connect_bd_intf_net -intf_net axi_firewall_0_M_AXI [get_bd_intf_pins M_AXI_LITE_PORT0_CTRL] [get_bd_intf_pins axi_firewall_0/M_AXI]
-  connect_bd_intf_net -intf_net axi_firewall_1_M_AXI [get_bd_intf_pins M_AXI_LITE_PORT1_CTRL] [get_bd_intf_pins axi_firewall_1/M_AXI]
+  connect_bd_intf_net -intf_net axi_firewall_0_M_AXI [get_bd_intf_pins axi_firewall_0/M_AXI] [get_bd_intf_pins pr_axi_shutdown_mana_0/S_AXI]
+  connect_bd_intf_net -intf_net axi_firewall_1_M_AXI [get_bd_intf_pins axi_firewall_1/M_AXI] [get_bd_intf_pins pr_axi_shutdown_mana_1/S_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_2_M00_AXI [get_bd_intf_pins axi_interconnect_0/M00_AXI] [get_bd_intf_pins pr_axi_shutdown_mana_0/S_AXI_CTRL]
-  connect_bd_intf_net -intf_net axi_interconnect_2_M00_AXI1 [get_bd_intf_pins axi_interconnect_2/M00_AXI] [get_bd_intf_pins pr_axi_shutdown_mana_0/S_AXI]
+  connect_bd_intf_net -intf_net axi_interconnect_2_M00_AXI1 [get_bd_intf_pins axi_firewall_0/S_AXI] [get_bd_intf_pins axi_interconnect_2/M00_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_2_M01_AXI [get_bd_intf_pins axi_firewall_0/S_AXI_CTL] [get_bd_intf_pins axi_interconnect_0/M01_AXI]
   connect_bd_intf_net -intf_net axi_interconnect_2_M02_AXI [get_bd_intf_pins axi_interconnect_0/M02_AXI] [get_bd_intf_pins pr_axi_shutdown_mana_1/S_AXI_CTRL]
   connect_bd_intf_net -intf_net axi_interconnect_2_M03_AXI [get_bd_intf_pins axi_firewall_1/S_AXI_CTL] [get_bd_intf_pins axi_interconnect_0/M03_AXI]
-  connect_bd_intf_net -intf_net axi_interconnect_3_M00_AXI [get_bd_intf_pins axi_interconnect_3/M00_AXI] [get_bd_intf_pins pr_axi_shutdown_mana_1/S_AXI]
-  connect_bd_intf_net -intf_net pr_axi_shutdown_mana_0_M_AXI [get_bd_intf_pins axi_firewall_0/S_AXI] [get_bd_intf_pins pr_axi_shutdown_mana_0/M_AXI]
-  connect_bd_intf_net -intf_net pr_axi_shutdown_mana_1_M_AXI [get_bd_intf_pins axi_firewall_1/S_AXI] [get_bd_intf_pins pr_axi_shutdown_mana_1/M_AXI]
+  connect_bd_intf_net -intf_net axi_interconnect_3_M00_AXI [get_bd_intf_pins axi_firewall_1/S_AXI] [get_bd_intf_pins axi_interconnect_3/M00_AXI]
+  connect_bd_intf_net -intf_net pr_axi_shutdown_mana_0_M_AXI [get_bd_intf_pins M_AXI_LITE_PORT0_CTRL] [get_bd_intf_pins pr_axi_shutdown_mana_0/M_AXI]
+  connect_bd_intf_net -intf_net pr_axi_shutdown_mana_1_M_AXI [get_bd_intf_pins M_AXI_LITE_PORT1_CTRL] [get_bd_intf_pins pr_axi_shutdown_mana_1/M_AXI]
 
   # Create port connections
   connect_bd_net -net M00_ARESETN_1 [get_bd_pins axi_aresetn_port_ctrl] [get_bd_pins axi_firewall_0/aresetn] [get_bd_pins axi_firewall_1/aresetn] [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/M01_ARESETN] [get_bd_pins axi_interconnect_0/M02_ARESETN] [get_bd_pins axi_interconnect_0/M03_ARESETN] [get_bd_pins axi_interconnect_0/S00_ARESETN] [get_bd_pins axi_interconnect_2/ARESETN] [get_bd_pins axi_interconnect_2/M00_ARESETN] [get_bd_pins axi_interconnect_3/ARESETN] [get_bd_pins axi_interconnect_3/M00_ARESETN] [get_bd_pins pr_axi_shutdown_mana_0/resetn] [get_bd_pins pr_axi_shutdown_mana_1/resetn]
@@ -646,8 +646,8 @@ proc create_hier_cell_pcie_axi_bridge { parentCell nameHier } {
    CONFIG.pf0_bar2_64bit {false} \
    CONFIG.pf0_bar2_enabled {false} \
    CONFIG.pf0_bar2_prefetchable {false} \
-   CONFIG.pf0_bar2_scale {Megabytes} \
-   CONFIG.pf0_bar2_size {1} \
+   CONFIG.pf0_bar2_scale {Kilobytes} \
+   CONFIG.pf0_bar2_size {4} \
    CONFIG.pf0_base_class_menu {Memory_controller} \
    CONFIG.pf0_class_code {120000} \
    CONFIG.pf0_class_code_base {12} \

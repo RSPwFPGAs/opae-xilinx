@@ -39,6 +39,8 @@
 #define SHUTDOWNMGR_BASE_3 0x0000b000
 #define SDM_CSR_OFFSET 0x00 /* Control/Status Register */
 
+#define FMECSRCTRL_BASE 0x00002000
+#define FCC_RSTN_OFFSET 0x10 /* Reset_N Register for PORT0/PORT1 respectively, 0x0=reset, 0x3=release */
 
 REG_Icap::REG_Icap( char *inMap )
 {
@@ -56,13 +58,19 @@ REG_Icap::~REG_Icap()
 }
 
 void REG_Icap::freezeShutDownMgr() {
+    // shut down all AXI transaction to/from AFU, before PR
     writeReg((SHUTDOWNMGR_BASE_0 + SDM_CSR_OFFSET), 1);
     writeReg((SHUTDOWNMGR_BASE_1 + SDM_CSR_OFFSET), 1);
     writeReg((SHUTDOWNMGR_BASE_2 + SDM_CSR_OFFSET), 1);
     writeReg((SHUTDOWNMGR_BASE_3 + SDM_CSR_OFFSET), 1);
+    // send reset_n from FIM to AFU
+    writeReg((FMECSRCTRL_BASE + FCC_RSTN_OFFSET), 0);
 }
 
 void REG_Icap::releaseShutDownMgr() {
+    // release reset_n from FIM to AFU
+    writeReg((FMECSRCTRL_BASE + FCC_RSTN_OFFSET), 3);
+    // turn on all AXI transaction to/from AFU, before PR
     writeReg((SHUTDOWNMGR_BASE_0 + SDM_CSR_OFFSET), 0);
     writeReg((SHUTDOWNMGR_BASE_1 + SDM_CSR_OFFSET), 0);
     writeReg((SHUTDOWNMGR_BASE_2 + SDM_CSR_OFFSET), 0);

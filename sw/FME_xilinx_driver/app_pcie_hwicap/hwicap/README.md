@@ -13,7 +13,7 @@ Command to run the utility
 -----------------------------
 >
 >```bash
-> ./hwicap -d 0000:03:00.0 -f pr_bin_file.bin
+> source hwicap.sh ../../../../hw/prj/blue_bs/output/shell_region_i_role_0_role_region_partial.bin
 >
 
 To get the BDF Bus no, device no and function no

@@ -1,21 +1,42 @@
 
 apt update && apt upgrade -y
 
+#### uninstall DFL drivers
+sudo rmmod dfl_pci
+sudo rmmod dfl_afu
+sudo rmmod dfl
+sudo rmmod fpga_region
+sudo rmmod fpga_mgr
+sudo rmmod fpga_bridge
+
 #### install dirvers 
-apt install -y wget build-essential cmake linux-headers-4.4.0-142-generic kmod dkms udev sudo
-FILE=opae-intel-fpga-driver-1.3.0-2
+apt install -y wget build-essential cmake linux-headers-$(uname -r) kmod dkms udev sudo cpio rpm2cpio
+FILE=opae-intel-fpga-driver-2.0.4-2
 if [ -d "$FILE" ]; then
     echo "$FILE exsist!"
 else
-    if [ -f "$FILE.tar.gz" ]; then
-        echo "$FILE.tar.gz exist!"
+    if [ -f "$FILE.x86_64.rpm" ]; then
+        echo "$FILE.x86_64.rpm exist!"
     else
-        wget https://github.com/OPAE/opae-sdk/releases/download/1.3.0-2/opae-intel-fpga-driver-1.3.0-2.tar.gz
+	wget https://github.com/OPAE/opae-sdk/releases/download/1.4.0-1/opae-intel-fpga-driver-2.0.4-2.x86_64.rpm
     fi
-    tar zxvf opae-intel-fpga-driver-1.3.0-2.tar.gz
+    mkdir $FILE
+    cd $FILE
+    rpm2cpio ../$FILE.x86_64.rpm  | cpio -idmv
+    cd ..
 fi
-cd $FILE
-make clean; sudo make install
-cd .. 
+cd $FILE/usr/src/$FILE
+make clean; make
+
+sudo insmod fpga-mgr-mod.ko
+sudo insmod intel-fpga-pci.ko
+sudo insmod intel-fpga-fme.ko
+sudo insmod intel-fpga-afu.ko
+
+cd ../../../../ 
+
+#### check if host driver is loaded
+ls /dev/intel-fpga-port.0
+ls /sys/class/fpga/intel-fpga-dev.0/intel-fpga-port.0/
 
 

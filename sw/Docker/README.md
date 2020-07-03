@@ -61,24 +61,24 @@
 
 >
 >```bash
->    Using OPAE C library version '1.3.0' build 'unknown'
+>    Using OPAE C library version '1.4.0' build 'unknown'
 >    Running Test
 >    token_list.c:241:token_get_parent() **ERROR** : can't find parent in: /sys/class/fpga/intel-fpga-dev.0/
->    Running on bus 0x00.
->    AFU_CDMACR@0x1000 = 0x0000
->    AFU_CDMASR@0x1004 = 0x1002
->    I buffer physical address 0x000000011e200000
->    O buffer physical address 0x000000011e000000
->    AFU_CDMASR@0x1004 = 0x1000
->    AFU_CDMASR@0x1004 = 0x1000
->    AFU_CDMASR@0x1004 = 0x1000
->    AFU_CDMASR@0x1004 = 0x1000
->    AFU_CDMASR@0x1004 = 0x1000
->    AFU_CDMASR@0x1004 = 0x1000
->    AFU_CDMASR@0x1004 = 0x1000
->    AFU_CDMASR@0x1004 = 0x1000
->    AFU_CDMASR@0x1004 = 0x1000
->    AFU_CDMASR@0x1004 = 0x1002
+>    Running on bus 0x03.
+>    AFU_CDMACR = 0x0000
+>    AFU_CDMASR = 0x1002
+>    I buffer physical address 0x0000000772000000
+>    O buffer physical address 0x0000000772e00000
+>    AFU_CDMASR = 0x1000
+>    AFU_CDMASR = 0x1000
+>    AFU_CDMASR = 0x1000
+>    AFU_CDMASR = 0x1000
+>    AFU_CDMASR = 0x1000
+>    AFU_CDMASR = 0x1000
+>    AFU_CDMASR = 0x1000
+>    AFU_CDMASR = 0x1000
+>    AFU_CDMASR = 0x1000
+>    AFU_CDMASR = 0x1002
 >    Done Running Test
 
 

@@ -626,7 +626,7 @@ proc create_hier_cell_pcie_axi_bridge { parentCell nameHier } {
    CONFIG.PF2_DEVICE_ID_mqdma {9038} \
    CONFIG.PF3_DEVICE_ID_mqdma {9038} \
    CONFIG.SYS_RST_N_BOARD_INTERFACE {pcie_perstn} \
-   CONFIG.axi_addr_width {32} \
+   CONFIG.axi_addr_width {64} \
    CONFIG.axi_data_width {256_bit} \
    CONFIG.bar_indicator {BAR_1:0} \
    CONFIG.c_s_axi_supports_narrow_burst {true} \

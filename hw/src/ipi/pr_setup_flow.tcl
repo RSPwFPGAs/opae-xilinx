@@ -56,7 +56,7 @@ if ({[lindex $argv 3]}=="kcu105") {
 }
 if ({[lindex $argv 3]}=="u50dd") {
     set_property offset 0x0000000000000000 [get_bd_addr_segs {AFU/M_AXI_FULL_DATA_PORT/SEG_xdma_0_BAR0}]
-    set_property range 4G [get_bd_addr_segs {AFU/M_AXI_FULL_DATA_PORT/SEG_xdma_0_BAR0}]
+    set_property range 16E [get_bd_addr_segs {AFU/M_AXI_FULL_DATA_PORT/SEG_xdma_0_BAR0}]
 }
 
 validate_bd_design

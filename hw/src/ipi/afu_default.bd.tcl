@@ -413,6 +413,7 @@ proc create_hier_cell_AFU_core { parentCell nameHier } {
   # Create instance: axi_cdma_0, and set properties
   set axi_cdma_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:axi_cdma axi_cdma_0 ]
   set_property -dict [ list \
+   CONFIG.C_ADDR_WIDTH {64} \
    CONFIG.C_INCLUDE_SG {0} \
    CONFIG.C_M_AXI_DATA_WIDTH {512} \
    CONFIG.C_M_AXI_MAX_BURST_LEN {2} \
@@ -631,7 +632,7 @@ proc create_root_design { parentCell } {
   connect_bd_net -net axi_aresetn_role_data_0_1 [get_bd_ports axi_aresetn_data_port] [get_bd_pins AFU/axi_aresetn_data_port]
 
   # Create address segments
-  create_bd_addr_seg -range 0x000100000000 -offset 0x00000000 [get_bd_addr_spaces AFU/AFU_core/axi_cdma_0/Data] [get_bd_addr_segs M_AXI_FULL_DATA_PORT/Reg] SEG_M_AXI_FULL_DATA_PORT_Reg
+  create_bd_addr_seg -range 0x00010000000000000000 -offset 0x00000000 [get_bd_addr_spaces AFU/AFU_core/axi_cdma_0/Data] [get_bd_addr_segs M_AXI_FULL_DATA_PORT/Reg] SEG_M_AXI_FULL_DATA_PORT_Reg
   create_bd_addr_seg -range 0x00001000 -offset 0x00020000 [get_bd_addr_spaces S_AXI_LITE_CTRL_PORT] [get_bd_addr_segs AFU/AFU_core/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
   create_bd_addr_seg -range 0x00001000 -offset 0x00030000 [get_bd_addr_spaces S_AXI_LITE_CTRL_PORT] [get_bd_addr_segs AFU/AFU_core/axi_cdma_0/S_AXI_LITE/Reg] SEG_axi_cdma_0_Reg
 

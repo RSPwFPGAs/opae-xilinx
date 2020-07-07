@@ -1443,32 +1443,32 @@ proc create_root_design { parentCell } {
 
   # Create address segments
   create_bd_addr_seg -range 0x00010000000000000000 -offset 0x00000000 [get_bd_addr_spaces AFU/AFU_core/axi_cdma_0/Data] [get_bd_addr_segs FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/S_AXI/BAR0] SEG_QEMUPCIeBridge_0_BAR0
-  create_bd_addr_seg -range 0x00010000 -offset 0x00000000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
+  create_bd_addr_seg -range 0x00001000 -offset 0x00000000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
   create_bd_addr_seg -range 0x00001000 -offset 0x00020000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs AFU/AFU_core/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem01
-  create_bd_addr_seg -range 0x00001000 -offset 0x00021000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs AFU/AFU_core/axi_cdma_0/S_AXI_LITE/Reg] SEG_axi_cdma_0_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00014000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_0/S_AXI_CTL/Control] SEG_axi_firewall_0_Control
-  create_bd_addr_seg -range 0x00001000 -offset 0x00015000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_1/S_AXI_CTL/Control] SEG_axi_firewall_1_Control
-  create_bd_addr_seg -range 0x00001000 -offset 0x00012000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/axi_hwicap/S_AXI_LITE/Reg] SEG_axi_hwicap_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00013000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/flash_programmer/AXI_LITE/Reg] SEG_flash_programmer_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00011000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/pf_csr/pf_csr_v1_0_0/s00_axi/reg0] SEG_pf_csr_v1_0_0_reg0
-  create_bd_addr_seg -range 0x00001000 -offset 0x00019000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00018000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg19
-  create_bd_addr_seg -range 0x00001000 -offset 0x0001B000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x0001A000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg23
-  create_bd_addr_seg -range 0x00001000 -offset 0x0001E000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/system_management_wiz_0/S_AXI_LITE/Reg] SEG_system_management_wiz_0_Reg
-  create_bd_addr_seg -range 0x00010000 -offset 0x00000000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
+  create_bd_addr_seg -range 0x00001000 -offset 0x00030000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs AFU/AFU_core/axi_cdma_0/S_AXI_LITE/Reg] SEG_axi_cdma_0_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00004000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_0/S_AXI_CTL/Control] SEG_axi_firewall_0_Control
+  create_bd_addr_seg -range 0x00001000 -offset 0x00005000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_1/S_AXI_CTL/Control] SEG_axi_firewall_1_Control
+  create_bd_addr_seg -range 0x00001000 -offset 0x00001000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/axi_hwicap/S_AXI_LITE/Reg] SEG_axi_hwicap_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00003000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/flash_programmer/AXI_LITE/Reg] SEG_flash_programmer_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00002000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/pf_csr/pf_csr_v1_0_0/s00_axi/reg0] SEG_pf_csr_v1_0_0_reg0
+  create_bd_addr_seg -range 0x00001000 -offset 0x00009000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00008000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg19
+  create_bd_addr_seg -range 0x00001000 -offset 0x0000B000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x0000A000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg23
+  create_bd_addr_seg -range 0x00001000 -offset 0x0000E000 [get_bd_addr_spaces FIM/FIU/jtag_axi_0/Data] [get_bd_addr_segs FIM/FME/system_management_wiz_0/S_AXI_LITE/Reg] SEG_system_management_wiz_0_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00000000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/FIU/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem0
   create_bd_addr_seg -range 0x00001000 -offset 0x00020000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs AFU/AFU_core/feature_ram/axi_bram_ctrl_0/S_AXI/Mem0] SEG_axi_bram_ctrl_0_Mem03
-  create_bd_addr_seg -range 0x00001000 -offset 0x00021000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs AFU/AFU_core/axi_cdma_0/S_AXI_LITE/Reg] SEG_axi_cdma_0_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00014000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_0/S_AXI_CTL/Control] SEG_axi_firewall_0_Control
-  create_bd_addr_seg -range 0x00001000 -offset 0x00015000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_1/S_AXI_CTL/Control] SEG_axi_firewall_1_Control
-  create_bd_addr_seg -range 0x00001000 -offset 0x00012000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/FME/axi_hwicap/S_AXI_LITE/Reg] SEG_axi_hwicap_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00013000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/FME/flash_programmer/AXI_LITE/Reg] SEG_flash_programmer_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00011000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/FME/pf_csr/pf_csr_v1_0_0/s00_axi/reg0] SEG_pf_csr_v1_0_0_reg0
-  create_bd_addr_seg -range 0x00001000 -offset 0x00019000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x00018000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg10
-  create_bd_addr_seg -range 0x00001000 -offset 0x0001B000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg
-  create_bd_addr_seg -range 0x00001000 -offset 0x0001A000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg12
-  create_bd_addr_seg -range 0x00001000 -offset 0x0001E000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/FME/system_management_wiz_0/S_AXI_LITE/Reg] SEG_system_management_wiz_0_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00030000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs AFU/AFU_core/axi_cdma_0/S_AXI_LITE/Reg] SEG_axi_cdma_0_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00004000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_0/S_AXI_CTL/Control] SEG_axi_firewall_0_Control
+  create_bd_addr_seg -range 0x00001000 -offset 0x00005000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_out/axi_firewall_1/S_AXI_CTL/Control] SEG_axi_firewall_1_Control
+  create_bd_addr_seg -range 0x00001000 -offset 0x00001000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/FME/axi_hwicap/S_AXI_LITE/Reg] SEG_axi_hwicap_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00003000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/FME/flash_programmer/AXI_LITE/Reg] SEG_flash_programmer_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00002000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/FME/pf_csr/pf_csr_v1_0_0/s00_axi/reg0] SEG_pf_csr_v1_0_0_reg0
+  create_bd_addr_seg -range 0x00001000 -offset 0x00009000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x00008000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_0/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_0_Reg10
+  create_bd_addr_seg -range 0x00001000 -offset 0x0000B000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_in/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg
+  create_bd_addr_seg -range 0x00001000 -offset 0x0000A000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/PORT01/port01_mux_out/pr_axi_shutdown_mana_1/S_AXI_CTRL/Reg] SEG_pr_axi_shutdown_mana_1_Reg12
+  create_bd_addr_seg -range 0x00001000 -offset 0x0000E000 [get_bd_addr_spaces FIM/FIU/pcie_axi_bridge/QEMUPCIeBridge_0/M_AXI] [get_bd_addr_segs FIM/FME/system_management_wiz_0/S_AXI_LITE/Reg] SEG_system_management_wiz_0_Reg
 
 
   # Restore current instance

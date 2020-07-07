@@ -1,0 +1,189 @@
+diff -Naur opae-1.3.0-2/usr/samples/hello_fpga.c opae-1.3.0-2_new/usr/samples/hello_fpga.c
+--- opae-1.3.0-2/usr/samples/hello_fpga.c	2019-01-08 09:07:26.000000000 +0800
++++ opae-1.3.0-2_new/usr/samples/hello_fpga.c	2020-04-24 12:53:45.628889518 +0800
+@@ -89,9 +89,11 @@
+ #define CSR_AFU_DSM_BASEL            0x0110
+ #define CSR_AFU_DSM_BASEH            0x0114
+ 
+-/* NLB0 AFU_ID */
+-#define NLB0_AFUID "D8424DC4-A4A3-C413-F89E-433683F9040B"
++#define LPBK1_BUFFER_SIZE_SIM        LPBK1_BUFFER_SIZE/1024
+ 
++/* NLB0 AFU_ID */
++#define NLB0_AFUID  "D8424DC4-A4A3-C413-F89E-433683F9040B"
++#define VFPGA_AFUID "C6AA954A-9B91-4A37-ABC1-1D9F0709DCC3"
+ 
+ /*
+  * macro to check return codes, print error message, and goto cleanup label
+@@ -239,12 +241,12 @@
+ 	fpga_guid          guid;
+ 	uint32_t           num_matches_accelerators = 0;
+ 
+-	volatile uint64_t *dsm_ptr    = NULL;
+-	volatile uint64_t *status_ptr = NULL;
++	//volatile uint64_t *dsm_ptr    = NULL;
++	//volatile uint64_t *status_ptr = NULL;
+ 	volatile uint64_t *input_ptr  = NULL;
+ 	volatile uint64_t *output_ptr = NULL;
+ 
+-	uint64_t           dsm_wsid;
++	//uint64_t           dsm_wsid;
+ 	uint64_t           input_wsid;
+ 	uint64_t           output_wsid;
+ 	uint8_t            bus = 0xff;
+@@ -263,13 +265,13 @@
+ 	res1 = parse_args(argc, argv);
+ 	ON_ERR_GOTO(res1, out_exit, "parsing arguments");
+ 
+-	if (uuid_parse(NLB0_AFUID, guid) < 0) {
++	if (uuid_parse(VFPGA_AFUID, guid) < 0) {
+ 		res1 = FPGA_EXCEPTION;
+ 	}
+ 	ON_ERR_GOTO(res1, out_exit, "parsing guid");
+ 
+ 
+-	/* Look for accelerator with NLB0_AFUID */
++	/* Look for accelerator with VFPGA_AFUID */
+ 	res1 = find_fpga(guid, &accelerator_token, &num_matches_accelerators);
+ 	ON_ERR_GOTO(res1, out_exit, "finding FPGA accelerator");
+ 
+@@ -295,17 +297,17 @@
+ 
+ 
+ 	/* Allocate buffers */
+-	res1 = fpgaPrepareBuffer(accelerator_handle, LPBK1_DSM_SIZE,
+-				(void **)&dsm_ptr, &dsm_wsid, 0);
+-	ON_ERR_GOTO(res1, out_close, "allocating DSM buffer");
++	// res1 = fpgaPrepareBuffer(accelerator_handle, LPBK1_DSM_SIZE,
++	// 			(void **)&dsm_ptr, &dsm_wsid, 0);
++	// ON_ERR_GOTO(res1, out_close, "allocating DSM buffer");
+ 
+ 	res1 = fpgaPrepareBuffer(accelerator_handle, LPBK1_BUFFER_ALLOCATION_SIZE,
+ 			   (void **)&input_ptr, &input_wsid, 0);
+-	ON_ERR_GOTO(res1, out_free_dsm, "allocating input buffer");
++	ON_ERR_GOTO(res1, out_free_output, "allocating input buffer");
+ 
+ 	res1 = fpgaPrepareBuffer(accelerator_handle, LPBK1_BUFFER_ALLOCATION_SIZE,
+ 			   (void **)&output_ptr, &output_wsid, 0);
+-	ON_ERR_GOTO(res1, out_free_input, "allocating output buffer");
++	ON_ERR_GOTO(res1, out_free_output, "allocating output buffer");
+ 
+ 	printf("Running Test\n");
+ 
+@@ -316,7 +318,7 @@
+ 
+ 
+ 	/* Initialize buffers */
+-	memset((void *)dsm_ptr,    0,    LPBK1_DSM_SIZE);
++	// memset((void *)dsm_ptr,    0,    LPBK1_DSM_SIZE);
+ 	memset((void *)input_ptr,  0xAF, LPBK1_BUFFER_SIZE);
+ 	memset((void *)output_ptr, 0xBE, LPBK1_BUFFER_SIZE);
+ 
+@@ -330,46 +332,50 @@
+ 	res1 = fpgaReset(accelerator_handle);
+ 	ON_ERR_GOTO(res1, out_free_output, "resetting accelerator");
+ 
++	uint32_t rvalue_32;
++	res1 = fpgaReadMMIO32(accelerator_handle, 0, 0x1000, &rvalue_32);
++	ON_ERR_GOTO(res1, out_free_output, "reading AFU_CDMACR");
++	printf("AFU_CDMACR@0x1000 = 0x%04x\n", rvalue_32);
++
++	res1 = fpgaReadMMIO32(accelerator_handle, 0, 0x1004, &rvalue_32);
++	ON_ERR_GOTO(res1, out_free_output, "reading AFU_CDMASR");
++	printf("AFU_CDMASR@0x1004 = 0x%04x\n", rvalue_32);
+ 
+ 	/* Program DMA addresses */
+ 	uint64_t iova = 0;
+-	res1 = fpgaGetIOAddress(accelerator_handle, dsm_wsid, &iova);
+-	ON_ERR_GOTO(res1, out_free_output, "getting DSM IOVA");
+-
+-	res1 = fpgaWriteMMIO64(accelerator_handle, 0, CSR_AFU_DSM_BASEL, iova);
+-	ON_ERR_GOTO(res1, out_free_output, "writing CSR_AFU_DSM_BASEL");
+-
+-	res1 = fpgaWriteMMIO32(accelerator_handle, 0, CSR_CTL, 0);
+-	ON_ERR_GOTO(res1, out_free_output, "writing CSR_CFG");
+-	res1 = fpgaWriteMMIO32(accelerator_handle, 0, CSR_CTL, 1);
+-	ON_ERR_GOTO(res1, out_free_output, "writing CSR_CFG");
+ 
+ 	res1 = fpgaGetIOAddress(accelerator_handle, input_wsid, &iova);
+ 	ON_ERR_GOTO(res1, out_free_output, "getting input IOVA");
+-	res1 = fpgaWriteMMIO64(accelerator_handle, 0, CSR_SRC_ADDR, CACHELINE_ALIGNED_ADDR(iova));
+-	ON_ERR_GOTO(res1, out_free_output, "writing CSR_SRC_ADDR");
++	res1 = fpgaWriteMMIO64(accelerator_handle, 0, 0x1018, iova);
++	ON_ERR_GOTO(res1, out_free_output, "writing AFU_SA");
++	printf("I buffer physical address 0x%016lx\n", iova);
+ 
+ 	res1 = fpgaGetIOAddress(accelerator_handle, output_wsid, &iova);
+ 	ON_ERR_GOTO(res1, out_free_output, "getting output IOVA");
+-	res1 = fpgaWriteMMIO64(accelerator_handle, 0, CSR_DST_ADDR, CACHELINE_ALIGNED_ADDR(iova));
+-	ON_ERR_GOTO(res1, out_free_output, "writing CSR_DST_ADDR");
++	res1 = fpgaWriteMMIO64(accelerator_handle, 0, 0x1020, iova);
++	ON_ERR_GOTO(res1, out_free_output, "writing AFU_DA");
++	printf("O buffer physical address 0x%016lx\n", iova);
+ 
+-	res1 = fpgaWriteMMIO32(accelerator_handle, 0, CSR_NUM_LINES, LPBK1_BUFFER_SIZE / CL(1));
+-	ON_ERR_GOTO(res1, out_free_output, "writing CSR_NUM_LINES");
+-	res1 = fpgaWriteMMIO32(accelerator_handle, 0, CSR_CFG, 0x42000);
+-	ON_ERR_GOTO(res1, out_free_output, "writing CSR_CFG");
+-
+-	status_ptr = dsm_ptr + DSM_STATUS_TEST_COMPLETE/sizeof(uint64_t);
++	//status_ptr = dsm_ptr + DSM_STATUS_TEST_COMPLETE/sizeof(uint64_t);
+ 
+ 
+ 	/* Start the test */
+-	res1 = fpgaWriteMMIO32(accelerator_handle, 0, CSR_CTL, 3);
+-	ON_ERR_GOTO(res1, out_free_output, "writing CSR_CFG");
++	res1 = fpgaWriteMMIO32(accelerator_handle, 0, 0x1028, LPBK1_BUFFER_SIZE_SIM);
++	ON_ERR_GOTO(res1, out_free_output, "writing AFU_BTT");
++
++	res1 = fpgaReadMMIO32(accelerator_handle, 0, 0x1004, &rvalue_32);
++	ON_ERR_GOTO(res1, out_free_output, "reading AFU_CDMASR");
++	printf("AFU_CDMASR@0x1004 = 0x%04x\n", rvalue_32);
+ 
+ 	/* Wait for test completion */
+ 	timeout = TEST_TIMEOUT;
+-	while (0 == ((*status_ptr) & 0x1)) {
++	while ((rvalue_32 & 0x2) != 0x2) {
+ 		usleep(100);
++
++		res1 = fpgaReadMMIO32(accelerator_handle, 0, 0x1004, &rvalue_32);
++		ON_ERR_GOTO(res1, out_free_output, "reading AFU_CDMASR");
++		printf("AFU_CDMASR@0x1004 = 0x%04x\n", rvalue_32);
++
+ 		if (--timeout == 0) {
+ 			res1 = FPGA_EXCEPTION;
+ 			ON_ERR_GOTO(res1, out_free_output, "test timed out");
+@@ -377,15 +383,14 @@
+ 	}
+ 
+ 	/* Stop the device */
+-	res1 = fpgaWriteMMIO32(accelerator_handle, 0, CSR_CTL, 7);
+-	ON_ERR_GOTO(res1, out_free_output, "writing CSR_CFG");
+ 
+ 
+ 	/* Check output buffer contents */
+-	for (i = 0; i < LPBK1_BUFFER_SIZE; i++) {
++	for (i = 0; i < LPBK1_BUFFER_SIZE_SIM; i++) {
+ 		if (((uint8_t *)output_ptr)[i] != ((uint8_t *)input_ptr)[i]) {
+ 			fprintf(stderr, "Output does NOT match input "
+-				"at offset %i!\n", i);
++				"at offset %i!"
++				" (O_buf=0x%x, I_buf=0x%x)\n", i, ((uint8_t *)output_ptr)[i], ((uint8_t *)input_ptr)[i]);
+ 			break;
+ 		}
+ 	}
+@@ -399,10 +404,10 @@
+ 	ON_ERR_GOTO(res2, out_free_input, "releasing output buffer");
+ out_free_input:
+ 	res2 = fpgaReleaseBuffer(accelerator_handle, input_wsid);
+-	ON_ERR_GOTO(res2, out_free_dsm, "releasing input buffer");
+-out_free_dsm:
+-	res2 = fpgaReleaseBuffer(accelerator_handle, dsm_wsid);
+-	ON_ERR_GOTO(res2, out_unmap, "releasing DSM buffer");
++	ON_ERR_GOTO(res2, out_unmap, "releasing input buffer");
++// out_free_dsm:
++// 	res2 = fpgaReleaseBuffer(accelerator_handle, dsm_wsid);
++// 	ON_ERR_GOTO(res2, out_unmap, "releasing DSM buffer");
+ 
+ 	/* Unmap MMIO space */
+ out_unmap:

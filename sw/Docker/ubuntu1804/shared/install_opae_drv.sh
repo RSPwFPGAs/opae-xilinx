@@ -1,15 +1,7 @@
 
 apt update && apt upgrade -y
 
-#### uninstall DFL drivers
-sudo rmmod dfl_pci
-sudo rmmod dfl_afu
-sudo rmmod dfl
-sudo rmmod fpga_region
-sudo rmmod fpga_mgr
-sudo rmmod fpga_bridge
-
-#### install dirvers 
+#### compile dirvers 
 apt install -y wget build-essential cmake linux-headers-$(uname -r) kmod dkms udev sudo cpio rpm2cpio
 FILE=opae-intel-fpga-driver-2.0.4-2
 if [ -d "$FILE" ]; then
@@ -28,6 +20,15 @@ fi
 cd $FILE/usr/src/$FILE
 make clean; make
 
+#### uninstall DFL drivers
+sudo rmmod dfl_pci
+sudo rmmod dfl_afu
+sudo rmmod dfl
+sudo rmmod fpga_region
+sudo rmmod fpga_mgr
+sudo rmmod fpga_bridge
+
+#### install Intel FPGA drivers
 sudo insmod fpga-mgr-mod.ko
 sudo insmod intel-fpga-pci.ko
 sudo insmod intel-fpga-fme.ko

@@ -13,7 +13,7 @@ Command to run the utility
 -----------------------------
 >
 >```bash
-> ./xbflash -d 0000:03:00.0 -m fpga_top.mcs
+> source xbflash.sh ../../../../hw/prj/blue_bs/output/shell_region_wrapper.mcs
 >
 
 To get the BDF Bus no, device no and function no

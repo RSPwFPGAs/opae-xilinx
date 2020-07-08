@@ -56,6 +56,8 @@
 >```bash
 >    cd shared
 >    source install_opae_sdk.sh
+>    source install_opae_python.sh
+>    source test_opae.sh
 
 ## A successful run's printout
 
@@ -70,15 +72,11 @@
 >    I buffer physical address 0x0000000772000000
 >    O buffer physical address 0x0000000772e00000
 >    AFU_CDMASR = 0x1000
->    AFU_CDMASR = 0x1000
->    AFU_CDMASR = 0x1000
->    AFU_CDMASR = 0x1000
->    AFU_CDMASR = 0x1000
->    AFU_CDMASR = 0x1000
->    AFU_CDMASR = 0x1000
->    AFU_CDMASR = 0x1000
->    AFU_CDMASR = 0x1000
 >    AFU_CDMASR = 0x1002
 >    Done Running Test
+>    PyOPAE sample of Xilinx CDMA IP.
+>    I buffer physical address 0x000000071a823000
+>    O buffer physical address 0x000000074a29c000
+>    PyOPAE sample done.
 
 

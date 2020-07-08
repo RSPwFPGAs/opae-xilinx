@@ -1,7 +1,5 @@
 
 #### install python binding
-export LC_ALL=C
-
 FILE=opae-libs-1.4.0-1.x86_64.deb
 if [ -f "$FILE" ]; then
     echo "$FILE exsist!"
@@ -30,8 +28,4 @@ fi
 pip install --user pybind11
 pip install --user opae.fpga-1.4.0.tar.gz
 
-
-#### run the Python sample of Xilinx CDMA
-export PYTHONPATH=~/.local/lib/python2.7/site-packages/opae/fpga
-python ./hello_fpga.py
 

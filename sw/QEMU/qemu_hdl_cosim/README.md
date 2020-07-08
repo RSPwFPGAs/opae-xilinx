@@ -113,7 +113,7 @@ Create a QEMU image
 >
 >```bash
 >    sudo apt-get update
->    sudo apt-get upgrade
+>    sudo apt-get upgrade -y
 >    sudo apt-get install build-essential
 
 Copy driver and application to the image
@@ -132,7 +132,7 @@ Copy the Docker scripts to the Guest Machine, to run Docker VM on the QEMU VM(Op
 >
 >```bash
 >    cd $COSIM_REPO_HOME
->    scp -P 2200 -r ../../Docker/ user@localhost:/home/user/.
+>    scp -P 2200 -r ../../Docker/ubuntu1x04 user@localhost:/home/user/.
 
 2. In the VM, Follow the [README.md](../../Docker/README.md) to create the Docker VM and install drivers and SDK in the Docker VM, without polluting the QEMU VM.
 
@@ -149,6 +149,17 @@ Shutdown and Backup the image(Optional)
 >```bash
 >    cd $COSIM_REPO_HOME/qemu
 >    zip cosim.qcow2.zip cosim.qcow2
+
+Upgrade kernel(Ubuntu 18.04 only, reboot needed)
+----------------------------
+1.  In the VM, upgrade the Ubuntu 18.04 kernel to version 5.3
+
+>
+>```bash
+>    sudo apt-get install --install-recommends linux-generic-hwe-18.04
+>    sudo poweroff
+
+Caution: In kernel 4.17 and above, the [DFL](https://www.kernel.org/doc/html/latest/fpga/dfl.html) driver will be loaded and will access the simulated HW. So after the kernel is upgraded, the Vivado XSim must be launched before booting the image. (Follow the procedure below.)
 
 
 <a name="runcosim"></a>

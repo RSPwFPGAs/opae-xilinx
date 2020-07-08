@@ -4,19 +4,19 @@ apt update && apt upgrade -y
 #### compile dirvers 
 apt install -y wget build-essential cmake linux-headers-$(uname -r) kmod dkms udev sudo cpio rpm2cpio
 FILE=opae-intel-fpga-driver-2.0.4-2
-if [ -d "$FILE" ]; then
-    echo "$FILE exsist!"
+if [ -f "$FILE.x86_64.rpm" ]; then
+    echo "$FILE.x86_64.rpm exist!"
 else
-    if [ -f "$FILE.x86_64.rpm" ]; then
-        echo "$FILE.x86_64.rpm exist!"
-    else
-	wget https://github.com/OPAE/opae-sdk/releases/download/1.4.0-1/opae-intel-fpga-driver-2.0.4-2.x86_64.rpm
-    fi
-    mkdir $FILE
-    cd $FILE
-    rpm2cpio ../$FILE.x86_64.rpm  | cpio -idmv
-    cd ..
+    wget https://github.com/OPAE/opae-sdk/releases/download/1.4.0-1/opae-intel-fpga-driver-2.0.4-2.x86_64.rpm
 fi
+
+rm -rf $FILE
+
+mkdir $FILE
+cd $FILE
+rpm2cpio ../$FILE.x86_64.rpm  | cpio -idmv
+cd ..
+
 cd $FILE/usr/src/$FILE
 make clean; make
 

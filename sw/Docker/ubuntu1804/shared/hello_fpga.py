@@ -18,13 +18,13 @@ with fpga.open(tokens[0], fpga.OPEN_SHARED) as handle:
     print "I buffer physical address 0x%016x" %(src.io_address())
     print "O buffer physical address 0x%016x" %(dst.io_address())   
    
-    handle.write_csr64(0x1018, cl_align(src.io_address())) # cacheline-aligned
-    handle.write_csr64(0x1020, cl_align(dst.io_address())) # cacheline-aligned
-    handle.write_csr32(0x1028, 4096)
-    r32_val = handle.read_csr32(0x1004)
+    handle.write_csr64(0x10018, cl_align(src.io_address())) # cacheline-aligned
+    handle.write_csr64(0x10020, cl_align(dst.io_address())) # cacheline-aligned
+    handle.write_csr32(0x10028, 4096)
+    r32_val = handle.read_csr32(0x10004)
     while r32_val & 0x2 != 0x2:
         time.sleep(0.001)
-        r32_val = handle.read_csr32(0x1004)
+        r32_val = handle.read_csr32(0x10004)
 
 print "PyOPAE sample done."
 

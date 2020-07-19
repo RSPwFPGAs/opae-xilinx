@@ -111,7 +111,7 @@ The above sample applications have been validated in the QEMU-HDL co-simulation 
 ## Development Tools
 The FPGA projects are designed with 2018.3 release of Vivado and Vivado HLS.
 
-The FPGA platform currently supported is the [KCU105 development board](https://www.xilinx.com/products/boards-and-kits/kcu105.html) from Xilinx.
+The FPGA platforms currently supported are [Xilinx Kintex UltraScale FPGA KCU105 Evaluation Kit](https://www.xilinx.com/products/boards-and-kits/kcu105.html) and [Alveo U50 Data Center Accelerator Card](https://www.xilinx.com/products/boards-and-kits/alveo/u50.html) from Xilinx.
 
 <a name="gettingstarted"></a>
 # Getting Started
@@ -120,10 +120,10 @@ To get started with the design of FIM and AFU, or the generation of Blue and Gre
 # ToDo List
 01. [Done] Add Container scripts to install OPAE driver/sdk/pyopae - Clean environment.
 02. Use Verilator/GtkWave in the QEMU-HDL cosimulation - Truely open source tools based; Mixed C/Verilog simulation.
-03. Port Xilinx PR driver to OPAE - FME functionality enhancement.
-04. Add Ethernet interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
+03. [Done] Port Xilinx PR driver to OPAE - FME functionality enhancement.
+04. [Done] Add Ethernet interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
 05. Add DDR interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
-06. Add AFU BBB logic components and compilation flow scripts - A synthesis flow for automatic HLS IP integration.
+06. [Done] Add AFU BBB logic components and compilation flow scripts - A synthesis flow for automatic HLS IP integration.
 07. [Done] Optimize FIM pyhsical constraints - Available area estimation for AFU.
 
 # Wish List

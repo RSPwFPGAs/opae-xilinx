@@ -7,8 +7,8 @@
         - [FIM and AFU design](#overviewopaeportfimandafu)
         - [Using AXI instead of CCI-P](#overviewopaeportaxivsccip)
         - [Minimum FIM design](#overviewopaeportminfim)
-    - [Demo: Full-System Simulation with QEMU](#overviewqemusim)
-    - [Demo: Compatability with Linux dfl-pci driver](#overviewlinuxdfl)
+    - [Demo: Full-System Simulation with QEMU (On virtual machine)](#overviewqemusim)
+    - [Demo: Compatability with Linux dfl-pci driver (On physical machine)](#overviewlinuxdfl)
     - [Sample Applications: Xilinx CDMA](#samplexilinxcdma)
     - [Directory Structure](#overviewdirstr)
     - [Development Tools](#overviewdevtools)
@@ -43,7 +43,7 @@ The FIM design is kept to a minimum. On KCU105 platform, over 91% logic area is 
 ![Alt text](./doc/pics/kcu105_fim_pblock_utilization.png)
 
 <a name="overviewqemusim"></a>
-## Demo: Full-System Simulation with QEMU
+## Demo: Full-System Simulation with QEMU (Tested with XSIM on virtual machine)
 A full-system simulation, which involves application/driver software code and FIM/AFU hardware logic, not only speeds up the development and debugging process of the SW/HW interface, but also enables the evaluation of this full-stack solution without a physical FPGA acceleration card. Please take a look at the [README](./sw/QEMU/qemu_hdl_cosim/) for details.
 
 ### OPAE-scan results in QEMU-HDL co-simulation:
@@ -53,7 +53,7 @@ A full-system simulation, which involves application/driver software code and FI
 ![Alt text](./doc/pics/opae_scan_sim_wave.png)
 
 <a name="overviewlinuxdfl"></a>
-## Demo: Compatibility with Linux dfl-pci driver
+## Demo: Compatibility with Linux dfl-pci driver (Tested with U50 on physical machine)
 "[FPGA Device Feature List(DFL)](https://www.kernel.org/doc/html/latest/fpga/dfl.html)" framework is [involved in Linux 4.19 kernel in 2018](https://www.phoronix.com/scan.php?page=news_item&px=FPGA-DFL-Linux-4.19). On Ubuntu 18.04.4 LTS with kernel version 5.3, the FIM can be successfully identified and the AFU can be enumerated.
 
 ### DFL enumeration result
@@ -68,7 +68,9 @@ A full-system simulation, which involves application/driver software code and FI
 The above sample applications have been validated in the QEMU-HDL co-simulation environment.
 
 ### Docker script to setup an OPAE run-time environment
-[Build OPAE on Ubuntu 16.04 from source code](./sw/Docker).
+[Build OPAE 1.3.0 on Ubuntu 16.04 from source code](./sw/Docker/ubuntu1604).
+
+[Build OPAE 1.4.0 on Ubuntu 18.04 from source code](./sw/Docker/ubuntu1804).
 
 [The original script is here](https://github.com/akirajoeshoji/docker-intel-pac-rte). Thank you so much akirajoeshoji, for the inspiration!
 

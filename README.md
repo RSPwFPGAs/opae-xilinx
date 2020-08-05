@@ -79,32 +79,35 @@ The above sample applications have been validated in the QEMU-HDL co-simulation 
 ```
 .
 ├── doc
-│   ├── dmesg
 │   └── pics
 ├── hw
 │   ├── prj
 │   │   ├── afu
 │   │   ├── blue_bs
 │   │   ├── fim
-│   │   ├── green_bs
+│   │   ├── green_bs
 │   │   └── qemu_hdl_cosim
 │   └── src
 │       ├── afu_customize
+│       ├── boardrepo
 │       ├── constraints
 │       ├── hdl
 │       ├── ip
-│       ├── ipi
-│       ├── qemu_hdl_cosim
-│       └── sim
+│       ├── ipi
+│       ├── qemu_hdl_cosim
+│       └── sim
 └── sw
     ├── Docker
+    │   ├── ubuntu1604
+    │   └── ubuntu1804
+    ├── FME_xilinx_driver
+    │   ├── app_pcie_hwicap
+    │   ├── app_pcie_qspi
+    │   └── drv_pcie_hwicap
     ├── OPAE
-    │   ├── driver
+    │   ├── driver
     │   └── sdk
-    │       └── opae-sdk-1.3.0-2
-    │           ├── pyopae
-    │           │   └── samples
-    │           └── samples
+    ├── pcimem
     └── QEMU
         └── qemu_hdl_cosim
 ```

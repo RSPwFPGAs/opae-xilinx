@@ -127,6 +127,7 @@ To get started with the design of FIM and AFU, or the generation of Blue and Gre
 05. Add DDR interface to the FIM - FIM functionality enhancement/AFU BBB optional component logic.
 06. [Done] Add AFU BBB logic components and compilation flow scripts - A synthesis flow for automatic HLS IP integration.
 07. [Done] Optimize FIM pyhsical constraints - Available area estimation for AFU.
+08. Test compliance with [IFPGA Rawdev Driver](https://doc.dpdk.org/guides/rawdevs/ifpga.html)
 
 # Wish List
 01. Support SR-IOV.
